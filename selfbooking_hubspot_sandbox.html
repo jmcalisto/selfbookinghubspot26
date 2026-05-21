@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HubSpot — Self-Booking Sandbox</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Lexend+Deca:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ── HubSpot Design Tokens ─────────────────────────────── */
+:root {
+  --hs-orange:       #FF7A59;
+  --hs-orange-dark:  #E8613F;
+  --hs-orange-light: #FFF1EE;
+  --hs-orange-mid:   #FFD6CC;
+  --hs-blue:         #0091AE;
+  --hs-blue-light:   #E5F5F8;
+  --hs-green:        #00BDA5;
+  --hs-green-light:  #E5F8F6;
+  --hs-yellow:       #F5C26B;
+  --hs-yellow-light: #FEF8EC;
+  --hs-red:          #F2545B;
+  --hs-red-light:    #FEF0F0;
+  --hs-purple:       #7C98B6;
+
+  /* Surfaces */
+  --bg:              #F5F8FA;
+  --white:           #FFFFFF;
+  --nav-bg:          #2D3E50;
+  --nav-dark:        #253342;
+  --sidebar-bg:      #FFFFFF;
+
+  /* Greys */
+  --grey-100:        #F5F8FA;
+  --grey-200:        #EAF0F6;
+  --grey-300:        #DFE3EB;
+  --grey-400:        #CBD6E2;
+  --grey-500:        #99ACC2;
+  --grey-600:        #7C98B6;
+  --grey-700:        #516F90;
+  --grey-800:        #33475B;
+  --grey-900:        #2D3E50;
+
+  /* Text */
+  --text-primary:    #33475B;
+  --text-secondary:  #516F90;
+  --text-light:      #7C98B6;
+  --text-link:       #0091AE;
+
+  /* Borders */
+  --border:          #DFE3EB;
+  --border-dark:     #CBD6E2;
+
+  /* Radius */
+  --r-sm:  3px;
+  --r-md:  4px;
+  --r-lg:  8px;
+
+  /* Font */
+  --font:  'Lexend', sans-serif;
+  --font2: 'Lexend Deca', sans-serif;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 4px rgba(45,62,80,.08);
+  --shadow-md: 0 2px 12px rgba(45,62,80,.12);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body { font-family: var(--font); background: var(--bg); color: var(--text-primary); font-size: 14px; display: flex; flex-direction: column; }
+
+/* ── Left Nav ─────────────────────────────────────────── */
+.app-shell { display: flex; height: 100vh; overflow: hidden; }
+
+.left-nav {
+  width: 56px;
+  background: var(--nav-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px 0;
+  flex-shrink: 0;
+  z-index: 10;
+}
+.nav-logo {
+  width: 32px; height: 32px;
+  margin-bottom: 16px;
+  margin-top: 4px;
+}
+.nav-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--r-md);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--grey-500);
+  transition: all .15s;
+  margin-bottom: 2px;
+  font-size: 17px;
+}
+.nav-icon:hover { background: rgba(255,255,255,.08); color: #fff; }
+.nav-icon.active { background: rgba(255,122,89,.18); color: var(--hs-orange); }
+.nav-spacer { flex: 1; }
+.nav-avatar {
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  background: var(--hs-orange);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+/* ── Main area ────────────────────────────────────────── */
+.app-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
+
+/* ── Top nav ─────────────────────────────────────────── */
+.top-nav {
+  height: 48px;
+  background: var(--nav-dark);
+  display: flex;
+  align-items: center;
+  padding: 0 16px;
+  gap: 4px;
+  flex-shrink: 0;
+}
+.top-nav-item {
+  padding: 6px 10px;
+  border-radius: var(--r-sm);
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(255,255,255,.7);
+  cursor: pointer;
+  transition: all .15s;
+  white-space: nowrap;
+}
+.top-nav-item:hover { background: rgba(255,255,255,.08); color: #fff; }
+.top-nav-item.active { background: rgba(255,122,89,.2); color: var(--hs-orange); font-weight: 500; }
+.top-nav-sep { flex: 1; }
+.sandbox-badge {
+  background: var(--hs-orange);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+/* ── Instruction bar ─────────────────────────────────── */
+.instruction-bar {
+  background: var(--hs-blue-light);
+  border-bottom: 1px solid #B8DDE6;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.instruction-icon {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  background: var(--hs-blue);
+  color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px;
+  flex-shrink: 0;
+}
+.instruction-label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  color: var(--hs-blue);
+  margin-bottom: 1px;
+}
+.instruction-text {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+.instruction-text strong { color: var(--text-primary); font-weight: 600; }
+
+/* ── Progress steps ──────────────────────────────────── */
+.steps-bar {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+.step-tab {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 11px 14px;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: var(--text-light);
+  border-bottom: 2px solid transparent;
+  cursor: default;
+  white-space: nowrap;
+  transition: all .2s;
+  user-select: none;
+}
+.step-tab.done { color: var(--hs-green); border-bottom-color: var(--hs-green); }
+.step-tab.active { color: var(--hs-orange); border-bottom-color: var(--hs-orange); font-weight: 500; }
+.step-num {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  flex-shrink: 0;
+  transition: all .2s;
+}
+.step-tab.done .step-num { background: var(--hs-green); border-color: var(--hs-green); color: #fff; }
+.step-tab.active .step-num { background: var(--hs-orange); border-color: var(--hs-orange); color: #fff; }
+
+/* ── Panels ──────────────────────────────────────────── */
+.panels { flex: 1; overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
+.panel { display: none; flex: 1; overflow-y: auto; min-height: 0; }
+.panel.active { display: flex; flex-direction: column; }
+
+/* ── Page header (like HS "Deals" header) ────────────── */
+.page-header {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-shrink: 0;
+}
+.page-title { font-size: 20px; font-weight: 600; color: var(--text-primary); }
+.page-sub { font-size: 13px; color: var(--text-secondary); margin-top: 1px; }
+
+/* ── Content areas ───────────────────────────────────── */
+.page-content { flex: 1; overflow-y: auto; padding: 20px 24px; }
+
+/* ── HS Card ─────────────────────────────────────────── */
+.hs-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  margin-bottom: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.hs-card-header {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--grey-100);
+}
+.hs-card-title {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--text-secondary);
+}
+.hs-card-body { padding: 16px; }
+
+/* ── HS Properties list ──────────────────────────────── */
+.prop-list {}
+.prop-row {
+  display: flex;
+  gap: 0;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--grey-200);
+  align-items: flex-start;
+}
+.prop-row:last-child { border: none; }
+.prop-label {
+  width: 160px;
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  padding-top: 1px;
+  padding-right: 12px;
+}
+.prop-value {
+  flex: 1;
+  font-size: 13px;
+  color: var(--text-primary);
+  word-break: break-word;
+  line-height: 1.5;
+}
+.prop-value.link { color: var(--text-link); cursor: pointer; }
+.prop-value.link:hover { text-decoration: underline; }
+.prop-value.warn { color: #D4380D; font-weight: 500; }
+
+/* ── Badges / pills ──────────────────────────────────── */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .02em;
+}
+.pill-orange { background: var(--hs-orange-light); color: var(--hs-orange-dark); border: 1px solid var(--hs-orange-mid); }
+.pill-blue   { background: var(--hs-blue-light);   color: var(--hs-blue);        border: 1px solid #B8DDE6; }
+.pill-green  { background: var(--hs-green-light);  color: #007A6E;               border: 1px solid #B8EFE9; }
+.pill-yellow { background: var(--hs-yellow-light); color: #8C5E00;               border: 1px solid #F8E0A8; }
+.pill-grey   { background: var(--grey-200);        color: var(--text-secondary);  border: 1px solid var(--border); }
+.pill-red    { background: var(--hs-red-light);    color: #C0272D;               border: 1px solid #F9BBBF; }
+
+/* ── Buttons ─────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: var(--r-md);
+  font-size: 13px;
+  font-weight: 500;
+  font-family: var(--font);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all .12s;
+  white-space: nowrap;
+}
+.btn-primary { background: var(--hs-orange); color: #fff; border-color: var(--hs-orange-dark); }
+.btn-primary:hover { background: var(--hs-orange-dark); }
+.btn-primary:disabled { opacity: .45; cursor: not-allowed; }
+.btn-secondary { background: var(--white); color: var(--text-primary); border-color: var(--border-dark); }
+.btn-secondary:hover { border-color: var(--grey-500); background: var(--grey-100); }
+.btn-success { background: var(--hs-green); color: #fff; }
+.btn-success:hover { background: #009B8C; }
+.btn-success:disabled { opacity: .45; cursor: not-allowed; }
+.btn-ghost { background: transparent; color: var(--text-link); border-color: transparent; }
+.btn-ghost:hover { background: var(--hs-blue-light); }
+
+.btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+
+/* ── Form controls ───────────────────────────────────── */
+.hs-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+.hs-select, .hs-input {
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid var(--border-dark);
+  border-radius: var(--r-md);
+  font-size: 13px;
+  font-family: var(--font);
+  color: var(--text-primary);
+  background: var(--white);
+  outline: none;
+  transition: border-color .15s, box-shadow .15s;
+  -webkit-appearance: none;
+}
+.hs-select:focus, .hs-input:focus {
+  border-color: var(--hs-orange);
+  box-shadow: 0 0 0 3px rgba(255,122,89,.15);
+}
+.hs-select option { color: var(--text-primary); }
+.form-group { margin-bottom: 14px; }
+.hs-textarea {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid var(--border-dark);
+  border-radius: var(--r-md);
+  font-size: 13px;
+  font-family: var(--font);
+  color: var(--text-primary);
+  background: var(--white);
+  outline: none;
+  resize: vertical;
+  transition: border-color .15s, box-shadow .15s;
+  line-height: 1.6;
+}
+.hs-textarea:focus {
+  border-color: var(--hs-orange);
+  box-shadow: 0 0 0 3px rgba(255,122,89,.15);
+}
+
+/* ── Two-col layout ──────────────────────────────────── */
+.two-col { display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
+.three-col { display: grid; grid-template-columns: 240px 1fr 280px; gap: 16px; align-items: start; }
+
+/* ── Contact header banner ───────────────────────────── */
+.contact-banner {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 24px 0;
+  flex-shrink: 0;
+}
+.contact-name-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.contact-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--hs-orange) 0%, #FF5C35 100%);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.contact-name { font-size: 22px; font-weight: 600; color: var(--text-primary); }
+.contact-sub { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+.contact-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+.contact-tabs {
+  display: flex;
+  gap: 0;
+  margin-top: 12px;
+  border-bottom: none;
+}
+.contact-tab {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
+}
+.contact-tab.active { color: var(--hs-orange); border-bottom-color: var(--hs-orange); }
+.contact-tab:hover { color: var(--text-primary); }
+.contact-tab[data-seen="true"]::after {
+  content: ' ✓';
+  font-size: 10px;
+  color: var(--hs-green);
+  font-weight: 700;
+}
+
+/* ── Activity feed ───────────────────────────────────── */
+.feed-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--grey-200);
+}
+.feed-item:last-child { border: none; }
+.feed-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+.dot-blue   { background: var(--hs-blue); }
+.dot-orange { background: var(--hs-orange); }
+.dot-green  { background: var(--hs-green); }
+.dot-grey   { background: var(--grey-400); }
+.feed-body { flex: 1; }
+.feed-text { font-size: 13px; color: var(--text-primary); line-height: 1.4; }
+.feed-text strong { font-weight: 600; }
+.feed-time { font-size: 11px; color: var(--text-light); margin-top: 3px; }
+
+/* ── Website activity ────────────────────────────────── */
+.visit-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--grey-200);
+  font-size: 13px;
+}
+.visit-row:last-child { border: none; }
+.visit-name { color: var(--text-link); cursor: pointer; }
+.visit-name:hover { text-decoration: underline; }
+.visit-meta { display: flex; align-items: center; gap: 10px; color: var(--text-secondary); font-size: 12px; }
+.visit-count {
+  background: var(--hs-orange);
+  color: #fff;
+  border-radius: 20px;
+  padding: 1px 7px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* ── Chat bubbles ────────────────────────────────────── */
+.chat-row { display: flex; gap: 8px; margin-bottom: 10px; }
+.chat-row.them { justify-content: flex-start; }
+.chat-row.us   { justify-content: flex-end; }
+.chat-bubble {
+  max-width: 76%;
+  padding: 8px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.them .chat-bubble {
+  background: var(--grey-100);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-bottom-left-radius: 3px;
+}
+.us .chat-bubble {
+  background: var(--hs-blue-light);
+  border: 1px solid #B8DDE6;
+  color: var(--hs-blue);
+  border-bottom-right-radius: 3px;
+}
+.chat-time { font-size: 11px; color: var(--text-light); margin-top: 3px; text-align: right; }
+.them .chat-time { text-align: left; }
+
+/* ── Pipeline ────────────────────────────────────────── */
+.pipeline-wrap { overflow-x: auto; }
+.pipeline {
+  display: flex;
+  min-width: max-content;
+  gap: 0;
+  margin: 4px 0 8px;
+}
+.pipe-stage {
+  flex: 1;
+  min-width: 90px;
+  text-align: center;
+  padding: 9px 6px;
+  font-size: 12px;
+  color: var(--text-light);
+  border-top: 3px solid var(--grey-300);
+  cursor: pointer;
+  transition: all .15s;
+  user-select: none;
+}
+.pipe-stage:hover { color: var(--text-secondary); border-top-color: var(--grey-500); }
+.pipe-stage.prev { color: var(--hs-green); border-top-color: var(--hs-green); }
+.pipe-stage.active { color: var(--hs-orange); border-top-color: var(--hs-orange); font-weight: 600; }
+.pipe-stage.correct { color: var(--hs-green); border-top-color: var(--hs-green); font-weight: 600; }
+
+/* ── Checklist ───────────────────────────────────────── */
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--grey-200);
+  cursor: pointer;
+  transition: background .1s;
+}
+.checklist-item:last-child { border: none; }
+.checklist-item:hover { background: var(--grey-100); margin: 0 -16px; padding: 10px 16px; }
+.cbox {
+  width: 16px; height: 16px;
+  border: 1.5px solid var(--grey-400);
+  border-radius: var(--r-sm);
+  flex-shrink: 0;
+  margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+  transition: all .15s;
+  background: var(--white);
+}
+.cbox.checked { background: var(--hs-green); border-color: var(--hs-green); color: #fff; }
+.citem-text { font-size: 13px; color: var(--text-primary); line-height: 1.4; }
+.citem-text.done { color: var(--text-light); text-decoration: line-through; }
+
+/* ── Note template ───────────────────────────────────── */
+.note-template {
+  background: var(--grey-100);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.9;
+  font-family: 'Lexend Deca', monospace;
+  white-space: pre-wrap;
+  margin-bottom: 10px;
+}
+.note-key { color: var(--hs-orange); font-weight: 600; }
+.note-blank { color: var(--grey-400); }
+
+/* ── Answer option ───────────────────────────────────── */
+.answer-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all .15s;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--white);
+  text-align: left;
+  width: 100%;
+  font-family: var(--font);
+}
+.answer-option:hover { border-color: var(--hs-orange); background: var(--hs-orange-light); }
+.answer-option:disabled { cursor: not-allowed; }
+.answer-option.correct { border-color: var(--hs-green); background: var(--hs-green-light); color: #007A6E; }
+.answer-option.incorrect { border-color: var(--hs-red); background: var(--hs-red-light); color: #C0272D; opacity: .7; }
+.answer-option.dim { opacity: .45; }
+.opt-letter {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ── Feedback banner ─────────────────────────────────── */
+.feedback-box {
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 10px;
+  display: none;
+}
+.feedback-box.correct { background: var(--hs-green-light); border: 1px solid #B8EFE9; color: #007A6E; }
+.feedback-box.incorrect { background: var(--hs-red-light); border: 1px solid #F9BBBF; color: #C0272D; }
+.feedback-box.info { background: var(--hs-blue-light); border: 1px solid #B8DDE6; color: #006E87; }
+
+/* ── Alert banner ────────────────────────────────────── */
+.alert {
+  padding: 10px 14px;
+  border-radius: var(--r-md);
+  font-size: 13px;
+  margin-bottom: 14px;
+  border-left: 3px solid;
+  line-height: 1.5;
+}
+.alert-info    { background: var(--hs-blue-light);   border-color: var(--hs-blue);   color: #006E87; }
+.alert-success { background: var(--hs-green-light);  border-color: var(--hs-green);  color: #007A6E; }
+.alert-warn    { background: var(--hs-yellow-light);  border-color: var(--hs-yellow); color: #8C5E00; }
+.alert strong { font-weight: 600; }
+
+/* ── Stage feedback ──────────────────────────────────── */
+#stageFeedback { font-size: 13px; padding: 8px 12px; border-radius: var(--r-md); margin-top: 8px; display: none; }
+
+/* ── Toast ───────────────────────────────────────────── */
+#toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--nav-bg);
+  color: #fff;
+  border-radius: var(--r-lg);
+  padding: 12px 16px;
+  font-size: 13px;
+  max-width: 320px;
+  z-index: 999;
+  transform: translateY(60px);
+  opacity: 0;
+  transition: all .3s cubic-bezier(.34,1.5,.64,1);
+  pointer-events: none;
+  box-shadow: var(--shadow-md);
+}
+#toast.show { transform: translateY(0); opacity: 1; }
+.toast-title { font-weight: 600; font-size: 12px; color: var(--hs-orange); margin-bottom: 2px; text-transform: uppercase; letter-spacing: .05em; }
+
+/* ── Result screen ───────────────────────────────────── */
+.result-wrap {
+  max-width: 560px; margin: 40px auto; padding: 0 20px;
+  text-align: center;
+}
+.result-icon { font-size: 52px; margin-bottom: 16px; }
+.result-title { font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
+.result-sub { font-size: 14px; color: var(--text-secondary); line-height: 1.6; max-width: 420px; margin: 0 auto 24px; }
+.result-list {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 4px 0;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+  text-align: left;
+}
+.result-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px;
+  border-bottom: 1px solid var(--grey-200);
+  font-size: 13px;
+  color: var(--text-primary);
+}
+.result-item:last-child { border: none; }
+.result-tick { color: var(--hs-green); font-size: 15px; flex-shrink: 0; }
+.closer-quote {
+  background: var(--hs-orange-light);
+  border: 1px solid var(--hs-orange-mid);
+  border-radius: var(--r-lg);
+  padding: 16px 20px;
+  font-size: 13px;
+  color: var(--text-primary);
+  line-height: 1.7;
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+/* ── Scrollbar ───────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--grey-300); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--grey-400); }
+
+/* ── Task list sidebar ───────────────────────────────── */
+.task-sidebar {
+  width: 260px;
+  border-right: 1px solid var(--border);
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+.tsidebar-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--text-secondary);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.task-items { flex: 1; overflow-y: auto; }
+.task-item-row {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--grey-200);
+  cursor: default;
+  transition: background .1s;
+}
+.task-item-row.active-task { background: var(--hs-orange-light); }
+.tcheck {
+  width: 16px; height: 16px; border-radius: 50%;
+  border: 1.5px solid var(--grey-400);
+  flex-shrink: 0; margin-top: 1px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; transition: all .2s;
+}
+.tcheck.done { background: var(--hs-green); border-color: var(--hs-green); color: #fff; }
+.titem-name { font-size: 13px; font-weight: 500; color: var(--text-primary); line-height: 1.3; margin-bottom: 3px; }
+.task-item-row.done-item .titem-name { color: var(--text-light); text-decoration: line-through; }
+.titem-meta { font-size: 11px; color: var(--text-light); }
+.tsidebar-footer {
+  padding: 10px 14px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+.progress-bar { height: 5px; background: var(--grey-200); border-radius: 3px; margin-top: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--hs-green); border-radius: 3px; transition: width .4s ease; }
+
+/* ── Two pane (sidebar + content) ───────────────────── */
+.pane-wrap { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+.pane-content { flex: 1; overflow-y: auto; }
+
+@media (max-width: 900px) {
+  .task-sidebar { display: none; }
+  .two-col { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="app-shell">
+
+  <!-- Left nav -->
+  <div class="left-nav">
+    <!-- HubSpot sprocket SVG -->
+    <svg class="nav-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="16" r="16" fill="#FF7A59"/>
+      <path d="M19.5 11.2V9.1a1.6 1.6 0 1 0-3.2 0v2.1a5.6 5.6 0 0 0-3.6 2.3l-1.8-1a1.6 1.6 0 1 0-1.6 2.8l1.8 1a5.5 5.5 0 0 0 0 4.6l-1.8 1a1.6 1.6 0 1 0 1.6 2.8l1.8-1a5.6 5.6 0 0 0 9.2-4.2 5.6 5.6 0 0 0-3.4-5.3zM16.2 20a2.4 2.4 0 1 1 0-4.8 2.4 2.4 0 0 1 0 4.8z" fill="white"/>
+    </svg>
+    <div class="nav-icon" title="Home">⌂</div>
+    <div class="nav-icon" title="Contacts">👤</div>
+    <div class="nav-icon active" title="CRM">⬡</div>
+    <div class="nav-icon" title="Marketing">📣</div>
+    <div class="nav-icon" title="Sales">💼</div>
+    <div class="nav-icon" title="Service">🎧</div>
+    <div class="nav-icon" title="Reports">📊</div>
+    <div class="nav-spacer"></div>
+    <div class="nav-icon" title="Settings">⚙</div>
+    <div class="nav-avatar" title="Your profile">WS</div>
+  </div>
+
+  <!-- App body -->
+  <div class="app-body">
+
+    <!-- Top nav -->
+    <div class="top-nav">
+      <div class="top-nav-item">Contacts</div>
+      <div class="top-nav-item active">Deals</div>
+      <div class="top-nav-item">Companies</div>
+      <div class="top-nav-item">Tasks</div>
+      <div class="top-nav-item">Activities</div>
+      <div class="top-nav-sep"></div>
+      <div class="sandbox-badge">🧪 Sandbox</div>
+    </div>
+
+    <!-- Instruction bar -->
+    <div class="instruction-bar">
+      <div class="instruction-icon" id="instrIcon">①</div>
+      <div>
+        <div class="instruction-label" id="instrLabel">Your task</div>
+        <div class="instruction-text" id="instrText">Navigate to <strong>Deals → Advanced Filters</strong> and set <strong>Booking Source → is known</strong> to reveal your self-booked deal.</div>
+      </div>
+    </div>
+
+    <!-- Steps bar -->
+    <div class="steps-bar">
+      <div class="step-tab active" id="stab-0"><div class="step-num" id="snum-0">1</div> Find the deal</div>
+      <div class="step-tab"        id="stab-1"><div class="step-num" id="snum-1">2</div> Review contact</div>
+      <div class="step-tab"        id="stab-2"><div class="step-num" id="snum-2">3</div> Pre-call prep</div>
+      <div class="step-tab"        id="stab-3"><div class="step-num" id="snum-3">4</div> Post-call update</div>
+      <div class="step-tab"        id="stab-4"><div class="step-num" id="snum-4">5</div> Complete</div>
+    </div>
+
+    <!-- Panels -->
+    <div class="panels">
+
+      <!-- ══════════ PANEL 0 — Find the deal ══════════ -->
+      <div class="panel active" id="panel-0">
+        <div class="pane-wrap">
+          <div class="task-sidebar">
+            <div class="tsidebar-header"><span>Task list</span><span id="taskCount" style="font-size:12px;font-weight:400;color:var(--text-light)">0 / 4</span></div>
+            <div class="task-items">
+              <div class="task-item-row active-task" id="trow-0"><div class="tcheck" id="tc-0"></div><div><div class="titem-name">Locate self-booked deal</div><div class="titem-meta"><span class="pill pill-orange">Self-booked</span></div></div></div>
+              <div class="task-item-row" id="trow-1"><div class="tcheck" id="tc-1"></div><div><div class="titem-name">Review contact record</div><div class="titem-meta" style="margin-top:4px"><span class="pill pill-grey">Carlos M.</span></div></div></div>
+              <div class="task-item-row" id="trow-2"><div class="tcheck" id="tc-2"></div><div><div class="titem-name">Pre-call checklist</div><div class="titem-meta" style="margin-top:4px"><span class="pill pill-grey">Prep</span></div></div></div>
+              <div class="task-item-row" id="trow-3"><div class="tcheck" id="tc-3"></div><div><div class="titem-name">Post-call HubSpot update</div><div class="titem-meta" style="margin-top:4px"><span class="pill pill-grey">Carlos M.</span></div></div></div>
+            </div>
+            <div class="tsidebar-footer"><span id="progressLabel">0 of 4 complete</span><div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div></div>
+          </div>
+          <div class="pane-content" style="padding:24px">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
+              <div style="font-size:20px;font-weight:600;color:var(--text-primary)">Deals</div>
+              <div class="pill pill-blue">Board view</div>
+            </div>
+
+            <div class="hs-card" style="max-width:480px">
+              <div class="hs-card-header"><span class="hs-card-title">Advanced filters</span></div>
+              <div class="hs-card-body">
+                <div class="form-group">
+                  <label class="hs-label">Filter property</label>
+                  <select class="hs-select" id="filterProp" onchange="onPropChange()">
+                    <option value="">Choose a property…</option>
+                    <option value="owner">Deal owner</option>
+                    <option value="stage">Deal stage</option>
+                    <option value="booking">Booking Source</option>
+                    <option value="date">Create date</option>
+                    <option value="amount">Deal amount</option>
+                  </select>
+                </div>
+                <div class="form-group" id="condGroup" style="display:none">
+                  <label class="hs-label">Condition</label>
+                  <select class="hs-select" id="filterCond">
+                    <option value="">Choose a condition…</option>
+                    <option value="known">is known</option>
+                    <option value="unknown">is unknown</option>
+                    <option value="eq">is equal to</option>
+                    <option value="contains">contains</option>
+                  </select>
+                </div>
+                <div class="btn-row">
+                  <button class="btn btn-primary" onclick="applyFilter()">Apply filter</button>
+                  <button class="btn btn-secondary" onclick="clearFilter()">Clear all</button>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-top:24px">
+              <div style="font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Booked stage</div>
+              <div id="dealsArea">
+                <div style="background:var(--white);border:1px dashed var(--grey-300);border-radius:var(--r-lg);padding:32px;text-align:center;color:var(--text-light);font-size:13px">
+                  <div style="font-size:24px;margin-bottom:8px">🔍</div>
+                  Apply the correct filter above to reveal self-booked deals.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ PANEL 1 — Review contact ══════════ -->
+      <div class="panel" id="panel-1">
+        <div class="contact-banner">
+          <div class="contact-name-row">
+            <div class="contact-avatar">CM</div>
+            <div>
+              <div class="contact-name">Carlos M.</div>
+              <div class="contact-sub">Logistics coordinator · Self-booked via website · Appointment tomorrow 10:00 am</div>
+            </div>
+            <div class="contact-pills">
+              <span class="pill pill-orange">Self-booked</span>
+              <span class="pill pill-blue">New lead</span>
+              <span class="pill pill-yellow">B1 / Level 3</span>
+            </div>
+          </div>
+          <div class="contact-tabs">
+            <div class="contact-tab active" onclick="switchTab(0, this)">Overview</div>
+            <div class="contact-tab" onclick="switchTab(1, this)">Activity</div>
+            <div class="contact-tab" onclick="switchTab(2, this)">Website activity</div>
+            <div class="contact-tab" onclick="switchTab(3, this)">Conversations</div>
+          </div>
+        </div>
+        <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0">
+          <!-- Tab 0: Overview -->
+          <div class="pane-content" id="ctab-0" style="padding:20px 24px">
+            <div class="two-col">
+              <div>
+                <div class="hs-card">
+                  <div class="hs-card-header"><span class="hs-card-title">Contact properties</span></div>
+                  <div class="hs-card-body">
+                    <div class="prop-list">
+                      <div class="prop-row"><div class="prop-label">Full name</div><div class="prop-value link">Carlos M.</div></div>
+                      <div class="prop-row"><div class="prop-label">Nationality</div><div class="prop-value">Spanish — moved to Madrid 1 year ago</div></div>
+                      <div class="prop-row"><div class="prop-label">English level</div><div class="prop-value"><span class="pill pill-yellow">B1 / Level 3</span></div></div>
+                      <div class="prop-row"><div class="prop-label">Occupation</div><div class="prop-value">Logistics coordinator, international firm</div></div>
+                      <div class="prop-row"><div class="prop-label">Notes</div><div class="prop-value">Looking for Business English. Form submitted at 11 pm — <span style="color:#D4380D;font-weight:500">high intent signal.</span></div></div>
+                      <div class="prop-row"><div class="prop-label">Booking source</div><div class="prop-value"><span class="pill pill-orange">Self-booked · Website</span></div></div>
+                      <div class="prop-row"><div class="prop-label">Deal stage</div><div class="prop-value"><span class="pill pill-grey">Booked</span></div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <div class="hs-card">
+                  <div class="hs-card-header"><span class="hs-card-title">Appointment</span></div>
+                  <div class="hs-card-body">
+                    <div class="prop-list">
+                      <div class="prop-row"><div class="prop-label">Date</div><div class="prop-value">Tomorrow</div></div>
+                      <div class="prop-row"><div class="prop-label">Time</div><div class="prop-value">10:00 am</div></div>
+                      <div class="prop-row"><div class="prop-label">Format</div><div class="prop-value">Online (Zoom)</div></div>
+                      <div class="prop-row"><div class="prop-label">Duration</div><div class="prop-value">30 min + 15 min buffer</div></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="hs-card" style="margin-top:12px">
+                  <div class="hs-card-header"><span class="hs-card-title">Quick signal check</span></div>
+                  <div class="hs-card-body">
+                    <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;line-height:1.5">What's the strongest signal in Carlos's record? Pick the one you'd reference first when the call starts.</div>
+                    <div class="feedback-box info" id="signalNudge" style="display:block;margin-bottom:12px"><strong>Check these tabs first:</strong> Activity, Website activity, Conversations — the answer is in there.</div>
+                    <div id="signalOpts" style="opacity:0.35;pointer-events:none">
+                      <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">A</div>He's at B1 level and wants to improve his English.</button>
+                      <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">B</div>He tried apps and a private teacher before with no results.</button>
+                      <button class="answer-option" onclick="pickSignal(this,true)"><div class="opt-letter">C</div>He visited the Business English page 3× and downloaded the brochure — he already knows what he wants.</button>
+                      <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">D</div>He submitted the form at 11 pm, which suggests high motivation.</button>
+                    </div>
+                    <div class="feedback-box" id="signalFeedback"></div>
+                    <div class="btn-row">
+                      <button class="btn btn-primary" id="btnContinueContact" onclick="completeStep(1)" disabled>I've reviewed everything — continue</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Tab 1: Activity -->
+          <div class="pane-content" id="ctab-1" style="display:none;padding:20px 24px">
+            <div class="hs-card" style="max-width:640px">
+              <div class="hs-card-header"><span class="hs-card-title">Activity feed</span></div>
+              <div class="hs-card-body">
+                <div class="feed-item"><div class="feed-dot dot-orange"></div><div class="feed-body"><div class="feed-text"><strong>Self-booked appointment</strong> — Tomorrow 10:00 am via website booking page</div><div class="feed-time">2 hours ago</div></div></div>
+                <div class="feed-item"><div class="feed-dot dot-blue"></div><div class="feed-body"><div class="feed-text">Downloaded <strong>Business English course brochure</strong></div><div class="feed-time">12 days ago</div></div></div>
+                <div class="feed-item"><div class="feed-dot dot-green"></div><div class="feed-body"><div class="feed-text">Chatbot conversation — <strong>2 messages exchanged</strong></div><div class="feed-time">18 days ago</div></div></div>
+                <div class="feed-item"><div class="feed-dot dot-grey"></div><div class="feed-body"><div class="feed-text">First page visit — <strong>Business English</strong> course page</div><div class="feed-time">30 days ago</div></div></div>
+              </div>
+            </div>
+          </div>
+          <!-- Tab 2: Website activity -->
+          <div class="pane-content" id="ctab-2" style="display:none;padding:20px 24px">
+            <div class="hs-card" style="max-width:640px">
+              <div class="hs-card-header"><span class="hs-card-title">Page visits</span></div>
+              <div class="hs-card-body">
+                <div class="visit-row"><div class="visit-name">Business English — course page</div><div class="visit-meta"><span class="visit-count">3×</span> Last 30 days</div></div>
+                <div class="visit-row"><div class="visit-name">Course brochure (PDF download)</div><div class="visit-meta"><span class="visit-count">1×</span> 12 days ago</div></div>
+                <div class="visit-row"><div class="visit-name">Pricing & packages</div><div class="visit-meta"><span class="visit-count">2×</span> Last 7 days</div></div>
+                <div class="visit-row"><div class="visit-name">Homepage</div><div class="visit-meta"><span class="visit-count">4×</span> Last 30 days</div></div>
+              </div>
+            </div>
+            <div class="alert alert-info" style="max-width:640px;margin-top:12px">
+              <strong>Tip:</strong> Three visits to the Business English page + a brochure download = Carlos already knows what he wants. Reference this in your opener.
+            </div>
+          </div>
+          <!-- Tab 3: Conversations -->
+          <div class="pane-content" id="ctab-3" style="display:none;padding:20px 24px">
+            <div class="hs-card" style="max-width:560px">
+              <div class="hs-card-header"><span class="hs-card-title">WhatsApp / chatbot history</span></div>
+              <div class="hs-card-body">
+                <div class="chat-row them"><div><div class="chat-bubble">How long until I can speak confidently at work?</div><div class="chat-time">18 days ago · 21:42</div></div></div>
+                <div class="chat-row us"><div><div class="chat-bubble">Most students feel confident in work contexts within 6–9 months of active study. Want to book a consultation to discuss your specific goals?</div><div class="chat-time">18 days ago · 21:43</div></div></div>
+                <div class="chat-row them"><div><div class="chat-bubble">Are there morning classes available?</div><div class="chat-time">18 days ago · 21:44</div></div></div>
+                <div class="chat-row us"><div><div class="chat-bubble">Yes — slots from 8:00 am. Your consultant will show you the full timetable.</div><div class="chat-time">18 days ago · 21:44</div></div></div>
+              </div>
+            </div>
+            <div class="alert alert-warn" style="max-width:560px;margin-top:12px">
+              <strong>Note:</strong> Carlos asked about morning slots — make sure to confirm these are available before the call.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ PANEL 2 — Pre-call prep ══════════ -->
+      <div class="panel" id="panel-2">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Pre-appointment checklist</div>
+            <div class="page-sub">Carlos M. · Tomorrow 10:00 am</div>
+          </div>
+          <div class="pill pill-orange" style="margin-left:auto">Self-booked</div>
+        </div>
+        <div class="pane-content" style="padding:20px 24px">
+          <div class="two-col">
+            <div>
+              <div class="hs-card">
+                <div class="hs-card-header"><span class="hs-card-title">Checklist</span><span style="font-size:12px;color:var(--text-light)" id="checkProgress">0 / 7</span></div>
+                <div class="hs-card-body" id="checklistBody"></div>
+              </div>
+            </div>
+            <div>
+              <div class="hs-card">
+                <div class="hs-card-header"><span class="hs-card-title">Opening line</span></div>
+                <div class="hs-card-body">
+                  <div style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;line-height:1.5">Using what you've found in Carlos's record, write the first sentence you'd say when the call connects.</div>
+                  <textarea class="hs-textarea" id="openingLine" rows="3" placeholder="e.g. Carlos, I can see you've been looking at our Business English programme — can you tell me what's driving that?" oninput="checkOpener()"></textarea>
+                  <div class="feedback-box info" id="openerFeedback" style="margin-top:8px;display:none">✓ Good. A personalised opener referencing the website activity will immediately put Carlos at ease.</div>
+                </div>
+              </div>
+              <div class="hs-card" style="margin-top:12px">
+                <div class="hs-card-header"><span class="hs-card-title">Suggested approach</span></div>
+                <div class="hs-card-body">
+                  <div style="font-size:13px;color:var(--text-secondary);line-height:1.6">Carlos visited Business English pages 3× and asked about work confidence in the chatbot. Suggest <strong>1–2 tailored ideas</strong>:<br><br>• A conversation practice plan focused on his logistics role<br>• Pronunciation work for client calls<br>• A morning schedule that fits his availability</div>
+                </div>
+              </div>
+              <div class="btn-row">
+                <button class="btn btn-primary" id="btnContinuePre" onclick="completeStep(2)" disabled>Complete checklist — continue</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ PANEL 3 — Post-call update ══════════ -->
+      <div class="panel" id="panel-3">
+        <div class="page-header">
+          <div>
+            <div class="page-title">Post-call update — Carlos M.</div>
+            <div class="page-sub">Update HubSpot before moving to your next task</div>
+          </div>
+        </div>
+        <div class="pane-content" style="padding:20px 24px">
+          <div class="alert alert-success"><strong>Call outcome:</strong> Carlos showed up and was enthusiastic. He needs to confirm start dates with his employer but is ready to sign.</div>
+          <div class="two-col">
+            <div>
+              <div class="hs-card">
+                <div class="hs-card-header"><span class="hs-card-title">1 — Meeting outcome</span></div>
+                <div class="hs-card-body">
+                  <div class="form-group">
+                    <label class="hs-label">Outcome</label>
+                    <select class="hs-select" id="meetingOutcome" onchange="checkPost()">
+                      <option value="">Select outcome…</option>
+                      <option value="completed">Completed</option>
+                      <option value="noshow">No-show</option>
+                      <option value="cancelled">Cancelled</option>
+                      <option value="rescheduled">Rescheduled</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="hs-card" style="margin-top:14px">
+                <div class="hs-card-header"><span class="hs-card-title">2 — Deal stage</span></div>
+                <div class="hs-card-body">
+                  <div style="font-size:12px;color:var(--text-secondary);margin-bottom:8px">Select the correct stage for this deal</div>
+                  <div class="pipeline-wrap">
+                    <div class="pipeline" id="pipeline">
+                      <div class="pipe-stage prev">Booked</div>
+                      <div class="pipe-stage" onclick="pickStage(this,'consulted')">Consulted</div>
+                      <div class="pipe-stage" onclick="pickStage(this,'proposal')">Proposal sent</div>
+                      <div class="pipe-stage" onclick="pickStage(this,'followup')">Follow-up</div>
+                      <div class="pipe-stage" onclick="pickStage(this,'closed')">Closed won</div>
+                    </div>
+                  </div>
+                  <div id="stageFeedback"></div>
+                </div>
+              </div>
+              <div class="hs-card" style="margin-top:14px">
+                <div class="hs-card-header"><span class="hs-card-title">4 — Next-task reminder</span></div>
+                <div class="hs-card-body">
+                  <div class="form-group">
+                    <label class="hs-label">Task type</label>
+                    <select class="hs-select" id="taskType" onchange="checkPost()">
+                      <option value="">Select type…</option>
+                      <option value="call">Call back</option>
+                      <option value="email">Send email</option>
+                      <option value="waba">Send WABA template</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label class="hs-label">Due date</label>
+                    <input type="date" class="hs-input" id="taskDue" oninput="checkPost()" />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="hs-card">
+                <div class="hs-card-header"><span class="hs-card-title">3 — Consult notes</span></div>
+                <div class="hs-card-body">
+                  <div class="note-template"><span class="note-key">About:</span>       <span class="note-blank">___________________________</span>
+<span class="note-key">Test Result:</span>  <span class="note-blank">___________________________</span>
+<span class="note-key">Past:</span>        <span class="note-blank">___________________________</span>
+<span class="note-key">Present:</span>     <span class="note-blank">___________________________</span>
+<span class="note-key">Future:</span>      <span class="note-blank">___________________________</span>
+<span class="note-key">Pain Points:</span> <span class="note-blank">___________________________</span>
+<span class="note-key">Offer:</span>       <span class="note-blank">___________________________</span>
+<span class="note-key">Next Steps:</span>  <span class="note-blank">___________________________</span></div>
+                  <textarea class="hs-textarea" id="consultNotes" rows="10" placeholder="About: Spanish male, moved to Madrid 1 year ago, works in logistics…" oninput="checkPost()"></textarea>
+                </div>
+              </div>
+              <div class="btn-row">
+                <button class="btn btn-primary" id="btnSave" onclick="completeStep(3)" disabled>Save and mark complete</button>
+                <button class="btn btn-secondary">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══════════ PANEL 4 — Complete ══════════ -->
+      <div class="panel" id="panel-4">
+        <div class="pane-content" style="padding:20px">
+          <div class="result-wrap">
+            <div class="result-icon">🎉</div>
+            <div class="result-title">Workflow complete</div>
+            <div class="result-sub">You've worked through the full self-booking process — from finding the deal in HubSpot to clean post-call admin.</div>
+            <div class="result-list">
+              <div class="result-item"><span class="result-tick">✓</span> Located self-booked deal using Booking Source filter</div>
+              <div class="result-item"><span class="result-tick">✓</span> Reviewed contact record, website activity and chatbot history</div>
+              <div class="result-item"><span class="result-tick">✓</span> Identified the strongest signal and wrote a personalised opener</div>
+              <div class="result-item"><span class="result-tick">✓</span> Completed pre-appointment checklist</div>
+              <div class="result-item"><span class="result-tick">✓</span> Updated meeting outcome, deal stage and consult notes</div>
+              <div class="result-item"><span class="result-tick">✓</span> Set next-task reminder</div>
+            </div>
+            <div class="closer-quote">
+              <strong>Remember:</strong> Good prep takes 5 minutes. Clean admin takes 5 minutes. That's 10 minutes that turns a warm lead into a student.
+            </div>
+            <button class="btn btn-secondary" onclick="resetAll()">↺ Start again</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /panels -->
+  </div><!-- /app-body -->
+</div><!-- /app-shell -->
+
+<div id="toast"><div class="toast-title" id="toastTitle"></div><div id="toastMsg"></div></div>
+
+<script>
+// ── State ─────────────────────────────────
+let step = 0;
+let tasksDone = [false,false,false,false];
+let selectedStage = null;
+let signalDone = false;
+// tabs 1=Activity, 2=Website activity, 3=Conversations must all be visited before signal Q unlocks
+let tabsVisited = new Set([0]);
+let checkItems = [
+  "Reviewed contact notes and deal record",
+  "Checked website activity — Business English page visits (3×)",
+  "Checked activity feed — first-time lead, no prior appointments",
+  "Checked chatbot history — wants work confidence + morning slots",
+  "Identified 1–2 tailored suggestions for this lead",
+  "Confirmed Zoom + PowerPoint + note-taker setup",
+];
+let checked = Array(checkItems.length).fill(false);
+let activeContactTab = 0;
+
+// ── Toast ──────────────────────────────────
+function toast(title, msg) {
+  Object.assign(document.getElementById('toastTitle'), {textContent: title});
+  Object.assign(document.getElementById('toastMsg'), {textContent: msg});
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Instruction map ────────────────────────
+const instrs = [
+  { icon:'①', label:'Step 1 of 4', text:'Navigate to <strong>Deals → Advanced Filters</strong> and set <strong>Booking Source → is known</strong> to reveal your self-booked deal.' },
+  { icon:'②', label:'Step 2 of 4', text:'Read Carlos\'s <strong>contact record</strong>, check <strong>website activity</strong> and <strong>conversations</strong>, then answer the signal question.' },
+  { icon:'③', label:'Step 3 of 4', text:'Work through the <strong>pre-call checklist</strong> and write your <strong>opening line</strong> before the appointment.' },
+  { icon:'④', label:'Step 4 of 4', text:'Update the <strong>meeting outcome</strong>, <strong>deal stage</strong>, <strong>consult notes</strong> and set a <strong>next-task reminder</strong>.' },
+  { icon:'✓',  label:'Complete',   text:'You\'ve finished the full self-booking workflow.' },
+];
+
+// ── Go to step ─────────────────────────────
+function goTo(n) {
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`panel-${n}`).classList.add('active');
+
+  document.querySelectorAll('.step-tab').forEach((t,i) => {
+    t.classList.remove('active','done');
+    const num = document.getElementById(`snum-${i}`);
+    if(i < n){ t.classList.add('done'); num.textContent = '✓'; }
+    else if(i === n){ t.classList.add('active'); num.textContent = i+1; }
+    else { num.textContent = i+1; }
+  });
+
+  // task sidebar highlight
+  document.querySelectorAll('.task-item-row').forEach((r,i) => {
+    r.classList.remove('active-task');
+    if(i === n && n < 4) r.classList.add('active-task');
+  });
+
+  const instr = instrs[n];
+  document.getElementById('instrIcon').textContent = instr.icon;
+  document.getElementById('instrLabel').textContent = instr.label;
+  document.getElementById('instrText').innerHTML = instr.text;
+
+  step = n;
+}
+
+// ── Sidebar task completion ────────────────
+function doneTask(i) {
+  tasksDone[i] = true;
+  const tc = document.getElementById(`tc-${i}`);
+  tc.classList.add('done');
+  tc.textContent = '✓';
+  document.getElementById(`trow-${i}`).classList.add('done-item');
+  const count = tasksDone.filter(Boolean).length;
+  document.getElementById('taskCount').textContent = `${count} / 4`;
+  document.getElementById('progressLabel').textContent = `${count} of 4 complete`;
+  document.getElementById('progressFill').style.width = `${count/4*100}%`;
+}
+
+// ── STEP 0: Filter ─────────────────────────
+function onPropChange() {
+  document.getElementById('condGroup').style.display =
+    document.getElementById('filterProp').value ? 'block' : 'none';
+}
+
+function applyFilter() {
+  const p = document.getElementById('filterProp').value;
+  const c = document.getElementById('filterCond').value;
+  if (p === 'booking' && c === 'known') {
+    document.getElementById('dealsArea').innerHTML = `
+      <div class="hs-card" style="max-width:560px;cursor:pointer" onclick="openDeal()" onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='var(--shadow-sm)'">
+        <div class="hs-card-body" style="display:flex;align-items:center;gap:14px;padding:14px 16px">
+          <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--hs-orange),#FF5C35);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0">CM</div>
+          <div style="flex:1">
+            <div style="font-size:14px;font-weight:600;color:var(--text-link)">Carlos M.</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:2px">Self-booked · Business English · Tomorrow 10:00 am</div>
+          </div>
+          <span class="pill pill-orange">Self-booked</span>
+          <span style="color:var(--grey-500);font-size:18px">›</span>
+        </div>
+      </div>`;
+    toast('Filter applied', 'Self-booked deal found in the Booked stage.');
+  } else if (p && c) {
+    toast('Incorrect filter', 'Try: Booking Source → is known.');
+  } else {
+    toast('Incomplete', 'Choose both a property and a condition.');
+  }
+}
+
+function clearFilter() {
+  ['filterProp','filterCond'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('condGroup').style.display = 'none';
+  document.getElementById('dealsArea').innerHTML = `
+    <div style="background:var(--white);border:1px dashed var(--grey-300);border-radius:var(--r-lg);padding:32px;text-align:center;color:var(--text-light);font-size:13px">
+      <div style="font-size:24px;margin-bottom:8px">🔍</div>
+      Apply the correct filter above to reveal self-booked deals.
+    </div>`;
+}
+
+function openDeal() {
+  doneTask(0);
+  toast('Deal opened', 'Review the full contact record before the call.');
+  setTimeout(() => goTo(1), 500);
+}
+
+// ── Contact tabs ───────────────────────────
+function switchTab(i, el) {
+  for(let j=0;j<4;j++) document.getElementById(`ctab-${j}`).style.display = 'none';
+  document.getElementById(`ctab-${i}`).style.display = 'block';
+  document.querySelectorAll('.contact-tab').forEach((t,j) => {
+    t.classList.remove('active');
+    if(j === i) t.classList.add('active');
+  });
+  activeContactTab = i;
+  tabsVisited.add(i);
+  // mark tab as seen with a subtle tick
+  el.dataset.seen = 'true';
+  updateSignalGate();
+}
+
+function updateSignalGate() {
+  const allSeen = [1,2,3].every(t => tabsVisited.has(t));
+  const nudge = document.getElementById('signalNudge');
+  const opts  = document.getElementById('signalOpts');
+  if (allSeen) {
+    nudge.style.display = 'none';
+    opts.style.opacity  = '1';
+    opts.style.pointerEvents = 'auto';
+    opts.querySelectorAll('button').forEach(b => { if(!b.disabled) b.style.opacity='1'; });
+  } else {
+    const remaining = [1,2,3]
+      .filter(t => !tabsVisited.has(t))
+      .map(t => ['Activity','Website activity','Conversations'][t-1]);
+    nudge.style.display = 'block';
+    nudge.innerHTML = `<strong>Check these tabs first:</strong> ${remaining.join(', ')} — the answer is in there.`;
+    opts.style.opacity = '0.35';
+    opts.style.pointerEvents = 'none';
+  }
+}
+
+// ── Signal question ────────────────────────
+function pickSignal(btn, correct) {
+  const btns = document.querySelectorAll('#signalOpts button');
+  btns.forEach(b => { b.disabled = true; b.classList.add('dim'); });
+  btn.classList.remove('dim');
+  const fb = document.getElementById('signalFeedback');
+  fb.style.display = 'block';
+  if (correct) {
+    btn.classList.add('correct');
+    fb.className = 'feedback-box correct';
+    fb.textContent = '✓ Exactly right. The website behaviour tells you precisely what Carlos wants. Open with "I can see you\'ve been looking at our Business English programme" — he immediately feels understood.';
+    signalDone = true;
+    document.getElementById('btnContinueContact').disabled = false;
+    toast('Correct', 'Use what HubSpot tells you — that\'s what it\'s for.');
+  } else {
+    btn.classList.add('incorrect');
+    btns.forEach(b => { b.disabled = false; b.classList.remove('dim'); });
+    btn.disabled = true; btn.classList.remove('incorrect'); btn.classList.add('dim');
+    fb.className = 'feedback-box incorrect';
+    fb.textContent = 'Not the strongest signal here. His website behaviour — 3 visits to the Business English page and a brochure download — is the most actionable insight for your opener.';
+  }
+}
+
+// ── Step 1 complete ────────────────────────
+function completeStep(n) {
+  doneTask(n);
+  const msgs = [
+    ['',''],
+    ['Review complete', 'Pre-call checklist coming up.'],
+    ['Pre-call prep done', 'Time for the call.'],
+    ['HubSpot updated', 'Carlos has a next step. Record is clean.'],
+  ];
+  if(msgs[n-1][0]) toast(msgs[n-1][0], msgs[n-1][1]);
+  setTimeout(() => goTo(n + 1), 400);
+}
+
+// ── Checklist ──────────────────────────────
+function buildChecklist() {
+  const body = document.getElementById('checklistBody');
+  body.innerHTML = '';
+  checkItems.forEach((text, i) => {
+    const div = document.createElement('div');
+    div.className = 'checklist-item';
+    div.innerHTML = `<div class="cbox" id="cb-${i}"></div><div class="citem-text" id="ct-${i}">${text}</div>`;
+    div.onclick = () => toggleItem(i);
+    body.appendChild(div);
+  });
+  updateCheckProgress();
+}
+
+function toggleItem(i) {
+  checked[i] = !checked[i];
+  const cb = document.getElementById(`cb-${i}`);
+  const ct = document.getElementById(`ct-${i}`);
+  if (checked[i]) {
+    cb.classList.add('checked'); cb.textContent = '✓';
+    ct.classList.add('done');
+  } else {
+    cb.classList.remove('checked'); cb.textContent = '';
+    ct.classList.remove('done');
+  }
+  updateCheckProgress();
+}
+
+function updateCheckProgress() {
+  const n = checked.filter(Boolean).length;
+  document.getElementById('checkProgress').textContent = `${n} / ${checkItems.length}`;
+  const openerVal = (document.getElementById('openingLine') || {value:''}).value.trim();
+  const allChecked = checked.every(Boolean);
+  const hasOpener  = openerVal.length > 20;
+  document.getElementById('btnContinuePre').disabled = !(allChecked && hasOpener);
+}
+
+function checkOpener() {
+  const val = document.getElementById('openingLine').value.trim();
+  const fb  = document.getElementById('openerFeedback');
+  fb.style.display = val.length > 20 ? 'block' : 'none';
+  updateCheckProgress();
+}
+
+// ── Post-call ──────────────────────────────
+function pickStage(el, val) {
+  selectedStage = val;
+  document.querySelectorAll('.pipe-stage').forEach((s,i) => {
+    if(i>0) s.classList.remove('active','correct','prev');
+  });
+  const fb = document.getElementById('stageFeedback');
+  fb.style.display = 'block';
+  if (val === 'consulted') {
+    el.classList.add('correct');
+    fb.className = 'feedback-box correct'; fb.style.display='block';
+    fb.textContent = '✓ Correct — the appointment completed, so the deal moves to Consulted.';
+  } else if (val === 'closed') {
+    el.classList.add('active');
+    fb.className = 'feedback-box'; fb.style.cssText='display:block;background:var(--hs-yellow-light);border:1px solid #F8E0A8;color:#8C5E00;padding:10px 14px;border-radius:4px;margin-top:8px;font-size:13px';
+    fb.textContent = "Close — but Carlos hasn't confirmed yet. He still needs to speak with his employer. Use Consulted until he signs.";
+  } else {
+    el.classList.add('active');
+    fb.className = 'feedback-box incorrect'; fb.style.display='block';
+    fb.textContent = 'Not quite. The call completed — move the deal forward from Booked.';
+  }
+  checkPost();
+}
+
+function checkPost() {
+  const outcome = document.getElementById('meetingOutcome').value;
+  const notes   = document.getElementById('consultNotes').value.trim();
+  const type    = document.getElementById('taskType').value;
+  const due     = document.getElementById('taskDue').value;
+  document.getElementById('btnSave').disabled =
+    !(outcome === 'completed' && selectedStage === 'consulted' && notes.length > 30 && type && due);
+}
+
+// ── Reset ──────────────────────────────────
+function resetAll() {
+  tasksDone = [false,false,false,false];
+  selectedStage = null; signalDone = false;
+  checked = Array(checkItems.length).fill(false);
+  activeContactTab = 0;
+
+  clearFilter();
+  document.querySelectorAll('.task-item-row').forEach(r => r.classList.remove('done-item'));
+  document.querySelectorAll('.tcheck').forEach(c => { c.classList.remove('done'); c.textContent=''; });
+  document.getElementById('taskCount').textContent = '0 / 4';
+  document.getElementById('progressLabel').textContent = '0 of 4 complete';
+  document.getElementById('progressFill').style.width = '0%';
+
+  document.querySelectorAll('#signalOpts button').forEach(b => {
+    b.disabled=false; b.className='answer-option';
+  });
+  document.getElementById('signalFeedback').style.display='none';
+  document.getElementById('btnContinueContact').disabled = true;
+  document.getElementById('openingLine').value = '';
+  document.getElementById('openerFeedback').style.display = 'none';
+  document.getElementById('meetingOutcome').value = '';
+  document.getElementById('consultNotes').value = '';
+  document.getElementById('taskType').value = '';
+  document.getElementById('taskDue').value = '';
+  document.getElementById('stageFeedback').style.display='none';
+  document.querySelectorAll('.pipe-stage').forEach((s,i) => {
+    s.classList.remove('active','correct'); if(i===0) s.classList.add('prev');
+  });
+  buildChecklist();
+
+  tabsVisited = new Set([0]);
+  signalDone = false;
+
+  // reset contact tabs
+  for(let j=0;j<4;j++) document.getElementById(`ctab-${j}`).style.display = j===0?'block':'none';
+  document.querySelectorAll('.contact-tab').forEach((t,i) => {
+    t.classList.toggle('active', i===0);
+    delete t.dataset.seen;
+  });
+  // Mark overview tab as seen (it's always open)
+  document.querySelectorAll('.contact-tab')[0].dataset.seen = 'true';
+  document.getElementById('signalNudge').style.display = 'block';
+  document.getElementById('signalNudge').innerHTML = '<strong>Check these tabs first:</strong> Activity, Website activity, Conversations — the answer is in there.';
+  const opts = document.getElementById('signalOpts');
+  opts.style.opacity = '0.35';
+  opts.style.pointerEvents = 'none';
+
+  goTo(0);
+}
+
+// ── Init ───────────────────────────────────
+buildChecklist();
+goTo(0);
+</script>
+</body>
+</html>
