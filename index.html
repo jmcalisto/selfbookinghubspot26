@@ -1625,6 +1625,18 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
             <div class="closer-quote">
               <strong>Remember:</strong> Good prep takes 5 minutes. Clean admin takes 5 minutes. That's 10 minutes that turns a warm lead into a student.
             </div>
+
+            <!-- Completion code -->
+            <div style="background:var(--white);border:2px dashed var(--accent);border-radius:var(--r-lg);padding:20px;margin-bottom:20px;text-align:left">
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px">🔑 Your completion code</div>
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">Copy this code and paste it into the Knowledge Check on the next page to mark this lesson complete.</div>
+              <div style="display:flex;align-items:center;gap:10px;background:var(--accent-light);border:1px solid var(--accent-mid);border-radius:var(--r-md);padding:12px 16px">
+                <code id="completionCode" style="flex:1;font-family:'Lexend',monospace;font-size:18px;font-weight:700;color:var(--accent-dark);letter-spacing:0.04em;user-select:all">WSE-SB-OPEN-DECISION-2026</code>
+                <button class="btn btn-primary" id="copyCodeBtn" onclick="copyCode()">📋 Copy</button>
+              </div>
+              <div id="copyConfirm" style="font-size:12px;color:var(--green);margin-top:8px;opacity:0;transition:opacity .2s">✓ Copied to clipboard</div>
+            </div>
+
             <button class="btn btn-secondary" onclick="resetAll()">↺ Start again</button>
           </div>
         </div>
@@ -1696,6 +1708,28 @@ function toast(title, msg) {
   const t = document.getElementById('toast');
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ── Copy completion code ──────────────
+function copyCode() {
+  const code = document.getElementById('completionCode').textContent;
+  const confirm = document.getElementById('copyConfirm');
+  navigator.clipboard.writeText(code).then(() => {
+    confirm.style.opacity = '1';
+    document.getElementById('copyCodeBtn').textContent = '✓ Copied';
+    setTimeout(() => {
+      confirm.style.opacity = '0';
+      document.getElementById('copyCodeBtn').textContent = '📋 Copy';
+    }, 2500);
+  }).catch(() => {
+    // Fallback: select the text so user can manually copy
+    const range = document.createRange();
+    range.selectNode(document.getElementById('completionCode'));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    confirm.textContent = '✓ Code selected — press Ctrl/Cmd+C to copy';
+    confirm.style.opacity = '1';
+  });
 }
 
 // ── Instruction map ─────────────────────
