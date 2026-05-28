@@ -144,8 +144,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 
 /* ── Instruction bar ──────────────────────────────────── */
 .instruction-bar {
-  background: var(--accent-light);
-  border-bottom: 1px solid var(--accent-mid);
+  background: var(--green-light);
+  border-bottom: 1px solid #B8EFE9;
   padding: 10px 20px;
   display: flex; align-items: center; gap: 10px;
   flex-shrink: 0;
@@ -153,7 +153,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 .instruction-icon {
   width: 28px; height: 28px;
   border-radius: 50%;
-  background: var(--accent);
+  background: var(--green);
   color: #fff;
   display: flex; align-items: center; justify-content: center;
   font-size: 13px;
@@ -164,7 +164,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .07em;
-  color: var(--accent);
+  color: #007A6E;
   margin-bottom: 1px;
 }
 .instruction-text { font-size: 13px; color: var(--text-secondary); }
@@ -700,6 +700,60 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 .pipe-stage.active { color: var(--accent); border-top-color: var(--accent); font-weight: 600; }
 .pipe-stage.correct { color: var(--green); border-top-color: var(--green); font-weight: 600; }
 
+/* ── Mini pipeline (drag & drop) ───────── */
+.mini-pipeline {
+  display: flex;
+  min-width: max-content;
+  gap: 6px;
+}
+.mini-stage {
+  flex: 0 0 130px;
+  background: var(--grey-100);
+  border-radius: var(--r-md);
+  border-top: 3px solid var(--grey-300);
+  display: flex; flex-direction: column;
+  transition: all .15s;
+  min-height: 90px;
+}
+.mini-stage.active-stage { border-top-color: var(--accent); background: var(--accent-light); }
+.mini-stage.drop-target {
+  background: var(--green-light);
+  border-top-color: var(--green);
+  box-shadow: inset 0 0 0 2px var(--green);
+}
+.mini-stage.drop-correct { border-top-color: var(--green); background: var(--green-light); }
+.mini-stage-name {
+  padding: 8px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-align: center;
+  color: var(--text-secondary);
+  border-bottom: 1px dashed var(--border);
+}
+.mini-stage.active-stage .mini-stage-name { color: var(--accent); }
+.mini-stage.drop-correct .mini-stage-name { color: #007A6E; }
+.mini-stage-slot {
+  flex: 1;
+  padding: 8px;
+  min-height: 60px;
+}
+.drag-deal {
+  background: var(--white);
+  border: 1px solid var(--accent-mid);
+  border-radius: var(--r-md);
+  padding: 8px 10px;
+  cursor: grab;
+  user-select: none;
+  box-shadow: var(--shadow-sm);
+  transition: all .12s;
+  border-left: 3px solid var(--accent);
+}
+.drag-deal:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.drag-deal:active { cursor: grabbing; }
+.drag-deal.dragging { opacity: 0.4; }
+.drag-deal-title { font-size: 12px; font-weight: 600; color: var(--text-link); margin-bottom: 4px; }
+.drag-deal-amount { font-size: 11px; color: var(--text-secondary); }
+
 /* ── Deal pipeline (board view) ───────── */
 .board-cols { display: flex; gap: 2px; overflow-x: auto; padding-bottom: 12px; }
 .board-col {
@@ -926,7 +980,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
       <div class="instruction-icon" id="instrIcon">①</div>
       <div>
         <div class="instruction-label" id="instrLabel">Step 1</div>
-        <div class="instruction-text" id="instrText">Self-booked appointments appear in your <strong>Outlook calendar</strong> as 30-minute slots labelled "Wall Street English". Identify what you should do when you see one.</div>
+        <div class="instruction-text" id="instrText">Self-booked appointments appear in your <strong>Outlook calendar</strong>. Identify what you should do when you see one.</div>
       </div>
     </div>
 
@@ -935,7 +989,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
       <div class="step-tab active" id="stab-0"><div class="step-num" id="snum-0">1</div> Calendar check</div>
       <div class="step-tab"        id="stab-1"><div class="step-num" id="snum-1">2</div> Find the deal</div>
       <div class="step-tab"        id="stab-2"><div class="step-num" id="snum-2">3</div> Review contact</div>
-      <div class="step-tab"        id="stab-3"><div class="step-num" id="snum-3">4</div> Post-call update</div>
+      <div class="step-tab"        id="stab-3"><div class="step-num" id="snum-3">4</div> Post-appointment update</div>
       <div class="step-tab"        id="stab-4"><div class="step-num" id="snum-4">5</div> Complete</div>
     </div>
 
@@ -952,7 +1006,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
               <div class="task-item-row active-task" id="trow-0"><div class="tcheck" id="tc-0"></div><div><div class="titem-name">Calendar — identify slot</div></div></div>
               <div class="task-item-row" id="trow-1"><div class="tcheck" id="tc-1"></div><div><div class="titem-name">Find self-booked deal</div></div></div>
               <div class="task-item-row" id="trow-2"><div class="tcheck" id="tc-2"></div><div><div class="titem-name">Review the contact</div></div></div>
-              <div class="task-item-row" id="trow-3"><div class="tcheck" id="tc-3"></div><div><div class="titem-name">Post-call HubSpot update</div></div></div>
+              <div class="task-item-row" id="trow-3"><div class="tcheck" id="tc-3"></div><div><div class="titem-name">Post-appointment HubSpot update</div></div></div>
             </div>
             <div class="tsidebar-footer"><span id="progressLabel">0 of 4 complete</span><div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div></div>
           </div>
@@ -1020,7 +1074,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
               <div class="hs-card-body">
                 <div style="font-size:13px;color:var(--text-primary);margin-bottom:14px;line-height:1.5">You see a 30-minute Wall Street English slot on Wednesday at 10:00. What should you do? <strong style="color:var(--text-secondary)">Pick the two correct actions.</strong></div>
                 <div id="cal-opts">
-                  <button class="answer-option needs-action" data-correct="false" onclick="pickCalOpt(this)"><div class="opt-letter">A</div>Wait for the consultant to follow up — the system will handle it.</button>
+                  <button class="answer-option needs-action" data-correct="false" onclick="pickCalOpt(this)"><div class="opt-letter">A</div>Wait for someone else to follow up, the system will handle it.</button>
                   <button class="answer-option needs-action" data-correct="true" onclick="pickCalOpt(this)"><div class="opt-letter">B</div>Build a buffer slot before/after the appointment so I don't run out of time.</button>
                   <button class="answer-option needs-action" data-correct="false" onclick="pickCalOpt(this)"><div class="opt-letter">C</div>Move the appointment to a more convenient time without telling the lead.</button>
                   <button class="answer-option needs-action" data-correct="true" onclick="pickCalOpt(this)"><div class="opt-letter">D</div>Block out any time in my calendar I don't want self-booked leads to land on.</button>
@@ -1340,7 +1394,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
           <div style="display:flex;align-items:flex-start;gap:14px;max-width:900px;margin:0 auto">
             <div style="flex:1">
               <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Signal check</div>
-              <div style="font-size:13px;color:var(--text-primary);margin-bottom:12px;line-height:1.5">Based on John's contact record, what's the strongest opener you could use on the call?</div>
+              <div style="font-size:13px;color:var(--text-primary);margin-bottom:12px;line-height:1.5">Based on John's contact record, what's the strongest opener you could use on the appointment?</div>
               <div class="feedback-box info" id="signalNudge" style="display:block;margin-bottom:12px;background:var(--white);border:1px solid var(--accent-mid);color:var(--accent-dark)"><strong>Check the Activities tab first</strong> — the answer is in his form submission and quiz result.</div>
               <div id="signalOpts" style="opacity:0.4;pointer-events:none">
                 <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">A</div>"I see you're a beginner. Don't worry — most of our students start at A1."</button>
@@ -1358,7 +1412,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
       </div>
 
       <!-- ════════════════════════════════════════════════════════ -->
-      <!-- PANEL 3 — Post-call update                              -->
+      <!-- PANEL 3 — Post-appointment update                              -->
       <!-- ════════════════════════════════════════════════════════ -->
       <div class="panel" id="panel-3">
         <div class="page-header">
@@ -1368,32 +1422,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
           </div>
         </div>
         <div class="pane-content" style="padding:20px 24px">
-          <div class="alert alert-success"><strong>Call outcome:</strong> John showed up and was enthusiastic. He needs to discuss the offer with his wife but is leaning toward signing. You agreed to call back in 3 days.</div>
-
-          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-secondary);margin-bottom:8px">Your post-call checklist</div>
-
-          <div class="substeps">
-            <div class="substep active" id="ss-0" onclick="openSubstep(0)">
-              <div class="substep-num" id="ss-num-0">1</div>
-              <div class="substep-label">Update the meeting outcome</div>
-              <div class="substep-status" id="ss-status-0">Not started</div>
-            </div>
-            <div class="substep" id="ss-1" onclick="openSubstep(1)">
-              <div class="substep-num" id="ss-num-1">2</div>
-              <div class="substep-label">Add consult notes (Past / Present / Future / Why now / Goal / Hot button / Next steps)</div>
-              <div class="substep-status" id="ss-status-1">Not started</div>
-            </div>
-            <div class="substep" id="ss-2" onclick="openSubstep(2)">
-              <div class="substep-num" id="ss-num-2">3</div>
-              <div class="substep-label">Move deal stage from Booked → Open Decision</div>
-              <div class="substep-status" id="ss-status-2">Not started</div>
-            </div>
-            <div class="substep" id="ss-3" onclick="openSubstep(3)">
-              <div class="substep-num" id="ss-num-3">4</div>
-              <div class="substep-label">Create a follow-up task</div>
-              <div class="substep-status" id="ss-status-3">Not started</div>
-            </div>
-          </div>
+          <div class="alert alert-success"><strong>Appointment outcome:</strong> John showed up and was enthusiastic. He needs to discuss the offer with his wife but is leaning toward signing. You agreed to call back in 3 days.</div>
 
           <!-- ── Sub-step 1: Meeting outcome ── -->
           <div class="hs-card" id="ss-card-0" style="display:block">
@@ -1418,19 +1447,42 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
             </div>
           </div>
 
-          <!-- ── Sub-step 2: Consult notes ── -->
+          <!-- ── Sub-step 2: Consult notes (7 fields) ── -->
           <div class="hs-card" id="ss-card-1" style="display:none">
             <div class="hs-card-header"><span class="hs-card-title">2 — Consult notes</span></div>
             <div class="hs-card-body">
-              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;line-height:1.5">Go to the deal → <strong>Notes</strong> tab → click <strong>Create a note</strong>. Write your notes in the agreed format below.</div>
-              <div class="note-template"><span class="note-key">Past:</span>        <span class="note-blank">________________________</span>
-<span class="note-key">Present:</span>     <span class="note-blank">________________________</span>
-<span class="note-key">Future:</span>      <span class="note-blank">________________________</span>
-<span class="note-key">Why now:</span>     <span class="note-blank">________________________</span>
-<span class="note-key">Goal:</span>        <span class="note-blank">________________________</span>
-<span class="note-key">Hot button:</span>  <span class="note-blank">________________________</span>
-<span class="note-key">Next steps:</span>  <span class="note-blank">________________________</span></div>
-              <textarea class="hs-textarea" id="consultNotes" rows="10" placeholder="Past: Learned English at school, tried apps, no real progress…" oninput="checkSubstep(1)"></textarea>
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">Go to the deal → <strong>Notes</strong> tab → click <strong>Create a note</strong>. Fill in each section below. <em style="color:var(--text-light)">Tip: if you used an AI note-taker during the appointment, you can copy & paste the relevant text into each field.</em></div>
+              <div id="noteFields">
+                <div class="form-group">
+                  <label class="hs-label">Past</label>
+                  <textarea class="hs-textarea note-field" data-key="past" rows="2" placeholder="What's their English history? School, apps, courses they've tried…" oninput="checkNotes()"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="hs-label">Present</label>
+                  <textarea class="hs-textarea note-field" data-key="present" rows="2" placeholder="Where are they now? Current role, current English use…" oninput="checkNotes()"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="hs-label">Future</label>
+                  <textarea class="hs-textarea note-field" data-key="future" rows="2" placeholder="Where do they want to be? Job, life, ambitions…" oninput="checkNotes()"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="hs-label">Why now</label>
+                  <textarea class="hs-textarea note-field" data-key="whynow" rows="2" placeholder="What's prompting them to take action now?" oninput="checkNotes()"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="hs-label">Goal</label>
+                  <textarea class="hs-textarea note-field" data-key="goal" rows="2" placeholder="What does success look like for them?" oninput="checkNotes()"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="hs-label">Hot button</label>
+                  <textarea class="hs-textarea note-field" data-key="hotbutton" rows="2" placeholder="What's their emotional driver? Pain point, fear, urgency?" oninput="checkNotes()"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="hs-label">Next steps</label>
+                  <textarea class="hs-textarea note-field" data-key="nextsteps" rows="2" placeholder="What was agreed? Follow-up date, decisions pending?" oninput="checkNotes()"></textarea>
+                </div>
+              </div>
+              <div style="font-size:12px;color:var(--text-light);margin-top:6px"><span id="notesProgress">0</span> / 7 sections filled</div>
               <div class="feedback-box" id="ss-fb-1"></div>
               <div class="btn-row">
                 <button class="btn btn-primary" id="ss-save-1" onclick="confirmSubstep(1)" disabled>Save note</button>
@@ -1438,22 +1490,31 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
             </div>
           </div>
 
-          <!-- ── Sub-step 3: Deal stage ── -->
+          <!-- ── Sub-step 3: Deal stage (drag & drop) ── -->
           <div class="hs-card" id="ss-card-2" style="display:none">
             <div class="hs-card-header"><span class="hs-card-title">3 — Deal stage</span></div>
             <div class="hs-card-body">
-              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;line-height:1.5">Update the deal stage from <strong>Booked</strong> to the correct stage based on the call outcome. The qualifying activity will auto-update.</div>
-              <div style="overflow-x:auto;padding-bottom:6px">
-                <div class="pipeline" id="pipelineStages">
-                  <div class="pipe-stage">Lead</div>
-                  <div class="pipe-stage">Contacted</div>
-                  <div class="pipe-stage prev">Booked</div>
-                  <div class="pipe-stage" onclick="pickStage(this,'opendecision')">Open Decision</div>
-                  <div class="pipe-stage" onclick="pickStage(this,'2nd')">2nd Appointment</div>
-                  <div class="pipe-stage" onclick="pickStage(this,'trial')">Trial</div>
-                  <div class="pipe-stage" onclick="pickStage(this,'signed')">Signed</div>
-                  <div class="pipe-stage" onclick="pickStage(this,'won')">Closed won</div>
-                  <div class="pipe-stage" onclick="pickStage(this,'lost')">Closed lost</div>
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;line-height:1.5">Drag the deal card from <strong>Booked</strong> to the correct stage based on the appointment outcome. The qualifying activity will auto-update.</div>
+              <div style="font-size:12px;color:var(--text-light);margin-bottom:14px;padding:8px 12px;background:var(--accent-light);border-radius:var(--r-md);border-left:3px solid var(--accent)">💡 <strong>Two ways to do this:</strong> drag the deal across the pipeline on the board view (try it below), OR open the deal record and change the deal stage field. Both work.</div>
+              <div style="overflow-x:auto;padding-bottom:8px">
+                <div class="mini-pipeline" id="miniPipeline">
+                  <div class="mini-stage" data-stage="lead"><div class="mini-stage-name">Lead</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="contacted"><div class="mini-stage-name">Contacted</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage active-stage" data-stage="booked">
+                    <div class="mini-stage-name">Booked</div>
+                    <div class="mini-stage-slot">
+                      <div class="drag-deal" id="dragDeal" draggable="true">
+                        <div class="drag-deal-title">John Wick Web 1st Contract</div>
+                        <div class="drag-deal-amount">€2,000</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="mini-stage" data-stage="opendecision"><div class="mini-stage-name">Open Decision</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="2nd"><div class="mini-stage-name">2nd Appointment</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="trial"><div class="mini-stage-name">Trial</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="signed"><div class="mini-stage-name">Signed</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="won"><div class="mini-stage-name">Closed won</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="lost"><div class="mini-stage-name">Closed lost</div><div class="mini-stage-slot"></div></div>
                 </div>
               </div>
               <div class="feedback-box" id="ss-fb-2"></div>
@@ -1510,6 +1571,31 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
               <div class="btn-row">
                 <button class="btn btn-primary" id="ss-save-3" onclick="confirmSubstep(3)" disabled>Create task</button>
               </div>
+            </div>
+          </div>
+
+          <!-- ── Checklist (moved to bottom for consistency) ── -->
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-secondary);margin:24px 0 8px">Your post-appointment checklist</div>
+          <div class="substeps">
+            <div class="substep active" id="ss-0" onclick="openSubstep(0)">
+              <div class="substep-num" id="ss-num-0">1</div>
+              <div class="substep-label">Update the meeting outcome</div>
+              <div class="substep-status" id="ss-status-0">Not started</div>
+            </div>
+            <div class="substep" id="ss-1" onclick="openSubstep(1)">
+              <div class="substep-num" id="ss-num-1">2</div>
+              <div class="substep-label">Add consult notes (Past / Present / Future / Why now / Goal / Hot button / Next steps)</div>
+              <div class="substep-status" id="ss-status-1">Not started</div>
+            </div>
+            <div class="substep" id="ss-2" onclick="openSubstep(2)">
+              <div class="substep-num" id="ss-num-2">3</div>
+              <div class="substep-label">Move deal stage from Booked → Open Decision</div>
+              <div class="substep-status" id="ss-status-2">Not started</div>
+            </div>
+            <div class="substep" id="ss-3" onclick="openSubstep(3)">
+              <div class="substep-num" id="ss-num-3">4</div>
+              <div class="substep-label">Create a follow-up task</div>
+              <div class="substep-status" id="ss-status-3">Not started</div>
             </div>
           </div>
 
@@ -1581,7 +1667,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
         <option value="known">is known</option>
         <option value="unknown">is unknown</option>
       </select>
-      <div style="font-size:11px;color:var(--text-light);margin-top:8px;padding-left:2px">💡 Pick <strong>is known</strong> — every self-booked deal has a booking source</div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:8px;padding-left:2px">💡 Click on <strong>is known</strong> — every self-booked deal has a booking source</div>
     </div>
     <div class="modal-foot">
       <button class="btn btn-secondary" onclick="closeOperatorModal()">Cancel</button>
@@ -1614,10 +1700,10 @@ function toast(title, msg) {
 
 // ── Instruction map ─────────────────────
 const instrs = [
-  { icon:'①', label:'Step 1 — Calendar', text:'Self-booked appointments appear in your <strong>Outlook calendar</strong> as 30-minute slots labelled "Wall Street English". Identify what you should do when you see one.' },
+  { icon:'①', label:'Step 1 — Calendar', text:'Self-booked appointments appear in your <strong>Outlook calendar</strong>. Identify what you should do when you see one.' },
   { icon:'②', label:'Step 2 — Find the deal', text:'In HubSpot Deals, open <strong>Advanced filters</strong>, add a filter for <strong>Booking Source</strong> set to <strong>is known</strong>, then open John\'s deal.' },
   { icon:'③', label:'Step 3 — Review the contact', text:'Open the <strong>Activities</strong> tab to see John\'s form submission and quiz result. Use what you find to answer the signal question.' },
-  { icon:'④', label:'Step 4 — Post-call update', text:'Complete all four sub-steps: update the meeting outcome, add consult notes, move the deal stage, and create a follow-up task.' },
+  { icon:'④', label:'Step 4 — Post-appointment update', text:'Complete all four sub-steps: update the meeting outcome, add consult notes, move the deal stage, and create a follow-up task.' },
   { icon:'✓', label:'Complete', text:'You\'ve finished the full self-booking workflow.' },
 ];
 
@@ -1888,11 +1974,11 @@ function pickSignal(btn, correct) {
 
 function completeContact() {
   doneTask(2);
-  toast('Review complete', 'Time for the post-call admin.');
+  toast('Review complete', 'Time for the post-appointment admin.');
   setTimeout(() => goTo(3), 400);
 }
 
-// ── STEP 3: Post-call substeps ────────
+// ── STEP 3: Post-appointment substeps ────────
 function openSubstep(i) {
   // hide all sub-cards
   for(let j=0;j<4;j++) {
@@ -1909,9 +1995,27 @@ function openSubstep(i) {
   // Clear any old needs-action highlights then apply to current substep's primary input
   document.querySelectorAll('#panel-3 .needs-action').forEach(e => e.classList.remove('needs-action'));
   if (i === 0 && !substepDone[0]) document.getElementById('meetingOutcome').classList.add('needs-action');
-  if (i === 1 && !substepDone[1]) document.getElementById('consultNotes').classList.add('needs-action');
-  if (i === 2 && !substepDone[2]) document.getElementById('pipelineStages').classList.add('needs-action');
+  if (i === 1 && !substepDone[1]) {
+    // Highlight the first unfilled note field
+    const fields = document.querySelectorAll('.note-field');
+    let highlighted = false;
+    fields.forEach(f => {
+      if (!highlighted && f.value.trim().length < 3) {
+        f.classList.add('needs-action');
+        highlighted = true;
+      }
+    });
+  }
+  if (i === 2 && !substepDone[2]) {
+    document.getElementById('dragDeal').classList.add('needs-action');
+    setupDragPipeline();
+  }
   if (i === 3 && !substepDone[3]) document.getElementById('taskName').classList.add('needs-action');
+
+  // Scroll the substep card into view
+  setTimeout(() => {
+    document.getElementById(`ss-card-${i}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, 50);
 }
 
 function checkSubstep(i) {
@@ -1935,16 +2039,6 @@ function checkSubstep(i) {
       save.disabled = true;
       save.classList.remove('needs-action');
     }
-  } else if (i === 1) {
-    const v = document.getElementById('consultNotes').value.trim();
-    const save = document.getElementById('ss-save-1');
-    save.disabled = v.length < 40;
-    if (v.length >= 40) {
-      document.getElementById('consultNotes').classList.remove('needs-action');
-      save.classList.add('needs-action');
-    } else {
-      save.classList.remove('needs-action');
-    }
   } else if (i === 3) {
     const name = document.getElementById('taskName').value.trim();
     const date = document.getElementById('taskDate').value;
@@ -1964,40 +2058,99 @@ function checkSubstep(i) {
   }
 }
 
-function pickStage(el, val) {
-  selectedStage = val;
-  document.querySelectorAll('.pipe-stage').forEach((s,i) => {
-    if (i > 2) s.classList.remove('active','correct');
+function checkNotes() {
+  const fields = document.querySelectorAll('.note-field');
+  let filled = 0;
+  fields.forEach(f => { if (f.value.trim().length >= 3) filled++; });
+  document.getElementById('notesProgress').textContent = filled;
+  const save = document.getElementById('ss-save-1');
+  save.disabled = filled < 7;
+  if (filled >= 7) {
+    fields.forEach(f => f.classList.remove('needs-action'));
+    save.classList.add('needs-action');
+  } else {
+    save.classList.remove('needs-action');
+    // Highlight the first unfilled
+    let highlighted = false;
+    fields.forEach(f => {
+      f.classList.remove('needs-action');
+      if (!highlighted && f.value.trim().length < 3) {
+        f.classList.add('needs-action');
+        highlighted = true;
+      }
+    });
+  }
+}
+
+function setupDragPipeline() {
+  const deal = document.getElementById('dragDeal');
+  if (!deal) return;
+  // Reset any previous state
+  document.querySelectorAll('.mini-stage').forEach(s => s.classList.remove('drop-target','drop-correct'));
+  const stages = document.querySelectorAll('#miniPipeline .mini-stage');
+
+  deal.addEventListener('dragstart', (e) => {
+    deal.classList.add('dragging');
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', 'deal');
   });
+  deal.addEventListener('dragend', () => {
+    deal.classList.remove('dragging');
+    stages.forEach(s => s.classList.remove('drop-target'));
+  });
+
+  stages.forEach(stage => {
+    stage.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = 'move';
+      stages.forEach(s => s.classList.remove('drop-target'));
+      stage.classList.add('drop-target');
+    });
+    stage.addEventListener('dragleave', () => {
+      stage.classList.remove('drop-target');
+    });
+    stage.addEventListener('drop', (e) => {
+      e.preventDefault();
+      stages.forEach(s => s.classList.remove('drop-target'));
+      handleDealDrop(stage);
+    });
+  });
+}
+
+function handleDealDrop(stage) {
+  const target = stage.dataset.stage;
+  const deal = document.getElementById('dragDeal');
   const fb = document.getElementById('ss-fb-2');
   const auto = document.getElementById('qualActivityAuto');
   fb.style.display = 'block';
-  if (val === 'opendecision') {
-    el.classList.add('correct');
+
+  if (target === 'opendecision') {
+    // Move deal into the slot
+    stage.querySelector('.mini-stage-slot').appendChild(deal);
+    document.querySelectorAll('.mini-stage').forEach(s => s.classList.remove('active-stage'));
+    stage.classList.add('drop-correct');
     fb.className = 'feedback-box correct';
-    fb.textContent = '✓ Correct — the call completed but John hasn\'t signed yet, so the deal moves to Open Decision.';
+    fb.textContent = '✓ Correct — the appointment completed but John hasn\'t signed yet, so the deal moves to Open Decision.';
     auto.style.display = 'block';
     document.getElementById('ss-save-2').disabled = false;
-    document.getElementById('pipelineStages').classList.remove('needs-action');
     document.getElementById('ss-save-2').classList.add('needs-action');
-  } else if (val === '2nd') {
-    el.classList.add('active');
-    fb.className = 'feedback-box incorrect';
-    fb.textContent = 'Not yet — 2nd Appointment is when a second meeting is scheduled and confirmed. John still needs to talk to his wife.';
-    auto.style.display = 'none';
-    document.getElementById('ss-save-2').disabled = true;
-  } else if (val === 'won' || val === 'signed') {
-    el.classList.add('active');
-    fb.className = 'feedback-box incorrect';
-    fb.textContent = 'Too far — John is leaning toward signing but hasn\'t actually signed yet.';
-    auto.style.display = 'none';
-    document.getElementById('ss-save-2').disabled = true;
+  } else if (target === 'booked') {
+    // No-op — already there
+    fb.className = 'feedback-box info';
+    fb.textContent = 'The deal is already at Booked. Drag it forward to the right stage.';
   } else {
-    el.classList.add('active');
+    // Wrong target — bounce back
     fb.className = 'feedback-box incorrect';
-    fb.textContent = 'Not right. The call completed and John was engaged — move it forward, not backward or to closed lost.';
+    if (target === '2nd') {
+      fb.textContent = 'Not yet — 2nd Appointment is when a second meeting is scheduled and confirmed. John still needs to talk to his wife.';
+    } else if (target === 'won' || target === 'signed') {
+      fb.textContent = 'Too far — John is leaning toward signing but hasn\'t actually signed yet.';
+    } else {
+      fb.textContent = 'Not right. The appointment completed and John was engaged — move it forward, not backward or to closed lost.';
+    }
     auto.style.display = 'none';
     document.getElementById('ss-save-2').disabled = true;
+    document.getElementById('ss-save-2').classList.remove('needs-action');
   }
 }
 
@@ -2097,13 +2250,24 @@ function resetAll() {
   document.getElementById('signalFeedback').style.display = 'none';
   document.getElementById('btn-contact-continue').disabled = true;
 
-  // Reset post-call
+  // Reset post-appointment
   document.getElementById('meetingOutcome').value = '';
-  document.getElementById('consultNotes').value = '';
+  document.querySelectorAll('.note-field').forEach(f => f.value = '');
+  document.getElementById('notesProgress').textContent = '0';
   document.getElementById('taskName').value = '';
   document.getElementById('taskDate').value = '';
   document.getElementById('taskReminder').value = '';
-  document.querySelectorAll('.pipe-stage').forEach(s => s.classList.remove('active','correct'));
+  // Reset drag pipeline
+  const deal = document.getElementById('dragDeal');
+  if (deal) {
+    const bookedSlot = document.querySelector('.mini-stage[data-stage="booked"] .mini-stage-slot');
+    if (bookedSlot && deal.parentElement !== bookedSlot) bookedSlot.appendChild(deal);
+    document.querySelectorAll('.mini-stage').forEach(s => {
+      s.classList.remove('drop-target','drop-correct','active-stage');
+    });
+    const bookedStage = document.querySelector('.mini-stage[data-stage="booked"]');
+    if (bookedStage) bookedStage.classList.add('active-stage');
+  }
   document.getElementById('ss-fb-2').style.display = 'none';
   document.getElementById('qualActivityAuto').style.display = 'none';
   for(let i=0;i<4;i++){
