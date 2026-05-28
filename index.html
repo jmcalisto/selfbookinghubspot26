@@ -3,63 +3,52 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>HubSpot — Self-Booking Sandbox</title>
-<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Lexend+Deca:wght@400;500&display=swap" rel="stylesheet">
+<title>Hugspot Sandbox — Self-Booking Practice</title>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
-/* ── HubSpot Design Tokens ─────────────────────────────── */
 :root {
-  --hs-orange:       #FF7A59;
-  --hs-orange-dark:  #E8613F;
-  --hs-orange-light: #FFF1EE;
-  --hs-orange-mid:   #FFD6CC;
-  --hs-blue:         #0091AE;
-  --hs-blue-light:   #E5F5F8;
-  --hs-green:        #00BDA5;
-  --hs-green-light:  #E5F8F6;
-  --hs-yellow:       #F5C26B;
-  --hs-yellow-light: #FEF8EC;
-  --hs-red:          #F2545B;
-  --hs-red-light:    #FEF0F0;
-  --hs-purple:       #7C98B6;
+  --accent:           #2C5CC5;
+  --accent-dark:      #1E4399;
+  --accent-light:     #EAF0FB;
+  --accent-mid:       #C6D6F0;
+  --teal:             #0091AE;
+  --teal-light:       #E5F5F8;
+  --green:            #00BDA5;
+  --green-light:      #E5F8F6;
+  --yellow:           #F5C26B;
+  --yellow-light:     #FEF8EC;
+  --red:              #F2545B;
+  --red-light:        #FEF0F0;
 
-  /* Surfaces */
-  --bg:              #F5F8FA;
-  --white:           #FFFFFF;
-  --nav-bg:          #2D3E50;
-  --nav-dark:        #253342;
-  --sidebar-bg:      #FFFFFF;
+  --bg:               #F5F8FA;
+  --white:            #FFFFFF;
+  --nav-bg:           #2D3E50;
+  --nav-dark:         #253342;
 
-  /* Greys */
-  --grey-100:        #F5F8FA;
-  --grey-200:        #EAF0F6;
-  --grey-300:        #DFE3EB;
-  --grey-400:        #CBD6E2;
-  --grey-500:        #99ACC2;
-  --grey-600:        #7C98B6;
-  --grey-700:        #516F90;
-  --grey-800:        #33475B;
-  --grey-900:        #2D3E50;
+  --grey-100:         #F5F8FA;
+  --grey-200:         #EAF0F6;
+  --grey-300:         #DFE3EB;
+  --grey-400:         #CBD6E2;
+  --grey-500:         #99ACC2;
+  --grey-600:         #7C98B6;
+  --grey-700:         #516F90;
+  --grey-800:         #33475B;
+  --grey-900:         #2D3E50;
 
-  /* Text */
-  --text-primary:    #33475B;
-  --text-secondary:  #516F90;
-  --text-light:      #7C98B6;
-  --text-link:       #0091AE;
+  --text-primary:     #33475B;
+  --text-secondary:   #516F90;
+  --text-light:       #7C98B6;
+  --text-link:        #0091AE;
 
-  /* Borders */
-  --border:          #DFE3EB;
-  --border-dark:     #CBD6E2;
+  --border:           #DFE3EB;
+  --border-dark:      #CBD6E2;
 
-  /* Radius */
   --r-sm:  3px;
   --r-md:  4px;
   --r-lg:  8px;
 
-  /* Font */
-  --font:  'Lexend', sans-serif;
-  --font2: 'Lexend Deca', sans-serif;
+  --font: 'Lexend', sans-serif;
 
-  /* Shadows */
   --shadow-sm: 0 1px 4px rgba(45,62,80,.08);
   --shadow-md: 0 2px 12px rgba(45,62,80,.12);
 }
@@ -68,23 +57,24 @@
 html, body { height: 100%; overflow: hidden; }
 body { font-family: var(--font); background: var(--bg); color: var(--text-primary); font-size: 14px; display: flex; flex-direction: column; }
 
-/* ── Left Nav ─────────────────────────────────────────── */
+/* ── Left nav ──────────────────────────────────────── */
 .app-shell { display: flex; height: 100vh; overflow: hidden; }
-
 .left-nav {
   width: 56px;
   background: var(--nav-bg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: flex; flex-direction: column; align-items: center;
   padding: 8px 0;
   flex-shrink: 0;
   z-index: 10;
 }
 .nav-logo {
-  width: 32px; height: 32px;
-  margin-bottom: 16px;
-  margin-top: 4px;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  background: var(--accent);
+  margin: 4px 0 16px;
+  display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 14px;
+  border: 2px solid var(--accent-dark);
 }
 .nav-icon {
   width: 40px; height: 40px;
@@ -97,29 +87,27 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   font-size: 17px;
 }
 .nav-icon:hover { background: rgba(255,255,255,.08); color: #fff; }
-.nav-icon.active { background: rgba(255,122,89,.18); color: var(--hs-orange); }
+.nav-icon.active { background: rgba(44,92,197,.25); color: #8FB3F0; }
 .nav-spacer { flex: 1; }
 .nav-avatar {
   width: 30px; height: 30px;
   border-radius: 50%;
-  background: var(--hs-orange);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 12px;
-  font-weight: 600;
+  background: var(--accent);
   color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
   margin-bottom: 8px;
   cursor: pointer;
 }
 
-/* ── Main area ────────────────────────────────────────── */
 .app-body { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-width: 0; }
 
-/* ── Top nav ─────────────────────────────────────────── */
+/* ── Top nav ──────────────────────────────────────── */
 .top-nav {
   height: 48px;
   background: var(--nav-dark);
-  display: flex;
-  align-items: center;
+  display: flex; align-items: center;
   padding: 0 16px;
   gap: 4px;
   flex-shrink: 0;
@@ -128,17 +116,15 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   padding: 6px 10px;
   border-radius: var(--r-sm);
   font-size: 13px;
-  font-weight: 400;
   color: rgba(255,255,255,.7);
   cursor: pointer;
   transition: all .15s;
-  white-space: nowrap;
 }
 .top-nav-item:hover { background: rgba(255,255,255,.08); color: #fff; }
-.top-nav-item.active { background: rgba(255,122,89,.2); color: var(--hs-orange); font-weight: 500; }
+.top-nav-item.active { background: rgba(44,92,197,.3); color: #B0CFF5; font-weight: 500; }
 .top-nav-sep { flex: 1; }
 .sandbox-badge {
-  background: var(--hs-orange);
+  background: var(--accent);
   color: #fff;
   font-size: 11px;
   font-weight: 600;
@@ -147,21 +133,27 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   letter-spacing: .04em;
   text-transform: uppercase;
 }
+.account-pill {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,.85);
+  padding: 4px 10px;
+  border-radius: 4px;
+}
+.account-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 
-/* ── Instruction bar ─────────────────────────────────── */
+/* ── Instruction bar ──────────────────────────────────── */
 .instruction-bar {
-  background: var(--hs-blue-light);
-  border-bottom: 1px solid #B8DDE6;
+  background: var(--accent-light);
+  border-bottom: 1px solid var(--accent-mid);
   padding: 10px 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: flex; align-items: center; gap: 10px;
   flex-shrink: 0;
 }
 .instruction-icon {
   width: 28px; height: 28px;
   border-radius: 50%;
-  background: var(--hs-blue);
+  background: var(--accent);
   color: #fff;
   display: flex; align-items: center; justify-content: center;
   font-size: 13px;
@@ -172,31 +164,25 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: .07em;
-  color: var(--hs-blue);
+  color: var(--accent);
   margin-bottom: 1px;
 }
-.instruction-text {
-  font-size: 13px;
-  color: var(--text-secondary);
-}
+.instruction-text { font-size: 13px; color: var(--text-secondary); }
 .instruction-text strong { color: var(--text-primary); font-weight: 600; }
 
-/* ── Progress steps ──────────────────────────────────── */
+/* ── Steps bar ────────────────────────────────────── */
 .steps-bar {
   background: var(--white);
   border-bottom: 1px solid var(--border);
   padding: 0 20px;
-  display: flex;
-  align-items: stretch;
+  display: flex; align-items: stretch;
   flex-shrink: 0;
+  overflow-x: auto;
 }
 .step-tab {
-  display: flex;
-  align-items: center;
-  gap: 7px;
+  display: flex; align-items: center; gap: 7px;
   padding: 11px 14px;
   font-size: 12.5px;
-  font-weight: 400;
   color: var(--text-light);
   border-bottom: 2px solid transparent;
   cursor: default;
@@ -204,8 +190,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   transition: all .2s;
   user-select: none;
 }
-.step-tab.done { color: var(--hs-green); border-bottom-color: var(--hs-green); }
-.step-tab.active { color: var(--hs-orange); border-bottom-color: var(--hs-orange); font-weight: 500; }
+.step-tab.done { color: var(--green); border-bottom-color: var(--green); }
+.step-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
 .step-num {
   width: 20px; height: 20px;
   border-radius: 50%;
@@ -216,31 +202,27 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   flex-shrink: 0;
   transition: all .2s;
 }
-.step-tab.done .step-num { background: var(--hs-green); border-color: var(--hs-green); color: #fff; }
-.step-tab.active .step-num { background: var(--hs-orange); border-color: var(--hs-orange); color: #fff; }
+.step-tab.done .step-num { background: var(--green); border-color: var(--green); color: #fff; }
+.step-tab.active .step-num { background: var(--accent); border-color: var(--accent); color: #fff; }
 
-/* ── Panels ──────────────────────────────────────────── */
+/* ── Panels ────────────────────────────────────────── */
 .panels { flex: 1; overflow: hidden; display: flex; flex-direction: column; min-height: 0; }
-.panel { display: none; flex: 1; overflow-y: auto; min-height: 0; }
+.panel { display: none; flex: 1; overflow: hidden; min-height: 0; }
 .panel.active { display: flex; flex-direction: column; }
+.pane-wrap { display: flex; flex: 1; overflow: hidden; min-height: 0; }
+.pane-content { flex: 1; overflow-y: auto; }
 
-/* ── Page header (like HS "Deals" header) ────────────── */
+/* ── Page header ──────────────────────────────────── */
 .page-header {
   background: var(--white);
   border-bottom: 1px solid var(--border);
   padding: 14px 24px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
+  display: flex; align-items: center; gap: 12px;
   flex-shrink: 0;
 }
 .page-title { font-size: 20px; font-weight: 600; color: var(--text-primary); }
-.page-sub { font-size: 13px; color: var(--text-secondary); margin-top: 1px; }
 
-/* ── Content areas ───────────────────────────────────── */
-.page-content { flex: 1; overflow-y: auto; padding: 20px 24px; }
-
-/* ── HS Card ─────────────────────────────────────────── */
+/* ── Cards ────────────────────────────────────────── */
 .hs-card {
   background: var(--white);
   border: 1px solid var(--border);
@@ -252,9 +234,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 .hs-card-header {
   padding: 12px 16px;
   border-bottom: 1px solid var(--border);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  display: flex; align-items: center; justify-content: space-between;
   background: var(--grey-100);
 }
 .hs-card-title {
@@ -266,59 +246,43 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 }
 .hs-card-body { padding: 16px; }
 
-/* ── HS Properties list ──────────────────────────────── */
-.prop-list {}
+/* ── Properties ────────────────────────────────────── */
 .prop-row {
-  display: flex;
-  gap: 0;
+  display: flex; gap: 0;
   padding: 9px 0;
   border-bottom: 1px solid var(--grey-200);
   align-items: flex-start;
 }
 .prop-row:last-child { border: none; }
 .prop-label {
-  width: 160px;
-  flex-shrink: 0;
+  width: 160px; flex-shrink: 0;
   font-size: 12px;
   font-weight: 500;
   color: var(--text-secondary);
   padding-top: 1px;
   padding-right: 12px;
 }
-.prop-value {
-  flex: 1;
-  font-size: 13px;
-  color: var(--text-primary);
-  word-break: break-word;
-  line-height: 1.5;
-}
+.prop-value { flex: 1; font-size: 13px; line-height: 1.5; word-break: break-word; }
 .prop-value.link { color: var(--text-link); cursor: pointer; }
 .prop-value.link:hover { text-decoration: underline; }
-.prop-value.warn { color: #D4380D; font-weight: 500; }
 
-/* ── Badges / pills ──────────────────────────────────── */
+/* ── Pills ────────────────────────────────────────── */
 .pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
+  display: inline-flex; align-items: center; gap: 4px;
   padding: 2px 8px;
   border-radius: 20px;
   font-size: 11px;
   font-weight: 600;
-  letter-spacing: .02em;
 }
-.pill-orange { background: var(--hs-orange-light); color: var(--hs-orange-dark); border: 1px solid var(--hs-orange-mid); }
-.pill-blue   { background: var(--hs-blue-light);   color: var(--hs-blue);        border: 1px solid #B8DDE6; }
-.pill-green  { background: var(--hs-green-light);  color: #007A6E;               border: 1px solid #B8EFE9; }
-.pill-yellow { background: var(--hs-yellow-light); color: #8C5E00;               border: 1px solid #F8E0A8; }
-.pill-grey   { background: var(--grey-200);        color: var(--text-secondary);  border: 1px solid var(--border); }
-.pill-red    { background: var(--hs-red-light);    color: #C0272D;               border: 1px solid #F9BBBF; }
+.pill-blue    { background: var(--accent-light);  color: var(--accent-dark); border: 1px solid var(--accent-mid); }
+.pill-teal    { background: var(--teal-light);    color: var(--teal);        border: 1px solid #B8DDE6; }
+.pill-green   { background: var(--green-light);   color: #007A6E;            border: 1px solid #B8EFE9; }
+.pill-yellow  { background: var(--yellow-light);  color: #8C5E00;            border: 1px solid #F8E0A8; }
+.pill-grey    { background: var(--grey-200);      color: var(--text-secondary); border: 1px solid var(--border); }
 
-/* ── Buttons ─────────────────────────────────────────── */
+/* ── Buttons ─────────────────────────────────────── */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
+  display: inline-flex; align-items: center; gap: 6px;
   padding: 7px 14px;
   border-radius: var(--r-md);
   font-size: 13px;
@@ -329,20 +293,19 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   transition: all .12s;
   white-space: nowrap;
 }
-.btn-primary { background: var(--hs-orange); color: #fff; border-color: var(--hs-orange-dark); }
-.btn-primary:hover { background: var(--hs-orange-dark); }
+.btn-primary { background: var(--accent); color: #fff; border-color: var(--accent-dark); }
+.btn-primary:hover { background: var(--accent-dark); }
 .btn-primary:disabled { opacity: .45; cursor: not-allowed; }
 .btn-secondary { background: var(--white); color: var(--text-primary); border-color: var(--border-dark); }
 .btn-secondary:hover { border-color: var(--grey-500); background: var(--grey-100); }
-.btn-success { background: var(--hs-green); color: #fff; }
+.btn-success { background: var(--green); color: #fff; }
 .btn-success:hover { background: #009B8C; }
 .btn-success:disabled { opacity: .45; cursor: not-allowed; }
-.btn-ghost { background: transparent; color: var(--text-link); border-color: transparent; }
-.btn-ghost:hover { background: var(--hs-blue-light); }
-
+.btn-text { background: transparent; color: var(--text-link); border: none; padding: 4px 8px; }
+.btn-text:hover { text-decoration: underline; }
 .btn-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
 
-/* ── Form controls ───────────────────────────────────── */
+/* ── Form controls ───────────────────────────────── */
 .hs-label {
   display: block;
   font-size: 12px;
@@ -350,7 +313,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   color: var(--text-secondary);
   margin-bottom: 5px;
 }
-.hs-select, .hs-input {
+.hs-select, .hs-input, .hs-textarea {
   width: 100%;
   padding: 7px 10px;
   border: 1px solid var(--border-dark);
@@ -361,359 +324,20 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   background: var(--white);
   outline: none;
   transition: border-color .15s, box-shadow .15s;
-  -webkit-appearance: none;
 }
-.hs-select:focus, .hs-input:focus {
-  border-color: var(--hs-orange);
-  box-shadow: 0 0 0 3px rgba(255,122,89,.15);
+.hs-textarea { resize: vertical; line-height: 1.6; }
+.hs-select:focus, .hs-input:focus, .hs-textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(44,92,197,.15);
 }
-.hs-select option { color: var(--text-primary); }
 .form-group { margin-bottom: 14px; }
-.hs-textarea {
-  width: 100%;
-  padding: 8px 10px;
-  border: 1px solid var(--border-dark);
-  border-radius: var(--r-md);
-  font-size: 13px;
-  font-family: var(--font);
-  color: var(--text-primary);
-  background: var(--white);
-  outline: none;
-  resize: vertical;
-  transition: border-color .15s, box-shadow .15s;
-  line-height: 1.6;
-}
-.hs-textarea:focus {
-  border-color: var(--hs-orange);
-  box-shadow: 0 0 0 3px rgba(255,122,89,.15);
-}
 
-/* ── Two-col layout ──────────────────────────────────── */
-.two-col { display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
-.three-col { display: grid; grid-template-columns: 240px 1fr 280px; gap: 16px; align-items: start; }
-
-/* ── Contact header banner ───────────────────────────── */
-.contact-banner {
-  background: var(--white);
-  border-bottom: 1px solid var(--border);
-  padding: 20px 24px 0;
-  flex-shrink: 0;
-}
-.contact-name-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 8px;
-}
-.contact-avatar {
-  width: 48px; height: 48px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--hs-orange) 0%, #FF5C35 100%);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 18px;
-  font-weight: 700;
-  color: #fff;
-  flex-shrink: 0;
-}
-.contact-name { font-size: 22px; font-weight: 600; color: var(--text-primary); }
-.contact-sub { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
-.contact-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
-.contact-tabs {
-  display: flex;
-  gap: 0;
-  margin-top: 12px;
-  border-bottom: none;
-}
-.contact-tab {
-  padding: 8px 16px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  cursor: pointer;
-  border-bottom: 2px solid transparent;
-  transition: all .15s;
-}
-.contact-tab.active { color: var(--hs-orange); border-bottom-color: var(--hs-orange); }
-.contact-tab:hover { color: var(--text-primary); }
-.contact-tab[data-seen="true"]::after {
-  content: ' ✓';
-  font-size: 10px;
-  color: var(--hs-green);
-  font-weight: 700;
-}
-
-/* ── Activity feed ───────────────────────────────────── */
-.feed-item {
-  display: flex;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--grey-200);
-}
-.feed-item:last-child { border: none; }
-.feed-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-  margin-top: 5px;
-}
-.dot-blue   { background: var(--hs-blue); }
-.dot-orange { background: var(--hs-orange); }
-.dot-green  { background: var(--hs-green); }
-.dot-grey   { background: var(--grey-400); }
-.feed-body { flex: 1; }
-.feed-text { font-size: 13px; color: var(--text-primary); line-height: 1.4; }
-.feed-text strong { font-weight: 600; }
-.feed-time { font-size: 11px; color: var(--text-light); margin-top: 3px; }
-
-/* ── Website activity ────────────────────────────────── */
-.visit-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 9px 0;
-  border-bottom: 1px solid var(--grey-200);
-  font-size: 13px;
-}
-.visit-row:last-child { border: none; }
-.visit-name { color: var(--text-link); cursor: pointer; }
-.visit-name:hover { text-decoration: underline; }
-.visit-meta { display: flex; align-items: center; gap: 10px; color: var(--text-secondary); font-size: 12px; }
-.visit-count {
-  background: var(--hs-orange);
-  color: #fff;
-  border-radius: 20px;
-  padding: 1px 7px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-/* ── Chat bubbles ────────────────────────────────────── */
-.chat-row { display: flex; gap: 8px; margin-bottom: 10px; }
-.chat-row.them { justify-content: flex-start; }
-.chat-row.us   { justify-content: flex-end; }
-.chat-bubble {
-  max-width: 76%;
-  padding: 8px 12px;
-  border-radius: 12px;
-  font-size: 13px;
-  line-height: 1.5;
-}
-.them .chat-bubble {
-  background: var(--grey-100);
-  border: 1px solid var(--border);
-  color: var(--text-primary);
-  border-bottom-left-radius: 3px;
-}
-.us .chat-bubble {
-  background: var(--hs-blue-light);
-  border: 1px solid #B8DDE6;
-  color: var(--hs-blue);
-  border-bottom-right-radius: 3px;
-}
-.chat-time { font-size: 11px; color: var(--text-light); margin-top: 3px; text-align: right; }
-.them .chat-time { text-align: left; }
-
-/* ── Pipeline ────────────────────────────────────────── */
-.pipeline-wrap { overflow-x: auto; }
-.pipeline {
-  display: flex;
-  min-width: max-content;
-  gap: 0;
-  margin: 4px 0 8px;
-}
-.pipe-stage {
-  flex: 1;
-  min-width: 90px;
-  text-align: center;
-  padding: 9px 6px;
-  font-size: 12px;
-  color: var(--text-light);
-  border-top: 3px solid var(--grey-300);
-  cursor: pointer;
-  transition: all .15s;
-  user-select: none;
-}
-.pipe-stage:hover { color: var(--text-secondary); border-top-color: var(--grey-500); }
-.pipe-stage.prev { color: var(--hs-green); border-top-color: var(--hs-green); }
-.pipe-stage.active { color: var(--hs-orange); border-top-color: var(--hs-orange); font-weight: 600; }
-.pipe-stage.correct { color: var(--hs-green); border-top-color: var(--hs-green); font-weight: 600; }
-
-/* ── Checklist ───────────────────────────────────────── */
-.checklist-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px 0;
-  border-bottom: 1px solid var(--grey-200);
-  cursor: pointer;
-  transition: background .1s;
-}
-.checklist-item:last-child { border: none; }
-.checklist-item:hover { background: var(--grey-100); margin: 0 -16px; padding: 10px 16px; }
-.cbox {
-  width: 16px; height: 16px;
-  border: 1.5px solid var(--grey-400);
-  border-radius: var(--r-sm);
-  flex-shrink: 0;
-  margin-top: 1px;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 10px;
-  transition: all .15s;
-  background: var(--white);
-}
-.cbox.checked { background: var(--hs-green); border-color: var(--hs-green); color: #fff; }
-.citem-text { font-size: 13px; color: var(--text-primary); line-height: 1.4; }
-.citem-text.done { color: var(--text-light); text-decoration: line-through; }
-
-/* ── Note template ───────────────────────────────────── */
-.note-template {
-  background: var(--grey-100);
-  border: 1px solid var(--border);
-  border-radius: var(--r-md);
-  padding: 12px 14px;
-  font-size: 12px;
-  color: var(--text-secondary);
-  line-height: 1.9;
-  font-family: 'Lexend Deca', monospace;
-  white-space: pre-wrap;
-  margin-bottom: 10px;
-}
-.note-key { color: var(--hs-orange); font-weight: 600; }
-.note-blank { color: var(--grey-400); }
-
-/* ── Answer option ───────────────────────────────────── */
-.answer-option {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px 12px;
-  border-radius: var(--r-md);
-  border: 1px solid var(--border);
-  cursor: pointer;
-  transition: all .15s;
-  margin-bottom: 8px;
-  font-size: 13px;
-  color: var(--text-primary);
-  background: var(--white);
-  text-align: left;
-  width: 100%;
-  font-family: var(--font);
-}
-.answer-option:hover { border-color: var(--hs-orange); background: var(--hs-orange-light); }
-.answer-option:disabled { cursor: not-allowed; }
-.answer-option.correct { border-color: var(--hs-green); background: var(--hs-green-light); color: #007A6E; }
-.answer-option.incorrect { border-color: var(--hs-red); background: var(--hs-red-light); color: #C0272D; opacity: .7; }
-.answer-option.dim { opacity: .45; }
-.opt-letter {
-  width: 22px; height: 22px;
-  border-radius: 50%;
-  border: 1.5px solid currentColor;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 11px;
-  font-weight: 600;
-  flex-shrink: 0;
-}
-
-/* ── Feedback banner ─────────────────────────────────── */
-.feedback-box {
-  border-radius: var(--r-md);
-  padding: 10px 14px;
-  font-size: 13px;
-  line-height: 1.5;
-  margin-top: 10px;
-  display: none;
-}
-.feedback-box.correct { background: var(--hs-green-light); border: 1px solid #B8EFE9; color: #007A6E; }
-.feedback-box.incorrect { background: var(--hs-red-light); border: 1px solid #F9BBBF; color: #C0272D; }
-.feedback-box.info { background: var(--hs-blue-light); border: 1px solid #B8DDE6; color: #006E87; }
-
-/* ── Alert banner ────────────────────────────────────── */
-.alert {
-  padding: 10px 14px;
-  border-radius: var(--r-md);
-  font-size: 13px;
-  margin-bottom: 14px;
-  border-left: 3px solid;
-  line-height: 1.5;
-}
-.alert-info    { background: var(--hs-blue-light);   border-color: var(--hs-blue);   color: #006E87; }
-.alert-success { background: var(--hs-green-light);  border-color: var(--hs-green);  color: #007A6E; }
-.alert-warn    { background: var(--hs-yellow-light);  border-color: var(--hs-yellow); color: #8C5E00; }
-.alert strong { font-weight: 600; }
-
-/* ── Stage feedback ──────────────────────────────────── */
-#stageFeedback { font-size: 13px; padding: 8px 12px; border-radius: var(--r-md); margin-top: 8px; display: none; }
-
-/* ── Toast ───────────────────────────────────────────── */
-#toast {
-  position: fixed; bottom: 20px; right: 20px;
-  background: var(--nav-bg);
-  color: #fff;
-  border-radius: var(--r-lg);
-  padding: 12px 16px;
-  font-size: 13px;
-  max-width: 320px;
-  z-index: 999;
-  transform: translateY(60px);
-  opacity: 0;
-  transition: all .3s cubic-bezier(.34,1.5,.64,1);
-  pointer-events: none;
-  box-shadow: var(--shadow-md);
-}
-#toast.show { transform: translateY(0); opacity: 1; }
-.toast-title { font-weight: 600; font-size: 12px; color: var(--hs-orange); margin-bottom: 2px; text-transform: uppercase; letter-spacing: .05em; }
-
-/* ── Result screen ───────────────────────────────────── */
-.result-wrap {
-  max-width: 560px; margin: 40px auto; padding: 0 20px;
-  text-align: center;
-}
-.result-icon { font-size: 52px; margin-bottom: 16px; }
-.result-title { font-size: 24px; font-weight: 600; color: var(--text-primary); margin-bottom: 8px; }
-.result-sub { font-size: 14px; color: var(--text-secondary); line-height: 1.6; max-width: 420px; margin: 0 auto 24px; }
-.result-list {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: var(--r-lg);
-  padding: 4px 0;
-  margin-bottom: 20px;
-  box-shadow: var(--shadow-sm);
-  text-align: left;
-}
-.result-item {
-  display: flex; align-items: center; gap: 10px;
-  padding: 11px 16px;
-  border-bottom: 1px solid var(--grey-200);
-  font-size: 13px;
-  color: var(--text-primary);
-}
-.result-item:last-child { border: none; }
-.result-tick { color: var(--hs-green); font-size: 15px; flex-shrink: 0; }
-.closer-quote {
-  background: var(--hs-orange-light);
-  border: 1px solid var(--hs-orange-mid);
-  border-radius: var(--r-lg);
-  padding: 16px 20px;
-  font-size: 13px;
-  color: var(--text-primary);
-  line-height: 1.7;
-  margin-bottom: 24px;
-  text-align: left;
-}
-
-/* ── Scrollbar ───────────────────────────────────────── */
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--grey-300); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: var(--grey-400); }
-
-/* ── Task list sidebar ───────────────────────────────── */
+/* ── Task sidebar ────────────────────────────────── */
 .task-sidebar {
-  width: 260px;
+  width: 240px;
   border-right: 1px solid var(--border);
   background: var(--white);
-  display: flex;
-  flex-direction: column;
+  display: flex; flex-direction: column;
   flex-shrink: 0;
 }
 .tsidebar-header {
@@ -732,418 +356,1185 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   padding: 10px 14px;
   border-bottom: 1px solid var(--grey-200);
   cursor: default;
-  transition: background .1s;
 }
-.task-item-row.active-task { background: var(--hs-orange-light); }
+.task-item-row.active-task { background: var(--accent-light); }
 .tcheck {
   width: 16px; height: 16px; border-radius: 50%;
   border: 1.5px solid var(--grey-400);
   flex-shrink: 0; margin-top: 1px;
   display: flex; align-items: center; justify-content: center;
-  font-size: 9px; transition: all .2s;
+  font-size: 9px;
+  transition: all .2s;
 }
-.tcheck.done { background: var(--hs-green); border-color: var(--hs-green); color: #fff; }
-.titem-name { font-size: 13px; font-weight: 500; color: var(--text-primary); line-height: 1.3; margin-bottom: 3px; }
+.tcheck.done { background: var(--green); border-color: var(--green); color: #fff; }
+.titem-name { font-size: 13px; font-weight: 500; line-height: 1.3; margin-bottom: 3px; }
 .task-item-row.done-item .titem-name { color: var(--text-light); text-decoration: line-through; }
-.titem-meta { font-size: 11px; color: var(--text-light); }
-.tsidebar-footer {
-  padding: 10px 14px;
-  border-top: 1px solid var(--border);
-  font-size: 12px;
+.tsidebar-footer { padding: 10px 14px; border-top: 1px solid var(--border); font-size: 12px; color: var(--text-secondary); }
+.progress-bar { height: 5px; background: var(--grey-200); border-radius: 3px; margin-top: 5px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width .4s ease; }
+
+/* ── Step 1: Calendar mock ──────────────────────── */
+.cal-mock {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  margin-bottom: 20px;
+  box-shadow: var(--shadow-sm);
+}
+.cal-header {
+  background: #F3F2F1;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px;
   color: var(--text-secondary);
 }
-.progress-bar { height: 5px; background: var(--grey-200); border-radius: 3px; margin-top: 5px; overflow: hidden; }
-.progress-fill { height: 100%; background: var(--hs-green); border-radius: 3px; transition: width .4s ease; }
-
-/* ── Two pane (sidebar + content) ───────────────────── */
-.pane-wrap { display: flex; flex: 1; overflow: hidden; min-height: 0; }
-.pane-content { flex: 1; overflow-y: auto; }
-
-@media (max-width: 900px) {
-  .task-sidebar { display: none; }
-  .two-col { grid-template-columns: 1fr; }
+.cal-outlook-icon {
+  width: 18px; height: 18px;
+  background: #C8275B;
+  border-radius: 3px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 10px;
 }
+.cal-grid {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  font-size: 11px;
+}
+.cal-time-col { background: var(--grey-100); border-right: 1px solid var(--border); padding-top: 28px; }
+.cal-time { padding: 0 8px 16px; color: var(--text-light); text-align: right; font-size: 10px; }
+.cal-day-header { background: var(--grey-100); padding: 8px; text-align: center; border-bottom: 1px solid var(--border); border-right: 1px solid var(--border); font-weight: 500; }
+.cal-day { border-right: 1px solid var(--grey-200); position: relative; height: 200px; }
+.cal-day:last-child { border-right: none; }
+.cal-event {
+  position: absolute;
+  left: 4px; right: 4px;
+  border-radius: 3px;
+  padding: 4px 6px;
+  font-size: 10px;
+  line-height: 1.2;
+  cursor: pointer;
+  border-left: 3px solid;
+}
+.cal-event-block { background: #E8F4F8; border-color: #67A6BD; color: #2D5C70; }
+.cal-event-wse {
+  background: var(--accent-light);
+  border-color: var(--accent);
+  color: var(--accent-dark);
+  font-weight: 500;
+}
+.cal-event-wse.highlighted {
+  box-shadow: 0 0 0 3px rgba(44,92,197,.3);
+  animation: pulse-blue 2s infinite;
+}
+@keyframes pulse-blue {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(44,92,197,.3); }
+  50% { box-shadow: 0 0 0 6px rgba(44,92,197,.15); }
+}
+
+/* ── Needs-action highlight ───────────────────────── */
+/* Apply .needs-action to anything the learner must interact with next.
+   Subtle red transparent glow + slow pulse. Doesn't feel like an error,
+   just a clear "this is the next step" cue. */
+.needs-action {
+  position: relative;
+  box-shadow: 0 0 0 3px rgba(242,84,91,.35), 0 0 12px 2px rgba(242,84,91,.15);
+  animation: pulse-action 2s ease-in-out infinite;
+  border-radius: var(--r-md);
+}
+@keyframes pulse-action {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(242,84,91,.35), 0 0 8px 2px rgba(242,84,91,.12); }
+  50%      { box-shadow: 0 0 0 6px rgba(242,84,91,.18), 0 0 16px 4px rgba(242,84,91,.22); }
+}
+/* When used on a non-block element, ensure padding doesn't get clipped */
+.needs-action.inline {
+  display: inline-flex;
+  padding: 4px 8px;
+}
+/* Floating "Click here" arrow indicator */
+.action-arrow {
+  position: absolute;
+  background: #F2545B;
+  color: white;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 5;
+  animation: arrow-bounce 1.5s ease-in-out infinite;
+  box-shadow: 0 2px 6px rgba(242,84,91,.35);
+}
+.action-arrow::before {
+  content: '';
+  position: absolute;
+  width: 0; height: 0;
+  border-style: solid;
+}
+.action-arrow.below { top: calc(100% + 8px); left: 50%; transform: translateX(-50%); }
+.action-arrow.below::before { top: -5px; left: 50%; transform: translateX(-50%); border-width: 0 5px 5px 5px; border-color: transparent transparent #F2545B transparent; }
+.action-arrow.right { left: calc(100% + 8px); top: 50%; transform: translateY(-50%); }
+.action-arrow.right::before { left: -5px; top: 50%; transform: translateY(-50%); border-width: 5px 5px 5px 0; border-color: transparent #F2545B transparent transparent; }
+@keyframes arrow-bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-3px); }
+}
+.action-arrow.right { animation: arrow-bounce-right 1.5s ease-in-out infinite; }
+@keyframes arrow-bounce-right {
+  0%, 100% { transform: translateY(-50%) translateX(0); }
+  50%      { transform: translateY(-50%) translateX(3px); }
+}
+
+/* ── Answer options ────────────────────────────── */
+.answer-option {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all .15s;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--text-primary);
+  background: var(--white);
+  text-align: left;
+  width: 100%;
+  font-family: var(--font);
+}
+.answer-option:hover { border-color: var(--accent); background: var(--accent-light); }
+.answer-option:disabled { cursor: not-allowed; }
+.answer-option.selected { border-color: var(--accent); background: var(--accent-light); }
+.answer-option.correct { border-color: var(--green); background: var(--green-light); color: #007A6E; }
+.answer-option.incorrect { border-color: var(--red); background: var(--red-light); color: #C0272D; opacity: .7; }
+.answer-option.dim { opacity: .45; }
+.opt-letter {
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* ── Feedback box ────────────────────────────── */
+.feedback-box {
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  margin-top: 10px;
+  display: none;
+}
+.feedback-box.correct { background: var(--green-light); border: 1px solid #B8EFE9; color: #007A6E; }
+.feedback-box.incorrect { background: var(--red-light); border: 1px solid #F9BBBF; color: #C0272D; }
+.feedback-box.info { background: var(--accent-light); border: 1px solid var(--accent-mid); color: var(--accent-dark); }
+
+/* ── Alerts ────────────────────────────── */
+.alert {
+  padding: 10px 14px;
+  border-radius: var(--r-md);
+  font-size: 13px;
+  margin-bottom: 14px;
+  border-left: 3px solid;
+  line-height: 1.5;
+}
+.alert-info    { background: var(--accent-light);  border-color: var(--accent);  color: var(--accent-dark); }
+.alert-success { background: var(--green-light);   border-color: var(--green);   color: #007A6E; }
+.alert-warn    { background: var(--yellow-light);  border-color: var(--yellow);  color: #8C5E00; }
+
+/* ── Two-col ─────────────────────────────── */
+.two-col { display: grid; grid-template-columns: 1fr 340px; gap: 20px; align-items: start; }
+
+/* ── Contact banner ─────────────────────────── */
+.contact-banner {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 20px 24px 0;
+  flex-shrink: 0;
+}
+.contact-name-row {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 8px;
+}
+.contact-avatar {
+  width: 48px; height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+.contact-name { font-size: 22px; font-weight: 600; }
+.contact-sub { font-size: 13px; color: var(--text-secondary); margin-top: 2px; }
+.contact-pills { display: flex; gap: 6px; flex-wrap: wrap; margin-left: auto; }
+.contact-tabs {
+  display: flex; gap: 0;
+  margin-top: 12px;
+}
+.contact-tab {
+  padding: 8px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all .15s;
+  position: relative;
+}
+.contact-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.contact-tab:hover { color: var(--text-primary); }
+.contact-tab[data-seen="true"]::after {
+  content: ' ✓';
+  font-size: 10px;
+  color: var(--green);
+  font-weight: 700;
+}
+
+/* ── Three-col contact layout ───────────────── */
+.contact-layout { display: grid; grid-template-columns: 260px 1fr 280px; gap: 16px; padding: 20px 24px; align-items: start; }
+
+/* ── Left contact panel ─────────────────────── */
+.lp-section { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg); margin-bottom: 12px; overflow: hidden; box-shadow: var(--shadow-sm); }
+.lp-header { padding: 10px 14px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; cursor: pointer; color: var(--text-primary); }
+.lp-arrow { color: var(--text-light); font-size: 10px; transition: transform .15s; }
+.lp-section.collapsed .lp-arrow { transform: rotate(-90deg); }
+.lp-section.collapsed .lp-body { display: none; }
+.lp-body { padding: 12px 14px; font-size: 12.5px; }
+.contact-action-icons { display: flex; gap: 6px; padding: 12px 14px; border-bottom: 1px solid var(--grey-200); }
+.action-icon {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--grey-100);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: all .15s;
+  font-size: 13px;
+}
+.action-icon:hover { background: var(--accent-light); color: var(--accent); }
+.contact-mini-name { padding: 12px 14px 8px; font-size: 15px; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 8px; }
+.contact-mini-avatar { width: 28px; height: 28px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-dark)); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+.contact-mini-email { padding: 0 14px 12px; font-size: 12px; color: var(--text-link); }
+
+.web-activity-stats { display: flex; gap: 20px; padding: 8px 0 14px; }
+.web-stat { text-align: left; }
+.web-stat-num { font-size: 26px; font-weight: 600; color: var(--text-primary); line-height: 1; }
+.web-stat-label { font-size: 10px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .06em; margin-top: 4px; font-weight: 600; }
+.web-visit-row { padding: 8px 0; border-top: 1px solid var(--grey-200); }
+.web-visit-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); margin-bottom: 2px; }
+.web-visit-time { font-size: 12px; color: var(--text-primary); }
+
+/* ── Center activity feed ─────────────────────── */
+.center-pane { min-width: 0; }
+.center-tabs { display: flex; gap: 0; background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg) var(--r-lg) 0 0; padding: 0 16px; margin-bottom: 0; }
+.center-tab { padding: 12px 0; margin-right: 24px; font-size: 13px; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; transition: all .15s; }
+.center-tab.active { color: var(--accent); font-weight: 600; border-bottom-color: var(--accent); }
+.center-card { background: var(--white); border: 1px solid var(--border); border-top: none; border-radius: 0 0 var(--r-lg) var(--r-lg); padding: 16px; min-height: 200px; box-shadow: var(--shadow-sm); }
+
+.sub-tabs { display: flex; gap: 24px; border-bottom: 1px solid var(--border); margin-bottom: 14px; padding: 4px 0 0; }
+.sub-tab { padding: 0 0 10px; font-size: 13px; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; transition: all .15s; font-weight: 500; }
+.sub-tab.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 600; }
+
+.activity-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 14px 16px;
+  margin-bottom: 10px;
+}
+.activity-card-head {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 6px;
+}
+.activity-card-type {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex; align-items: center; gap: 6px;
+}
+.activity-card-date { font-size: 11px; color: var(--text-light); }
+.activity-card-body { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+.activity-card-body a { color: var(--text-link); cursor: pointer; }
+.activity-card-body strong { color: var(--text-primary); font-weight: 500; }
+
+.form-fields { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--grey-200); }
+.form-field-row { display: flex; padding: 4px 0; font-size: 12px; }
+.form-field-label { width: 140px; color: var(--text-light); font-weight: 500; flex-shrink: 0; }
+.form-field-value { color: var(--text-primary); }
+
+/* ── Right column ─────────────────────────── */
+.right-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 14px; margin-bottom: 12px; box-shadow: var(--shadow-sm); }
+.right-card-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: .06em; color: var(--text-secondary); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; }
+.deal-card-inner { padding: 12px; background: var(--grey-100); border-radius: var(--r-md); border: 1px solid var(--border); }
+.deal-card-name { font-size: 13px; color: var(--text-link); font-weight: 500; margin-bottom: 8px; cursor: pointer; }
+.deal-card-name:hover { text-decoration: underline; }
+.deal-card-meta { font-size: 12px; color: var(--text-secondary); line-height: 1.6; }
+
+/* ── Pipeline ────────────────────────────── */
+.pipeline {
+  display: flex;
+  min-width: max-content;
+  gap: 0;
+  margin: 8px 0 12px;
+}
+.pipe-stage {
+  flex: 1;
+  min-width: 96px;
+  text-align: center;
+  padding: 9px 6px;
+  font-size: 12px;
+  color: var(--text-light);
+  border-top: 3px solid var(--grey-300);
+  cursor: pointer;
+  transition: all .15s;
+  user-select: none;
+}
+.pipe-stage:hover { color: var(--text-secondary); border-top-color: var(--grey-500); }
+.pipe-stage.prev { color: var(--green); border-top-color: var(--green); font-weight: 500; }
+.pipe-stage.active { color: var(--accent); border-top-color: var(--accent); font-weight: 600; }
+.pipe-stage.correct { color: var(--green); border-top-color: var(--green); font-weight: 600; }
+
+/* ── Deal pipeline (board view) ───────── */
+.board-cols { display: flex; gap: 2px; overflow-x: auto; padding-bottom: 12px; }
+.board-col {
+  flex: 0 0 200px;
+  background: var(--grey-100);
+  border-radius: var(--r-md);
+  display: flex; flex-direction: column;
+}
+.board-col-header { padding: 10px 12px; font-size: 13px; font-weight: 600; color: var(--text-primary); border-bottom: 1px solid var(--border); background: var(--white); border-radius: var(--r-md) var(--r-md) 0 0; display: flex; align-items: center; justify-content: space-between; }
+.board-col-body { padding: 8px; min-height: 100px; }
+.deal-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 10px 12px;
+  cursor: pointer;
+  transition: all .15s;
+}
+.deal-card:hover { border-color: var(--accent); box-shadow: var(--shadow-md); }
+.deal-card-title { font-size: 13px; color: var(--text-link); font-weight: 500; margin-bottom: 6px; }
+.deal-card-line { font-size: 12px; color: var(--text-secondary); padding: 2px 0; }
+.board-col-footer { padding: 8px 12px; font-size: 11px; color: var(--text-light); border-top: 1px solid var(--border); }
+
+/* ── Filter panel ────────────────────── */
+.filter-panel {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+}
+.filter-header { padding: 14px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.filter-title { font-size: 15px; font-weight: 600; }
+.filter-close { color: var(--text-light); cursor: pointer; font-size: 20px; line-height: 1; padding: 0 4px; }
+.filter-body { padding: 16px; }
+.filter-group { background: var(--grey-100); border-radius: var(--r-md); padding: 12px; margin-bottom: 10px; }
+.filter-group-title { font-size: 13px; font-weight: 600; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+.add-filter-btn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 6px 12px;
+  background: var(--accent-light);
+  color: var(--accent);
+  border: 1px solid var(--accent-mid);
+  border-radius: var(--r-md);
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+}
+.add-filter-btn:hover { background: var(--accent-mid); }
+
+/* ── Modal ────────────────────────────── */
+.modal-backdrop {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(45,62,80,.5);
+  display: none;
+  align-items: center; justify-content: center;
+  z-index: 100;
+}
+.modal-backdrop.show { display: flex; }
+.modal-box {
+  background: var(--white);
+  border-radius: var(--r-lg);
+  width: 480px;
+  max-width: 92%;
+  max-height: 88vh;
+  overflow: hidden;
+  display: flex; flex-direction: column;
+  box-shadow: var(--shadow-md);
+}
+.modal-head {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-title { font-size: 15px; font-weight: 600; }
+.modal-body { padding: 18px; overflow-y: auto; }
+.modal-foot { padding: 14px 18px; border-top: 1px solid var(--border); display: flex; gap: 8px; justify-content: flex-end; background: var(--grey-100); }
+
+.search-result {
+  padding: 10px 12px;
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer;
+  border-radius: var(--r-md);
+  transition: background .1s;
+}
+.search-result:hover { background: var(--accent-light); }
+.search-result-icon {
+  width: 24px; height: 24px;
+  background: var(--accent-light);
+  color: var(--accent);
+  border-radius: var(--r-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  flex-shrink: 0;
+  font-weight: 600;
+}
+.search-result-text { flex: 1; }
+.search-result-cat { font-size: 11px; color: var(--text-light); margin-bottom: 1px; font-weight: 600; }
+.search-result-name { font-size: 13px; color: var(--text-primary); }
+
+/* ── Note template ─────────────────── */
+.note-template {
+  background: var(--grey-100);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.9;
+  font-family: 'Lexend', monospace;
+  white-space: pre-wrap;
+  margin-bottom: 10px;
+}
+.note-key { color: var(--accent); font-weight: 600; }
+.note-blank { color: var(--grey-400); }
+
+/* ── Sub-step list ────────────────── */
+.substeps {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+.substep {
+  display: flex; align-items: center; gap: 12px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--grey-200);
+  cursor: pointer;
+  transition: background .15s;
+}
+.substep:last-child { border-bottom: none; }
+.substep:hover { background: var(--grey-100); }
+.substep.active { background: var(--accent-light); }
+.substep.done .substep-num { background: var(--green); border-color: var(--green); color: #fff; }
+.substep.active .substep-num { background: var(--accent); border-color: var(--accent); color: #fff; }
+.substep-num {
+  width: 24px; height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--grey-400);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px;
+  font-weight: 600;
+  flex-shrink: 0;
+  color: var(--text-secondary);
+}
+.substep-label { font-size: 13px; font-weight: 500; flex: 1; }
+.substep.done .substep-label { color: var(--text-light); }
+.substep-status { font-size: 11px; color: var(--text-light); }
+.substep.done .substep-status { color: var(--green); font-weight: 500; }
+
+/* ── Toast ───────────────────────── */
+#toast {
+  position: fixed; bottom: 20px; right: 20px;
+  background: var(--nav-bg);
+  color: #fff;
+  border-radius: var(--r-lg);
+  padding: 12px 16px;
+  font-size: 13px;
+  max-width: 320px;
+  z-index: 200;
+  transform: translateY(60px);
+  opacity: 0;
+  transition: all .3s cubic-bezier(.34,1.5,.64,1);
+  pointer-events: none;
+  box-shadow: var(--shadow-md);
+}
+#toast.show { transform: translateY(0); opacity: 1; }
+.toast-title { font-weight: 600; font-size: 12px; color: #B0CFF5; margin-bottom: 2px; text-transform: uppercase; letter-spacing: .05em; }
+
+/* ── Result screen ────────────────── */
+.result-wrap { max-width: 560px; margin: 40px auto; padding: 0 20px; text-align: center; }
+.result-icon { font-size: 52px; margin-bottom: 16px; }
+.result-title { font-size: 24px; font-weight: 600; margin-bottom: 8px; }
+.result-sub { font-size: 14px; color: var(--text-secondary); line-height: 1.6; max-width: 420px; margin: 0 auto 24px; }
+.result-list { background: var(--white); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 4px 0; margin-bottom: 20px; box-shadow: var(--shadow-sm); text-align: left; }
+.result-item { display: flex; align-items: center; gap: 10px; padding: 11px 16px; border-bottom: 1px solid var(--grey-200); font-size: 13px; }
+.result-item:last-child { border: none; }
+.result-tick { color: var(--green); font-size: 15px; flex-shrink: 0; }
+.closer-quote { background: var(--accent-light); border: 1px solid var(--accent-mid); border-radius: var(--r-lg); padding: 16px 20px; font-size: 13px; line-height: 1.7; margin-bottom: 24px; text-align: left; color: var(--text-primary); }
+
+/* ── Scrollbar ────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--grey-300); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--grey-400); }
 </style>
 </head>
 <body>
+
 <div class="app-shell">
 
-  <!-- Left nav -->
+  <!-- ── Left nav ── -->
   <div class="left-nav">
-    <!-- HubSpot sprocket SVG -->
-    <svg class="nav-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="16" cy="16" r="16" fill="#FF7A59"/>
-      <path d="M19.5 11.2V9.1a1.6 1.6 0 1 0-3.2 0v2.1a5.6 5.6 0 0 0-3.6 2.3l-1.8-1a1.6 1.6 0 1 0-1.6 2.8l1.8 1a5.5 5.5 0 0 0 0 4.6l-1.8 1a1.6 1.6 0 1 0 1.6 2.8l1.8-1a5.6 5.6 0 0 0 9.2-4.2 5.6 5.6 0 0 0-3.4-5.3zM16.2 20a2.4 2.4 0 1 1 0-4.8 2.4 2.4 0 0 1 0 4.8z" fill="white"/>
-    </svg>
-    <div class="nav-icon" title="Home">⌂</div>
-    <div class="nav-icon" title="Contacts">👤</div>
-    <div class="nav-icon active" title="CRM">⬡</div>
-    <div class="nav-icon" title="Marketing">📣</div>
-    <div class="nav-icon" title="Sales">💼</div>
-    <div class="nav-icon" title="Service">🎧</div>
-    <div class="nav-icon" title="Reports">📊</div>
+    <div class="nav-logo">H</div>
+    <div class="nav-icon">⌂</div>
+    <div class="nav-icon">👤</div>
+    <div class="nav-icon active">⬡</div>
+    <div class="nav-icon">📣</div>
+    <div class="nav-icon">💼</div>
+    <div class="nav-icon">🎧</div>
+    <div class="nav-icon">📊</div>
     <div class="nav-spacer"></div>
-    <div class="nav-icon" title="Settings">⚙</div>
-    <div class="nav-avatar" title="Your profile">WS</div>
+    <div class="nav-icon">⚙</div>
+    <div class="nav-avatar">WS</div>
   </div>
 
-  <!-- App body -->
   <div class="app-body">
 
-    <!-- Top nav -->
+    <!-- ── Top nav ── -->
     <div class="top-nav">
       <div class="top-nav-item">Contacts</div>
       <div class="top-nav-item active">Deals</div>
       <div class="top-nav-item">Companies</div>
       <div class="top-nav-item">Tasks</div>
-      <div class="top-nav-item">Activities</div>
       <div class="top-nav-sep"></div>
-      <div class="sandbox-badge">🧪 Sandbox</div>
+      <div class="account-pill"><span class="account-dot"></span> Wall Street English</div>
+      <div class="sandbox-badge">🧪 Hugspot Sandbox</div>
     </div>
 
-    <!-- Instruction bar -->
+    <!-- ── Instruction bar ── -->
     <div class="instruction-bar">
       <div class="instruction-icon" id="instrIcon">①</div>
       <div>
-        <div class="instruction-label" id="instrLabel">Your task</div>
-        <div class="instruction-text" id="instrText">Navigate to <strong>Deals → Advanced Filters</strong> and set <strong>Booking Source → is known</strong> to reveal your self-booked deal.</div>
+        <div class="instruction-label" id="instrLabel">Step 1</div>
+        <div class="instruction-text" id="instrText">Self-booked appointments appear in your <strong>Outlook calendar</strong> as 30-minute slots labelled "Wall Street English". Identify what you should do when you see one.</div>
       </div>
     </div>
 
-    <!-- Steps bar -->
+    <!-- ── Steps bar ── -->
     <div class="steps-bar">
-      <div class="step-tab active" id="stab-0"><div class="step-num" id="snum-0">1</div> Find the deal</div>
-      <div class="step-tab"        id="stab-1"><div class="step-num" id="snum-1">2</div> Review contact</div>
-      <div class="step-tab"        id="stab-2"><div class="step-num" id="snum-2">3</div> Pre-call prep</div>
+      <div class="step-tab active" id="stab-0"><div class="step-num" id="snum-0">1</div> Calendar check</div>
+      <div class="step-tab"        id="stab-1"><div class="step-num" id="snum-1">2</div> Find the deal</div>
+      <div class="step-tab"        id="stab-2"><div class="step-num" id="snum-2">3</div> Review contact</div>
       <div class="step-tab"        id="stab-3"><div class="step-num" id="snum-3">4</div> Post-call update</div>
       <div class="step-tab"        id="stab-4"><div class="step-num" id="snum-4">5</div> Complete</div>
     </div>
 
-    <!-- Panels -->
     <div class="panels">
 
-      <!-- ══════════ PANEL 0 — Find the deal ══════════ -->
+      <!-- ════════════════════════════════════════════════════════ -->
+      <!-- PANEL 0 — Calendar identification                      -->
+      <!-- ════════════════════════════════════════════════════════ -->
       <div class="panel active" id="panel-0">
         <div class="pane-wrap">
           <div class="task-sidebar">
-            <div class="tsidebar-header"><span>Task list</span><span id="taskCount" style="font-size:12px;font-weight:400;color:var(--text-light)">0 / 4</span></div>
+            <div class="tsidebar-header"><span>Workflow steps</span><span id="taskCount" style="font-size:12px;font-weight:400">0 / 4</span></div>
             <div class="task-items">
-              <div class="task-item-row active-task" id="trow-0"><div class="tcheck" id="tc-0"></div><div><div class="titem-name">Locate self-booked deal</div><div class="titem-meta"><span class="pill pill-orange">Self-booked</span></div></div></div>
-              <div class="task-item-row" id="trow-1"><div class="tcheck" id="tc-1"></div><div><div class="titem-name">Review contact record</div><div class="titem-meta" style="margin-top:4px"><span class="pill pill-grey">Carlos M.</span></div></div></div>
-              <div class="task-item-row" id="trow-2"><div class="tcheck" id="tc-2"></div><div><div class="titem-name">Pre-call checklist</div><div class="titem-meta" style="margin-top:4px"><span class="pill pill-grey">Prep</span></div></div></div>
-              <div class="task-item-row" id="trow-3"><div class="tcheck" id="tc-3"></div><div><div class="titem-name">Post-call HubSpot update</div><div class="titem-meta" style="margin-top:4px"><span class="pill pill-grey">Carlos M.</span></div></div></div>
+              <div class="task-item-row active-task" id="trow-0"><div class="tcheck" id="tc-0"></div><div><div class="titem-name">Calendar — identify slot</div></div></div>
+              <div class="task-item-row" id="trow-1"><div class="tcheck" id="tc-1"></div><div><div class="titem-name">Find self-booked deal</div></div></div>
+              <div class="task-item-row" id="trow-2"><div class="tcheck" id="tc-2"></div><div><div class="titem-name">Review the contact</div></div></div>
+              <div class="task-item-row" id="trow-3"><div class="tcheck" id="tc-3"></div><div><div class="titem-name">Post-call HubSpot update</div></div></div>
             </div>
             <div class="tsidebar-footer"><span id="progressLabel">0 of 4 complete</span><div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div></div>
           </div>
-          <div class="pane-content" style="padding:24px">
-            <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-              <div style="font-size:20px;font-weight:600;color:var(--text-primary)">Deals</div>
-              <div class="pill pill-blue">Board view</div>
+          <div class="pane-content" style="padding:20px 24px">
+            <div class="page-title" style="margin-bottom:6px;padding:0">Your Outlook calendar</div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">A self-booked lead has just appeared on your calendar.</div>
+
+            <div class="cal-mock">
+              <div class="cal-header"><div class="cal-outlook-icon">O</div> Outlook · Week of May 04, 2026</div>
+              <div class="cal-grid">
+                <div class="cal-time-col">
+                  <div class="cal-time">8 am</div>
+                  <div class="cal-time">9 am</div>
+                  <div class="cal-time">10 am</div>
+                  <div class="cal-time">11 am</div>
+                </div>
+                <div>
+                  <div class="cal-day-header">Mon 04</div>
+                  <div class="cal-day"></div>
+                </div>
+                <div>
+                  <div class="cal-day-header">Tue 05</div>
+                  <div class="cal-day">
+                    <div class="cal-event cal-event-block" style="top:0;height:50px">Block</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="cal-day-header">Wed 06</div>
+                  <div class="cal-day">
+                    <div class="cal-event cal-event-wse highlighted" style="top:55px;height:30px">Wall Street English<br><span style="font-size:9px;font-weight:400">10:00 – 10:30</span></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="cal-day-header">Thu 07</div>
+                  <div class="cal-day">
+                    <div class="cal-event cal-event-block" style="top:0;height:50px">Block</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="cal-day-header">Fri 08</div>
+                  <div class="cal-day">
+                    <div class="cal-event cal-event-block" style="top:60px;height:80px">Wall Street English</div>
+                  </div>
+                </div>
+                <div>
+                  <div class="cal-day-header">Sat 09</div>
+                  <div class="cal-day"></div>
+                </div>
+                <div>
+                  <div class="cal-day-header">Sun 10</div>
+                  <div class="cal-day">
+                    <div class="cal-event cal-event-block" style="top:0;bottom:0">Blocked</div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="hs-card" style="max-width:480px">
-              <div class="hs-card-header"><span class="hs-card-title">Advanced filters</span></div>
+            <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);margin-bottom:20px">
+              <span style="display:inline-block;width:10px;height:10px;background:var(--accent-light);border-left:3px solid var(--accent);border-radius:2px"></span> Wall Street English consultation
+              <span style="display:inline-block;width:10px;height:10px;background:#E8F4F8;border-left:3px solid #67A6BD;border-radius:2px;margin-left:14px"></span> Buffer / blocker
+            </div>
+
+            <div class="hs-card">
+              <div class="hs-card-header"><span class="hs-card-title">Quick check</span></div>
               <div class="hs-card-body">
-                <div class="form-group">
-                  <label class="hs-label">Filter property</label>
-                  <select class="hs-select" id="filterProp" onchange="onPropChange()">
-                    <option value="">Choose a property…</option>
-                    <option value="owner">Deal owner</option>
-                    <option value="stage">Deal stage</option>
-                    <option value="booking">Booking Source</option>
-                    <option value="date">Create date</option>
-                    <option value="amount">Deal amount</option>
-                  </select>
+                <div style="font-size:13px;color:var(--text-primary);margin-bottom:14px;line-height:1.5">You see a 30-minute Wall Street English slot on Wednesday at 10:00. What should you do? <strong style="color:var(--text-secondary)">Pick the two correct actions.</strong></div>
+                <div id="cal-opts">
+                  <button class="answer-option needs-action" data-correct="false" onclick="pickCalOpt(this)"><div class="opt-letter">A</div>Wait for the consultant to follow up — the system will handle it.</button>
+                  <button class="answer-option needs-action" data-correct="true" onclick="pickCalOpt(this)"><div class="opt-letter">B</div>Build a buffer slot before/after the appointment so I don't run out of time.</button>
+                  <button class="answer-option needs-action" data-correct="false" onclick="pickCalOpt(this)"><div class="opt-letter">C</div>Move the appointment to a more convenient time without telling the lead.</button>
+                  <button class="answer-option needs-action" data-correct="true" onclick="pickCalOpt(this)"><div class="opt-letter">D</div>Block out any time in my calendar I don't want self-booked leads to land on.</button>
                 </div>
-                <div class="form-group" id="condGroup" style="display:none">
-                  <label class="hs-label">Condition</label>
-                  <select class="hs-select" id="filterCond">
-                    <option value="">Choose a condition…</option>
-                    <option value="known">is known</option>
-                    <option value="unknown">is unknown</option>
-                    <option value="eq">is equal to</option>
-                    <option value="contains">contains</option>
-                  </select>
-                </div>
+                <div class="feedback-box" id="cal-feedback"></div>
                 <div class="btn-row">
-                  <button class="btn btn-primary" onclick="applyFilter()">Apply filter</button>
-                  <button class="btn btn-secondary" onclick="clearFilter()">Clear all</button>
+                  <button class="btn btn-primary" id="btn-cal-continue" onclick="completeCal()" disabled>Continue to HubSpot</button>
                 </div>
               </div>
             </div>
 
-            <div style="margin-top:24px">
-              <div style="font-size:13px;font-weight:600;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px">Booked stage</div>
-              <div id="dealsArea">
-                <div style="background:var(--white);border:1px dashed var(--grey-300);border-radius:var(--r-lg);padding:32px;text-align:center;color:var(--text-light);font-size:13px">
-                  <div style="font-size:24px;margin-bottom:8px">🔍</div>
-                  Apply the correct filter above to reveal self-booked deals.
-                </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════════════════════ -->
+      <!-- PANEL 1 — Find the self-booked deal                    -->
+      <!-- ════════════════════════════════════════════════════════ -->
+      <div class="panel" id="panel-1">
+        <div class="page-header">
+          <div class="page-title">All deals</div>
+          <span class="pill pill-grey" id="dealCount">9</span>
+          <div style="flex:1"></div>
+          <button class="btn btn-secondary">Board view ▾</button>
+          <button class="btn btn-secondary">Sales Pipeline ▾</button>
+        </div>
+
+        <div class="pane-content" style="padding:16px 24px">
+
+          <div id="advFilterLink" style="margin-bottom:14px;position:relative;display:inline-block">
+            <button class="btn-text needs-action" onclick="openFilterPanel()" style="color:var(--text-link);font-size:13px;font-weight:600;background:none;border:1px solid transparent;cursor:pointer;padding:4px 10px">≡ Advanced filters</button>
+            <div class="action-arrow right">Start here</div>
+          </div>
+
+          <div class="filter-panel" id="filterPanel" style="display:none">
+            <div class="filter-header">
+              <div class="filter-title">All filters</div>
+              <div class="filter-close" onclick="closeFilterPanel()">×</div>
+            </div>
+            <div class="filter-body" id="filterBody">
+              <div style="font-size:13px;color:var(--text-secondary);padding:14px;text-align:center" id="noFiltersMsg">This view doesn't have any advanced filters.</div>
+              <div style="position:relative;display:inline-block;margin:0 14px 14px">
+                <button class="add-filter-btn needs-action" id="addFilterBtn" onclick="openAddFilterModal()">+ Add filter</button>
+                <div class="action-arrow right">Click here</div>
               </div>
+            </div>
+          </div>
+
+          <div style="font-size:13px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 10px;font-weight:600">Pipeline</div>
+          <div class="board-cols" id="boardCols">
+            <div class="board-col">
+              <div class="board-col-header">Lead <span class="pill pill-grey">3</span></div>
+              <div class="board-col-body">
+                <div class="deal-card" style="opacity:.5"><div class="deal-card-title">Anna Test 1st Contract</div><div class="deal-card-line">Qualifying Activity: Call Back</div></div>
+              </div>
+              <div class="board-col-footer">€0 · 10%</div>
+            </div>
+            <div class="board-col">
+              <div class="board-col-header">Contacted <span class="pill pill-grey">2</span></div>
+              <div class="board-col-body">
+                <div class="deal-card" style="opacity:.5"><div class="deal-card-title">Test User Web Contract</div><div class="deal-card-line">Qualifying Activity: Email</div></div>
+              </div>
+              <div class="board-col-footer">€0 · 20%</div>
+            </div>
+            <div class="board-col" id="bookedCol">
+              <div class="board-col-header">Booked <span class="pill pill-grey" id="bookedCount">3</span></div>
+              <div class="board-col-body" id="bookedBody">
+                <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal A</div><div class="deal-card-line">Qualifying Activity: Booked</div></div>
+                <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal B</div><div class="deal-card-line">Qualifying Activity: Booked</div></div>
+                <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal C</div><div class="deal-card-line">Qualifying Activity: Booked</div></div>
+              </div>
+              <div class="board-col-footer">€0 · 30%</div>
+            </div>
+            <div class="board-col">
+              <div class="board-col-header">Open Decision <span class="pill pill-grey">1</span></div>
+              <div class="board-col-body"></div>
+              <div class="board-col-footer">€0 · 50%</div>
+            </div>
+            <div class="board-col">
+              <div class="board-col-header">2nd Appointment <span class="pill pill-grey">0</span></div>
+              <div class="board-col-body"></div>
+              <div class="board-col-footer">€0 · 60%</div>
+            </div>
+            <div class="board-col">
+              <div class="board-col-header">Trial <span class="pill pill-grey">0</span></div>
+              <div class="board-col-body"></div>
+              <div class="board-col-footer">€0 · 70%</div>
+            </div>
+            <div class="board-col">
+              <div class="board-col-header">Signed <span class="pill pill-grey">0</span></div>
+              <div class="board-col-body"></div>
+              <div class="board-col-footer">€0 · 90%</div>
+            </div>
+            <div class="board-col">
+              <div class="board-col-header">Closed won <span class="pill pill-grey">0</span></div>
+              <div class="board-col-body"></div>
+              <div class="board-col-footer">€0 · 100%</div>
+            </div>
+            <div class="board-col">
+              <div class="board-col-header">Closed lost <span class="pill pill-grey">0</span></div>
+              <div class="board-col-body"></div>
+              <div class="board-col-footer">€0 · 0%</div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ══════════ PANEL 1 — Review contact ══════════ -->
-      <div class="panel" id="panel-1">
+      <!-- ════════════════════════════════════════════════════════ -->
+      <!-- PANEL 2 — Review the contact                            -->
+      <!-- ════════════════════════════════════════════════════════ -->
+      <div class="panel" id="panel-2">
         <div class="contact-banner">
           <div class="contact-name-row">
-            <div class="contact-avatar">CM</div>
+            <div class="contact-avatar">JW</div>
             <div>
-              <div class="contact-name">Carlos M.</div>
-              <div class="contact-sub">Logistics coordinator · Self-booked via website · Appointment tomorrow 10:00 am</div>
+              <div class="contact-name">John Wick</div>
+              <div class="contact-sub">Self-booked via website · Appointment Wed at 10:00</div>
             </div>
             <div class="contact-pills">
-              <span class="pill pill-orange">Self-booked</span>
-              <span class="pill pill-blue">New lead</span>
-              <span class="pill pill-yellow">B1 / Level 3</span>
+              <span class="pill pill-blue">Self-booked</span>
+              <span class="pill pill-yellow">A1–A2</span>
             </div>
           </div>
           <div class="contact-tabs">
-            <div class="contact-tab active" onclick="switchTab(0, this)">Overview</div>
-            <div class="contact-tab" onclick="switchTab(1, this)">Activity</div>
-            <div class="contact-tab" onclick="switchTab(2, this)">Website activity</div>
-            <div class="contact-tab" onclick="switchTab(3, this)">Conversations</div>
+            <div class="contact-tab active" data-seen="true" onclick="switchContactTab(0, this)">Overview</div>
+            <div class="contact-tab needs-action" id="activitiesTab" onclick="switchContactTab(1, this)">Activities</div>
+            <div class="contact-tab" onclick="switchContactTab(2, this)">Intelligence</div>
           </div>
         </div>
+
         <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0">
-          <!-- Tab 0: Overview -->
-          <div class="pane-content" id="ctab-0" style="padding:20px 24px">
-            <div class="two-col">
-              <div>
-                <div class="hs-card">
-                  <div class="hs-card-header"><span class="hs-card-title">Contact properties</span></div>
-                  <div class="hs-card-body">
-                    <div class="prop-list">
-                      <div class="prop-row"><div class="prop-label">Full name</div><div class="prop-value link">Carlos M.</div></div>
-                      <div class="prop-row"><div class="prop-label">Nationality</div><div class="prop-value">Spanish — moved to Madrid 1 year ago</div></div>
-                      <div class="prop-row"><div class="prop-label">English level</div><div class="prop-value"><span class="pill pill-yellow">B1 / Level 3</span></div></div>
-                      <div class="prop-row"><div class="prop-label">Occupation</div><div class="prop-value">Logistics coordinator, international firm</div></div>
-                      <div class="prop-row"><div class="prop-label">Notes</div><div class="prop-value">Looking for Business English. Form submitted at 11 pm — <span style="color:#D4380D;font-weight:500">high intent signal.</span></div></div>
-                      <div class="prop-row"><div class="prop-label">Booking source</div><div class="prop-value"><span class="pill pill-orange">Self-booked · Website</span></div></div>
-                      <div class="prop-row"><div class="prop-label">Deal stage</div><div class="prop-value"><span class="pill pill-grey">Booked</span></div></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div class="hs-card">
-                  <div class="hs-card-header"><span class="hs-card-title">Appointment</span></div>
-                  <div class="hs-card-body">
-                    <div class="prop-list">
-                      <div class="prop-row"><div class="prop-label">Date</div><div class="prop-value">Tomorrow</div></div>
-                      <div class="prop-row"><div class="prop-label">Time</div><div class="prop-value">10:00 am</div></div>
-                      <div class="prop-row"><div class="prop-label">Format</div><div class="prop-value">Online (Zoom)</div></div>
-                      <div class="prop-row"><div class="prop-label">Duration</div><div class="prop-value">30 min + 15 min buffer</div></div>
-                    </div>
-                  </div>
-                </div>
-                <div class="hs-card" style="margin-top:12px">
-                  <div class="hs-card-header"><span class="hs-card-title">Quick signal check</span></div>
-                  <div class="hs-card-body">
-                    <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;line-height:1.5">What's the strongest signal in Carlos's record? Pick the one you'd reference first when the call starts.</div>
-                    <div class="feedback-box info" id="signalNudge" style="display:block;margin-bottom:12px"><strong>Check these tabs first:</strong> Activity, Website activity, Conversations — the answer is in there.</div>
-                    <div id="signalOpts" style="opacity:0.35;pointer-events:none">
-                      <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">A</div>He's at B1 level and wants to improve his English.</button>
-                      <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">B</div>He tried apps and a private teacher before with no results.</button>
-                      <button class="answer-option" onclick="pickSignal(this,true)"><div class="opt-letter">C</div>He visited the Business English page 3× and downloaded the brochure — he already knows what he wants.</button>
-                      <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">D</div>He submitted the form at 11 pm, which suggests high motivation.</button>
-                    </div>
-                    <div class="feedback-box" id="signalFeedback"></div>
-                    <div class="btn-row">
-                      <button class="btn btn-primary" id="btnContinueContact" onclick="completeStep(1)" disabled>I've reviewed everything — continue</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- Tab 1: Activity -->
-          <div class="pane-content" id="ctab-1" style="display:none;padding:20px 24px">
-            <div class="hs-card" style="max-width:640px">
-              <div class="hs-card-header"><span class="hs-card-title">Activity feed</span></div>
-              <div class="hs-card-body">
-                <div class="feed-item"><div class="feed-dot dot-orange"></div><div class="feed-body"><div class="feed-text"><strong>Self-booked appointment</strong> — Tomorrow 10:00 am via website booking page</div><div class="feed-time">2 hours ago</div></div></div>
-                <div class="feed-item"><div class="feed-dot dot-blue"></div><div class="feed-body"><div class="feed-text">Downloaded <strong>Business English course brochure</strong></div><div class="feed-time">12 days ago</div></div></div>
-                <div class="feed-item"><div class="feed-dot dot-green"></div><div class="feed-body"><div class="feed-text">Chatbot conversation — <strong>2 messages exchanged</strong></div><div class="feed-time">18 days ago</div></div></div>
-                <div class="feed-item"><div class="feed-dot dot-grey"></div><div class="feed-body"><div class="feed-text">First page visit — <strong>Business English</strong> course page</div><div class="feed-time">30 days ago</div></div></div>
-              </div>
-            </div>
-          </div>
-          <!-- Tab 2: Website activity -->
-          <div class="pane-content" id="ctab-2" style="display:none;padding:20px 24px">
-            <div class="hs-card" style="max-width:640px">
-              <div class="hs-card-header"><span class="hs-card-title">Page visits</span></div>
-              <div class="hs-card-body">
-                <div class="visit-row"><div class="visit-name">Business English — course page</div><div class="visit-meta"><span class="visit-count">3×</span> Last 30 days</div></div>
-                <div class="visit-row"><div class="visit-name">Course brochure (PDF download)</div><div class="visit-meta"><span class="visit-count">1×</span> 12 days ago</div></div>
-                <div class="visit-row"><div class="visit-name">Pricing & packages</div><div class="visit-meta"><span class="visit-count">2×</span> Last 7 days</div></div>
-                <div class="visit-row"><div class="visit-name">Homepage</div><div class="visit-meta"><span class="visit-count">4×</span> Last 30 days</div></div>
-              </div>
-            </div>
-            <div class="alert alert-info" style="max-width:640px;margin-top:12px">
-              <strong>Tip:</strong> Three visits to the Business English page + a brochure download = Carlos already knows what he wants. Reference this in your opener.
-            </div>
-          </div>
-          <!-- Tab 3: Conversations -->
-          <div class="pane-content" id="ctab-3" style="display:none;padding:20px 24px">
-            <div class="hs-card" style="max-width:560px">
-              <div class="hs-card-header"><span class="hs-card-title">WhatsApp / chatbot history</span></div>
-              <div class="hs-card-body">
-                <div class="chat-row them"><div><div class="chat-bubble">How long until I can speak confidently at work?</div><div class="chat-time">18 days ago · 21:42</div></div></div>
-                <div class="chat-row us"><div><div class="chat-bubble">Most students feel confident in work contexts within 6–9 months of active study. Want to book a consultation to discuss your specific goals?</div><div class="chat-time">18 days ago · 21:43</div></div></div>
-                <div class="chat-row them"><div><div class="chat-bubble">Are there morning classes available?</div><div class="chat-time">18 days ago · 21:44</div></div></div>
-                <div class="chat-row us"><div><div class="chat-bubble">Yes — slots from 8:00 am. Your consultant will show you the full timetable.</div><div class="chat-time">18 days ago · 21:44</div></div></div>
-              </div>
-            </div>
-            <div class="alert alert-warn" style="max-width:560px;margin-top:12px">
-              <strong>Note:</strong> Carlos asked about morning slots — make sure to confirm these are available before the call.
-            </div>
-          </div>
-        </div>
-      </div>
 
-      <!-- ══════════ PANEL 2 — Pre-call prep ══════════ -->
-      <div class="panel" id="panel-2">
-        <div class="page-header">
-          <div>
-            <div class="page-title">Pre-appointment checklist</div>
-            <div class="page-sub">Carlos M. · Tomorrow 10:00 am</div>
-          </div>
-          <div class="pill pill-orange" style="margin-left:auto">Self-booked</div>
-        </div>
-        <div class="pane-content" style="padding:20px 24px">
-          <div class="two-col">
-            <div>
-              <div class="hs-card">
-                <div class="hs-card-header"><span class="hs-card-title">Checklist</span><span style="font-size:12px;color:var(--text-light)" id="checkProgress">0 / 7</span></div>
-                <div class="hs-card-body" id="checklistBody"></div>
+          <!-- Contact Tab: OVERVIEW -->
+          <div class="pane-content" id="ctab-0">
+            <div class="contact-layout">
+              <!-- LEFT -->
+              <div>
+                <div class="lp-section">
+                  <div class="contact-mini-name"><div class="contact-mini-avatar">JW</div>John Wick</div>
+                  <div class="contact-mini-email">john.wick+demo@email.com</div>
+                  <div class="contact-action-icons">
+                    <div class="action-icon" title="Note">✎</div>
+                    <div class="action-icon" title="Email">✉</div>
+                    <div class="action-icon" title="Call">☏</div>
+                    <div class="action-icon" title="Task">✓</div>
+                    <div class="action-icon" title="Meeting">📅</div>
+                    <div class="action-icon" title="More">⋯</div>
+                  </div>
+                </div>
+                <div class="lp-section" id="lp-about" onclick="toggleSection('lp-about')">
+                  <div class="lp-header">▾ About this contact</div>
+                  <div class="lp-body">
+                    <div style="padding:4px 0;font-size:11px;color:var(--text-light);font-weight:600">EMAIL</div>
+                    <div style="padding-bottom:8px;color:var(--text-link)">john.wick+demo@email.com</div>
+                    <div style="padding:4px 0;font-size:11px;color:var(--text-light);font-weight:600">PHONE NUMBER</div>
+                    <div style="padding-bottom:8px">+34 689 12 34 56</div>
+                    <div style="padding:4px 0;font-size:11px;color:var(--text-light);font-weight:600">CONTACT OWNER</div>
+                    <div>Jamina Camp</div>
+                  </div>
+                </div>
+                <div class="lp-section" id="lp-web" onclick="onSectionClick(event,'lp-web','website')">
+                  <div class="lp-header">▾ Website activity</div>
+                  <div class="lp-body">
+                    <div class="web-activity-stats">
+                      <div class="web-stat">
+                        <div class="web-stat-num">4</div>
+                        <div class="web-stat-label">Site visits</div>
+                      </div>
+                      <div class="web-stat">
+                        <div class="web-stat-num">6</div>
+                        <div class="web-stat-label">Pages viewed</div>
+                      </div>
+                    </div>
+                    <div class="web-visit-row">
+                      <div class="web-visit-label">Most recent visit</div>
+                      <div class="web-visit-time">Mon, May 18, 2026 · 12:26 PM</div>
+                    </div>
+                    <div class="web-visit-row">
+                      <div class="web-visit-label">First visit</div>
+                      <div class="web-visit-time">Mon, May 11, 2026 · 9:53 AM</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CENTER -->
+              <div class="center-pane">
+                <div style="font-size:13px;color:var(--text-secondary);padding:12px 4px;line-height:1.6">
+                  This is John Wick's contact record. Open the <strong>Activities</strong> tab above to see his website behaviour, form submissions, and quiz results, then answer the signal question.
+                </div>
+              </div>
+
+              <!-- RIGHT -->
+              <div>
+                <div class="right-card">
+                  <div class="right-card-title">Companies (0) <span style="color:var(--text-link);font-weight:500;font-size:11px">+ Add</span></div>
+                  <div style="text-align:center;font-size:11px;color:var(--text-light);padding:12px 0">See companies associated with this record.</div>
+                </div>
+                <div class="right-card">
+                  <div class="right-card-title">Deals (1) <span style="color:var(--text-link);font-weight:500;font-size:11px">+ Add</span></div>
+                  <div class="deal-card-inner">
+                    <div class="deal-card-name">John Wick Web 1st Contract</div>
+                    <div class="deal-card-meta">
+                      Amount: €2,000<br>
+                      Close Date: May 25, 2026<br>
+                      Deal Stage: <strong style="color:var(--text-primary)">Booked</strong>
+                    </div>
+                    <div style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--border)"><span class="pill pill-blue">CURRENT DEAL</span></div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div>
-              <div class="hs-card">
-                <div class="hs-card-header"><span class="hs-card-title">Opening line</span></div>
-                <div class="hs-card-body">
-                  <div style="font-size:13px;color:var(--text-secondary);margin-bottom:10px;line-height:1.5">Using what you've found in Carlos's record, write the first sentence you'd say when the call connects.</div>
-                  <textarea class="hs-textarea" id="openingLine" rows="3" placeholder="e.g. Carlos, I can see you've been looking at our Business English programme — can you tell me what's driving that?" oninput="checkOpener()"></textarea>
-                  <div class="feedback-box info" id="openerFeedback" style="margin-top:8px;display:none">✓ Good. A personalised opener referencing the website activity will immediately put Carlos at ease.</div>
+          </div>
+
+          <!-- Contact Tab: ACTIVITIES -->
+          <div class="pane-content" id="ctab-1" style="display:none">
+            <div class="contact-layout">
+              <div>
+                <div class="lp-section">
+                  <div class="contact-mini-name"><div class="contact-mini-avatar">JW</div>John Wick</div>
+                  <div class="contact-action-icons" style="border-bottom:none">
+                    <div class="action-icon">✎</div><div class="action-icon">✉</div><div class="action-icon">☏</div><div class="action-icon">✓</div><div class="action-icon">📅</div><div class="action-icon">⋯</div>
+                  </div>
                 </div>
               </div>
-              <div class="hs-card" style="margin-top:12px">
-                <div class="hs-card-header"><span class="hs-card-title">Suggested approach</span></div>
-                <div class="hs-card-body">
-                  <div style="font-size:13px;color:var(--text-secondary);line-height:1.6">Carlos visited Business English pages 3× and asked about work confidence in the chatbot. Suggest <strong>1–2 tailored ideas</strong>:<br><br>• A conversation practice plan focused on his logistics role<br>• Pronunciation work for client calls<br>• A morning schedule that fits his availability</div>
+              <div class="center-pane">
+                <div class="center-card">
+                  <div class="sub-tabs">
+                    <div class="sub-tab active">All activities</div>
+                    <div class="sub-tab">Notes</div>
+                    <div class="sub-tab">Emails</div>
+                    <div class="sub-tab">Calls</div>
+                    <div class="sub-tab">Tasks</div>
+                    <div class="sub-tab">Meetings</div>
+                  </div>
+                  <div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;font-weight:600">May 2026</div>
+
+                  <div class="activity-card">
+                    <div class="activity-card-head">
+                      <div class="activity-card-type">🤝 Deal Activity</div>
+                      <div class="activity-card-date">May 18, 2026 · 1:45 PM</div>
+                    </div>
+                    <div class="activity-card-body"><strong>Jamina Camp</strong> moved <a>John Wick Web 1st Contract</a> to <strong>Booked</strong>.</div>
+                  </div>
+
+                  <div class="activity-card">
+                    <div class="activity-card-head">
+                      <div class="activity-card-type">📝 Form submission</div>
+                      <div class="activity-card-date">May 18, 2026 · 12:26 PM</div>
+                    </div>
+                    <div class="activity-card-body">
+                      <strong>John Wick</strong> submitted <a>WSE-Activity-Builder-Leads</a> on <a>English Levels A1–A2 — Wall Street English</a>.
+                      <div class="form-fields">
+                        <div class="form-field-row"><div class="form-field-label">AB Activity Type</div><div class="form-field-value">Quiz</div></div>
+                        <div class="form-field-row"><div class="form-field-label">AB Activity Name</div><div class="form-field-value">English Levels A1–A2</div></div>
+                        <div class="form-field-row"><div class="form-field-label">AB Activity Goal</div><div class="form-field-value">To practice grammar and vocabulary from A1–A2</div></div>
+                        <div class="form-field-row"><div class="form-field-label">AB Activity Submitted</div><div class="form-field-value">May 18, 2026</div></div>
+                        <div class="form-field-row"><div class="form-field-label">AB Score</div><div class="form-field-value" style="color:var(--accent);font-weight:600">0.45  (45%)</div></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="activity-card">
+                    <div class="activity-card-head">
+                      <div class="activity-card-type">👤 Contact Activity</div>
+                      <div class="activity-card-date">May 11, 2026 · 9:53 AM</div>
+                    </div>
+                    <div class="activity-card-body"><strong>John Wick</strong> moved to <strong>Lead</strong>. <a>View details</a></div>
+                  </div>
+
+                  <div class="activity-card">
+                    <div class="activity-card-head">
+                      <div class="activity-card-type">⭐ Created</div>
+                      <div class="activity-card-date">May 11, 2026 · 9:53 AM</div>
+                    </div>
+                    <div class="activity-card-body">This contact was created from <strong>Organic Search</strong> from Unknown referrer.</div>
+                  </div>
                 </div>
               </div>
+              <div>
+                <div class="right-card">
+                  <div class="right-card-title">Deals (1)</div>
+                  <div class="deal-card-inner">
+                    <div class="deal-card-name">John Wick Web 1st Contract</div>
+                    <div class="deal-card-meta">Amount: €2,000<br>Close Date: May 25, 2026<br>Deal Stage: <strong style="color:var(--text-primary)">Booked</strong></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Tab: INTELLIGENCE -->
+          <div class="pane-content" id="ctab-2" style="display:none">
+            <div class="contact-layout">
+              <div></div>
+              <div class="center-pane">
+                <div class="center-card">
+                  <div class="hs-card-title" style="padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:14px">Lead intelligence</div>
+                  <div style="font-size:13px;color:var(--text-secondary);line-height:1.7">
+                    <p><strong>Suggested openers based on what we know:</strong></p>
+                    <ul style="padding-left:20px;margin-top:10px">
+                      <li style="padding:4px 0">"I see you took our quick English test — how did it feel?"</li>
+                      <li style="padding:4px 0">"You first visited our site about a week ago — what made you book today?"</li>
+                      <li style="padding:4px 0">"You've looked at 6 pages on our site — what's been catching your interest?"</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div></div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Signal question (always visible, gated by tab visits) -->
+        <div style="background:var(--accent-light);border-top:1px solid var(--accent-mid);padding:16px 24px">
+          <div style="display:flex;align-items:flex-start;gap:14px;max-width:900px;margin:0 auto">
+            <div style="flex:1">
+              <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Signal check</div>
+              <div style="font-size:13px;color:var(--text-primary);margin-bottom:12px;line-height:1.5">Based on John's contact record, what's the strongest opener you could use on the call?</div>
+              <div class="feedback-box info" id="signalNudge" style="display:block;margin-bottom:12px;background:var(--white);border:1px solid var(--accent-mid);color:var(--accent-dark)"><strong>Check the Activities tab first</strong> — the answer is in his form submission and quiz result.</div>
+              <div id="signalOpts" style="opacity:0.4;pointer-events:none">
+                <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">A</div>"I see you're a beginner. Don't worry — most of our students start at A1."</button>
+                <button class="answer-option" onclick="pickSignal(this,true)"><div class="opt-letter">B</div>"I see you took our quick English test and scored 45% — how did it feel? What did you find tricky?"</button>
+                <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">C</div>"What brings you to Wall Street English today?"</button>
+                <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">D</div>"Tell me about your work and what you do."</button>
+              </div>
+              <div class="feedback-box" id="signalFeedback"></div>
               <div class="btn-row">
-                <button class="btn btn-primary" id="btnContinuePre" onclick="completeStep(2)" disabled>Complete checklist — continue</button>
+                <button class="btn btn-primary" id="btn-contact-continue" onclick="completeContact()" disabled>I've reviewed everything — continue</button>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ══════════ PANEL 3 — Post-call update ══════════ -->
+      <!-- ════════════════════════════════════════════════════════ -->
+      <!-- PANEL 3 — Post-call update                              -->
+      <!-- ════════════════════════════════════════════════════════ -->
       <div class="panel" id="panel-3">
         <div class="page-header">
           <div>
-            <div class="page-title">Post-call update — Carlos M.</div>
-            <div class="page-sub">Update HubSpot before moving to your next task</div>
+            <div class="page-title">John Wick Web 1st Contract</div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:2px">Amount €2,000 · Close date 05/25/2026 · Pipeline Sales Pipeline · Deal stage <strong>Booked</strong></div>
           </div>
         </div>
         <div class="pane-content" style="padding:20px 24px">
-          <div class="alert alert-success"><strong>Call outcome:</strong> Carlos showed up and was enthusiastic. He needs to confirm start dates with his employer but is ready to sign.</div>
-          <div class="two-col">
-            <div>
-              <div class="hs-card">
-                <div class="hs-card-header"><span class="hs-card-title">1 — Meeting outcome</span></div>
-                <div class="hs-card-body">
-                  <div class="form-group">
-                    <label class="hs-label">Outcome</label>
-                    <select class="hs-select" id="meetingOutcome" onchange="checkPost()">
-                      <option value="">Select outcome…</option>
-                      <option value="completed">Completed</option>
-                      <option value="noshow">No-show</option>
-                      <option value="cancelled">Cancelled</option>
-                      <option value="rescheduled">Rescheduled</option>
-                    </select>
-                  </div>
-                </div>
+          <div class="alert alert-success"><strong>Call outcome:</strong> John showed up and was enthusiastic. He needs to discuss the offer with his wife but is leaning toward signing. You agreed to call back in 3 days.</div>
+
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-secondary);margin-bottom:8px">Your post-call checklist</div>
+
+          <div class="substeps">
+            <div class="substep active" id="ss-0" onclick="openSubstep(0)">
+              <div class="substep-num" id="ss-num-0">1</div>
+              <div class="substep-label">Update the meeting outcome</div>
+              <div class="substep-status" id="ss-status-0">Not started</div>
+            </div>
+            <div class="substep" id="ss-1" onclick="openSubstep(1)">
+              <div class="substep-num" id="ss-num-1">2</div>
+              <div class="substep-label">Add consult notes (Past / Present / Future / Why now / Goal / Hot button / Next steps)</div>
+              <div class="substep-status" id="ss-status-1">Not started</div>
+            </div>
+            <div class="substep" id="ss-2" onclick="openSubstep(2)">
+              <div class="substep-num" id="ss-num-2">3</div>
+              <div class="substep-label">Move deal stage from Booked → Open Decision</div>
+              <div class="substep-status" id="ss-status-2">Not started</div>
+            </div>
+            <div class="substep" id="ss-3" onclick="openSubstep(3)">
+              <div class="substep-num" id="ss-num-3">4</div>
+              <div class="substep-label">Create a follow-up task</div>
+              <div class="substep-status" id="ss-status-3">Not started</div>
+            </div>
+          </div>
+
+          <!-- ── Sub-step 1: Meeting outcome ── -->
+          <div class="hs-card" id="ss-card-0" style="display:block">
+            <div class="hs-card-header"><span class="hs-card-title">1 — Meeting outcome</span></div>
+            <div class="hs-card-body">
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">Go to the meeting record → click <strong>Actions ▾</strong> → <strong>Edit</strong>. Scroll down to find the Meeting outcome dropdown and select the right option.</div>
+              <div class="form-group" style="max-width:300px">
+                <label class="hs-label">Meeting outcome</label>
+                <select class="hs-select" id="meetingOutcome" onchange="checkSubstep(0)">
+                  <option value="">Select meeting outcome…</option>
+                  <option>Scheduled</option>
+                  <option value="completed">Completed</option>
+                  <option>Rescheduled</option>
+                  <option>No show</option>
+                  <option>Cancelled</option>
+                </select>
               </div>
-              <div class="hs-card" style="margin-top:14px">
-                <div class="hs-card-header"><span class="hs-card-title">2 — Deal stage</span></div>
-                <div class="hs-card-body">
-                  <div style="font-size:12px;color:var(--text-secondary);margin-bottom:8px">Select the correct stage for this deal</div>
-                  <div class="pipeline-wrap">
-                    <div class="pipeline" id="pipeline">
-                      <div class="pipe-stage prev">Booked</div>
-                      <div class="pipe-stage" onclick="pickStage(this,'consulted')">Consulted</div>
-                      <div class="pipe-stage" onclick="pickStage(this,'proposal')">Proposal sent</div>
-                      <div class="pipe-stage" onclick="pickStage(this,'followup')">Follow-up</div>
-                      <div class="pipe-stage" onclick="pickStage(this,'closed')">Closed won</div>
-                    </div>
-                  </div>
-                  <div id="stageFeedback"></div>
-                </div>
-              </div>
-              <div class="hs-card" style="margin-top:14px">
-                <div class="hs-card-header"><span class="hs-card-title">4 — Next-task reminder</span></div>
-                <div class="hs-card-body">
-                  <div class="form-group">
-                    <label class="hs-label">Task type</label>
-                    <select class="hs-select" id="taskType" onchange="checkPost()">
-                      <option value="">Select type…</option>
-                      <option value="call">Call back</option>
-                      <option value="email">Send email</option>
-                      <option value="waba">Send WABA template</option>
-                    </select>
-                  </div>
-                  <div class="form-group">
-                    <label class="hs-label">Due date</label>
-                    <input type="date" class="hs-input" id="taskDue" oninput="checkPost()" />
-                  </div>
-                </div>
+              <div class="feedback-box" id="ss-fb-0"></div>
+              <div class="btn-row">
+                <button class="btn btn-primary" id="ss-save-0" onclick="confirmSubstep(0)" disabled>Save</button>
               </div>
             </div>
-            <div>
-              <div class="hs-card">
-                <div class="hs-card-header"><span class="hs-card-title">3 — Consult notes</span></div>
-                <div class="hs-card-body">
-                  <div class="note-template"><span class="note-key">About:</span>       <span class="note-blank">___________________________</span>
-<span class="note-key">Test Result:</span>  <span class="note-blank">___________________________</span>
-<span class="note-key">Past:</span>        <span class="note-blank">___________________________</span>
-<span class="note-key">Present:</span>     <span class="note-blank">___________________________</span>
-<span class="note-key">Future:</span>      <span class="note-blank">___________________________</span>
-<span class="note-key">Pain Points:</span> <span class="note-blank">___________________________</span>
-<span class="note-key">Offer:</span>       <span class="note-blank">___________________________</span>
-<span class="note-key">Next Steps:</span>  <span class="note-blank">___________________________</span></div>
-                  <textarea class="hs-textarea" id="consultNotes" rows="10" placeholder="About: Spanish male, moved to Madrid 1 year ago, works in logistics…" oninput="checkPost()"></textarea>
+          </div>
+
+          <!-- ── Sub-step 2: Consult notes ── -->
+          <div class="hs-card" id="ss-card-1" style="display:none">
+            <div class="hs-card-header"><span class="hs-card-title">2 — Consult notes</span></div>
+            <div class="hs-card-body">
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:12px;line-height:1.5">Go to the deal → <strong>Notes</strong> tab → click <strong>Create a note</strong>. Write your notes in the agreed format below.</div>
+              <div class="note-template"><span class="note-key">Past:</span>        <span class="note-blank">________________________</span>
+<span class="note-key">Present:</span>     <span class="note-blank">________________________</span>
+<span class="note-key">Future:</span>      <span class="note-blank">________________________</span>
+<span class="note-key">Why now:</span>     <span class="note-blank">________________________</span>
+<span class="note-key">Goal:</span>        <span class="note-blank">________________________</span>
+<span class="note-key">Hot button:</span>  <span class="note-blank">________________________</span>
+<span class="note-key">Next steps:</span>  <span class="note-blank">________________________</span></div>
+              <textarea class="hs-textarea" id="consultNotes" rows="10" placeholder="Past: Learned English at school, tried apps, no real progress…" oninput="checkSubstep(1)"></textarea>
+              <div class="feedback-box" id="ss-fb-1"></div>
+              <div class="btn-row">
+                <button class="btn btn-primary" id="ss-save-1" onclick="confirmSubstep(1)" disabled>Save note</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Sub-step 3: Deal stage ── -->
+          <div class="hs-card" id="ss-card-2" style="display:none">
+            <div class="hs-card-header"><span class="hs-card-title">3 — Deal stage</span></div>
+            <div class="hs-card-body">
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;line-height:1.5">Update the deal stage from <strong>Booked</strong> to the correct stage based on the call outcome. The qualifying activity will auto-update.</div>
+              <div style="overflow-x:auto;padding-bottom:6px">
+                <div class="pipeline" id="pipelineStages">
+                  <div class="pipe-stage">Lead</div>
+                  <div class="pipe-stage">Contacted</div>
+                  <div class="pipe-stage prev">Booked</div>
+                  <div class="pipe-stage" onclick="pickStage(this,'opendecision')">Open Decision</div>
+                  <div class="pipe-stage" onclick="pickStage(this,'2nd')">2nd Appointment</div>
+                  <div class="pipe-stage" onclick="pickStage(this,'trial')">Trial</div>
+                  <div class="pipe-stage" onclick="pickStage(this,'signed')">Signed</div>
+                  <div class="pipe-stage" onclick="pickStage(this,'won')">Closed won</div>
+                  <div class="pipe-stage" onclick="pickStage(this,'lost')">Closed lost</div>
                 </div>
+              </div>
+              <div class="feedback-box" id="ss-fb-2"></div>
+              <div id="qualActivityAuto" style="display:none;background:var(--green-light);border:1px solid #B8EFE9;color:#007A6E;padding:10px 14px;border-radius:var(--r-md);font-size:12.5px;margin-top:10px">
+                ✓ Qualifying activity auto-updated to <strong>Show</strong>.
               </div>
               <div class="btn-row">
-                <button class="btn btn-primary" id="btnSave" onclick="completeStep(3)" disabled>Save and mark complete</button>
-                <button class="btn btn-secondary">Cancel</button>
+                <button class="btn btn-primary" id="ss-save-2" onclick="confirmSubstep(2)" disabled>Save deal stage</button>
               </div>
             </div>
+          </div>
+
+          <!-- ── Sub-step 4: Task ── -->
+          <div class="hs-card" id="ss-card-3" style="display:none">
+            <div class="hs-card-header"><span class="hs-card-title">4 — Create a follow-up task</span></div>
+            <div class="hs-card-body">
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">Go to the <strong>Tasks</strong> tab → click <strong>Create a task</strong>. Fill in the details below.</div>
+              <div class="form-group">
+                <label class="hs-label">Task name</label>
+                <input type="text" class="hs-input" id="taskName" placeholder="e.g. Follow up" oninput="checkSubstep(3)" />
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="form-group">
+                  <label class="hs-label">Activity date</label>
+                  <select class="hs-select" id="taskDate" onchange="checkSubstep(3)">
+                    <option value="">Select date…</option>
+                    <option value="today">Today</option>
+                    <option value="tomorrow">Tomorrow</option>
+                    <option value="3days">In 3 business days (Tuesday)</option>
+                    <option value="1week">In 1 week</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="hs-label">Send reminder</label>
+                  <select class="hs-select" id="taskReminder" onchange="checkSubstep(3)">
+                    <option value="">No reminder</option>
+                    <option value="due">At task due time</option>
+                    <option value="15min">15 minutes before</option>
+                    <option value="1hr">1 hour before</option>
+                  </select>
+                </div>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+                <div class="form-group">
+                  <label class="hs-label">Task type</label>
+                  <select class="hs-select"><option>To-do</option><option>Call</option><option>Email</option></select>
+                </div>
+                <div class="form-group">
+                  <label class="hs-label">Activity assigned to</label>
+                  <select class="hs-select"><option>Jamina Camp</option></select>
+                </div>
+              </div>
+              <div class="feedback-box" id="ss-fb-3"></div>
+              <div class="btn-row">
+                <button class="btn btn-primary" id="ss-save-3" onclick="confirmSubstep(3)" disabled>Create task</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="btn-row" id="finishPostRow" style="display:none">
+            <button class="btn btn-success needs-action" onclick="completePost()">All done — finish</button>
           </div>
         </div>
       </div>
 
-      <!-- ══════════ PANEL 4 — Complete ══════════ -->
+      <!-- ════════════════════════════════════════════════════════ -->
+      <!-- PANEL 4 — Complete                                     -->
+      <!-- ════════════════════════════════════════════════════════ -->
       <div class="panel" id="panel-4">
         <div class="pane-content" style="padding:20px">
           <div class="result-wrap">
             <div class="result-icon">🎉</div>
             <div class="result-title">Workflow complete</div>
-            <div class="result-sub">You've worked through the full self-booking process — from finding the deal in HubSpot to clean post-call admin.</div>
+            <div class="result-sub">You've practised the full self-booking process — from calendar slot to clean HubSpot admin.</div>
             <div class="result-list">
-              <div class="result-item"><span class="result-tick">✓</span> Located self-booked deal using Booking Source filter</div>
-              <div class="result-item"><span class="result-tick">✓</span> Reviewed contact record, website activity and chatbot history</div>
-              <div class="result-item"><span class="result-tick">✓</span> Identified the strongest signal and wrote a personalised opener</div>
-              <div class="result-item"><span class="result-tick">✓</span> Completed pre-appointment checklist</div>
+              <div class="result-item"><span class="result-tick">✓</span> Identified the self-booked slot in Outlook and added a buffer</div>
+              <div class="result-item"><span class="result-tick">✓</span> Found the deal using the Booking Source filter</div>
+              <div class="result-item"><span class="result-tick">✓</span> Reviewed John's contact, website activity and quiz result</div>
+              <div class="result-item"><span class="result-tick">✓</span> Identified the strongest opener based on his profile</div>
               <div class="result-item"><span class="result-tick">✓</span> Updated meeting outcome, deal stage and consult notes</div>
-              <div class="result-item"><span class="result-tick">✓</span> Set next-task reminder</div>
+              <div class="result-item"><span class="result-tick">✓</span> Created a follow-up task with a reminder</div>
             </div>
             <div class="closer-quote">
               <strong>Remember:</strong> Good prep takes 5 minutes. Clean admin takes 5 minutes. That's 10 minutes that turns a warm lead into a student.
@@ -1153,82 +1544,109 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
         </div>
       </div>
 
-    </div><!-- /panels -->
-  </div><!-- /app-body -->
-</div><!-- /app-shell -->
+    </div>
+  </div>
+</div>
+
+<!-- Add filter modal -->
+<div class="modal-backdrop" id="addFilterModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Add filter</div>
+      <div class="filter-close" onclick="closeAddFilterModal()">×</div>
+    </div>
+    <div class="modal-body">
+      <div style="position:relative">
+        <input type="text" class="hs-input needs-action" id="filterSearch" placeholder="Search in Deal properties" oninput="filterSearch()" autocomplete="off" />
+      </div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:8px;padding-left:2px">💡 Try typing <strong>booking source</strong></div>
+      <div id="filterResults" style="margin-top:14px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Booking source operator modal -->
+<div class="modal-backdrop" id="operatorModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-title">Booking source</div>
+      <div class="filter-close" onclick="closeOperatorModal()">×</div>
+    </div>
+    <div class="modal-body">
+      <label class="hs-label">Filter type</label>
+      <select class="hs-select needs-action" id="bookingOperator">
+        <option value="">Choose condition…</option>
+        <option value="anyof">is any of</option>
+        <option value="noneof">is none of</option>
+        <option value="known">is known</option>
+        <option value="unknown">is unknown</option>
+      </select>
+      <div style="font-size:11px;color:var(--text-light);margin-top:8px;padding-left:2px">💡 Pick <strong>is known</strong> — every self-booked deal has a booking source</div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-secondary" onclick="closeOperatorModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="applyBookingOperator()">Apply</button>
+    </div>
+  </div>
+</div>
 
 <div id="toast"><div class="toast-title" id="toastTitle"></div><div id="toastMsg"></div></div>
 
 <script>
-// ── State ─────────────────────────────────
+// ── State ─────────────────────────────
 let step = 0;
 let tasksDone = [false,false,false,false];
-let selectedStage = null;
-let signalDone = false;
-// tabs 1=Activity, 2=Website activity, 3=Conversations must all be visited before signal Q unlocks
+let calOptsPicked = new Set();
 let tabsVisited = new Set([0]);
-let checkItems = [
-  "Reviewed contact notes and deal record",
-  "Checked website activity — Business English page visits (3×)",
-  "Checked activity feed — first-time lead, no prior appointments",
-  "Checked chatbot history — wants work confidence + morning slots",
-  "Identified 1–2 tailored suggestions for this lead",
-  "Confirmed Zoom + PowerPoint + note-taker setup",
-];
-let checked = Array(checkItems.length).fill(false);
-let activeContactTab = 0;
+let signalDone = false;
+let selectedStage = null;
+let substepDone = [false,false,false,false];
+let substepOpen = 0;
 
-// ── Toast ──────────────────────────────────
+// ── Toast ─────────────────────────────
 function toast(title, msg) {
-  Object.assign(document.getElementById('toastTitle'), {textContent: title});
-  Object.assign(document.getElementById('toastMsg'), {textContent: msg});
+  document.getElementById('toastTitle').textContent = title;
+  document.getElementById('toastMsg').textContent = msg;
   const t = document.getElementById('toast');
   t.classList.add('show');
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ── Instruction map ────────────────────────
+// ── Instruction map ─────────────────────
 const instrs = [
-  { icon:'①', label:'Step 1 of 4', text:'Navigate to <strong>Deals → Advanced Filters</strong> and set <strong>Booking Source → is known</strong> to reveal your self-booked deal.' },
-  { icon:'②', label:'Step 2 of 4', text:'Read Carlos\'s <strong>contact record</strong>, check <strong>website activity</strong> and <strong>conversations</strong>, then answer the signal question.' },
-  { icon:'③', label:'Step 3 of 4', text:'Work through the <strong>pre-call checklist</strong> and write your <strong>opening line</strong> before the appointment.' },
-  { icon:'④', label:'Step 4 of 4', text:'Update the <strong>meeting outcome</strong>, <strong>deal stage</strong>, <strong>consult notes</strong> and set a <strong>next-task reminder</strong>.' },
-  { icon:'✓',  label:'Complete',   text:'You\'ve finished the full self-booking workflow.' },
+  { icon:'①', label:'Step 1 — Calendar', text:'Self-booked appointments appear in your <strong>Outlook calendar</strong> as 30-minute slots labelled "Wall Street English". Identify what you should do when you see one.' },
+  { icon:'②', label:'Step 2 — Find the deal', text:'In HubSpot Deals, open <strong>Advanced filters</strong>, add a filter for <strong>Booking Source</strong> set to <strong>is known</strong>, then open John\'s deal.' },
+  { icon:'③', label:'Step 3 — Review the contact', text:'Open the <strong>Activities</strong> tab to see John\'s form submission and quiz result. Use what you find to answer the signal question.' },
+  { icon:'④', label:'Step 4 — Post-call update', text:'Complete all four sub-steps: update the meeting outcome, add consult notes, move the deal stage, and create a follow-up task.' },
+  { icon:'✓', label:'Complete', text:'You\'ve finished the full self-booking workflow.' },
 ];
 
-// ── Go to step ─────────────────────────────
+// ── Navigation ──────────────────────────
 function goTo(n) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.getElementById(`panel-${n}`).classList.add('active');
-
   document.querySelectorAll('.step-tab').forEach((t,i) => {
     t.classList.remove('active','done');
     const num = document.getElementById(`snum-${i}`);
-    if(i < n){ t.classList.add('done'); num.textContent = '✓'; }
-    else if(i === n){ t.classList.add('active'); num.textContent = i+1; }
-    else { num.textContent = i+1; }
+    if(i<n){ t.classList.add('done'); num.textContent='✓'; }
+    else if(i===n){ t.classList.add('active'); num.textContent=i+1; }
+    else { num.textContent=i+1; }
   });
-
-  // task sidebar highlight
   document.querySelectorAll('.task-item-row').forEach((r,i) => {
     r.classList.remove('active-task');
-    if(i === n && n < 4) r.classList.add('active-task');
+    if(i===n && n<4) r.classList.add('active-task');
   });
-
   const instr = instrs[n];
   document.getElementById('instrIcon').textContent = instr.icon;
   document.getElementById('instrLabel').textContent = instr.label;
   document.getElementById('instrText').innerHTML = instr.text;
-
   step = n;
 }
 
-// ── Sidebar task completion ────────────────
 function doneTask(i) {
   tasksDone[i] = true;
   const tc = document.getElementById(`tc-${i}`);
-  tc.classList.add('done');
-  tc.textContent = '✓';
+  tc.classList.add('done'); tc.textContent='✓';
   document.getElementById(`trow-${i}`).classList.add('done-item');
   const count = tasksDone.filter(Boolean).length;
   document.getElementById('taskCount').textContent = `${count} / 4`;
@@ -1236,253 +1654,474 @@ function doneTask(i) {
   document.getElementById('progressFill').style.width = `${count/4*100}%`;
 }
 
-// ── STEP 0: Filter ─────────────────────────
-function onPropChange() {
-  document.getElementById('condGroup').style.display =
-    document.getElementById('filterProp').value ? 'block' : 'none';
-}
-
-function applyFilter() {
-  const p = document.getElementById('filterProp').value;
-  const c = document.getElementById('filterCond').value;
-  if (p === 'booking' && c === 'known') {
-    document.getElementById('dealsArea').innerHTML = `
-      <div class="hs-card" style="max-width:560px;cursor:pointer" onclick="openDeal()" onmouseover="this.style.boxShadow='var(--shadow-md)'" onmouseout="this.style.boxShadow='var(--shadow-sm)'">
-        <div class="hs-card-body" style="display:flex;align-items:center;gap:14px;padding:14px 16px">
-          <div style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--hs-orange),#FF5C35);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff;flex-shrink:0">CM</div>
-          <div style="flex:1">
-            <div style="font-size:14px;font-weight:600;color:var(--text-link)">Carlos M.</div>
-            <div style="font-size:12px;color:var(--text-secondary);margin-top:2px">Self-booked · Business English · Tomorrow 10:00 am</div>
-          </div>
-          <span class="pill pill-orange">Self-booked</span>
-          <span style="color:var(--grey-500);font-size:18px">›</span>
-        </div>
-      </div>`;
-    toast('Filter applied', 'Self-booked deal found in the Booked stage.');
-  } else if (p && c) {
-    toast('Incorrect filter', 'Try: Booking Source → is known.');
+// ── STEP 0: Calendar ─────────────────
+function pickCalOpt(btn) {
+  if (btn.classList.contains('selected') || btn.classList.contains('correct') || btn.classList.contains('incorrect')) return;
+  btn.classList.add('selected');
+  btn.classList.remove('needs-action');
+  const isCorrect = btn.dataset.correct === 'true';
+  if (!isCorrect) {
+    btn.classList.remove('selected');
+    btn.classList.add('incorrect');
+    btn.disabled = true;
+    return;
+  }
+  btn.classList.remove('selected');
+  btn.classList.add('correct');
+  btn.disabled = true;
+  calOptsPicked.add(btn);
+  const fb = document.getElementById('cal-feedback');
+  if (calOptsPicked.size >= 2) {
+    fb.className = 'feedback-box correct';
+    fb.style.display = 'block';
+    fb.textContent = '✓ Both correct. Build buffer time around the appointment, and block out any time you don\'t want self-booked leads to land on.';
+    document.getElementById('btn-cal-continue').disabled = false;
+    document.getElementById('btn-cal-continue').classList.add('needs-action');
   } else {
-    toast('Incomplete', 'Choose both a property and a condition.');
+    fb.className = 'feedback-box info';
+    fb.style.display = 'block';
+    fb.textContent = 'One correct answer found — one more to go.';
   }
 }
 
-function clearFilter() {
-  ['filterProp','filterCond'].forEach(id => document.getElementById(id).value = '');
-  document.getElementById('condGroup').style.display = 'none';
-  document.getElementById('dealsArea').innerHTML = `
-    <div style="background:var(--white);border:1px dashed var(--grey-300);border-radius:var(--r-lg);padding:32px;text-align:center;color:var(--text-light);font-size:13px">
-      <div style="font-size:24px;margin-bottom:8px">🔍</div>
-      Apply the correct filter above to reveal self-booked deals.
-    </div>`;
-}
-
-function openDeal() {
+function completeCal() {
   doneTask(0);
-  toast('Deal opened', 'Review the full contact record before the call.');
-  setTimeout(() => goTo(1), 500);
+  toast('Calendar set', 'Now find the deal in HubSpot.');
+  setTimeout(() => goTo(1), 400);
 }
 
-// ── Contact tabs ───────────────────────────
-function switchTab(i, el) {
-  for(let j=0;j<4;j++) document.getElementById(`ctab-${j}`).style.display = 'none';
-  document.getElementById(`ctab-${i}`).style.display = 'block';
-  document.querySelectorAll('.contact-tab').forEach((t,j) => {
-    t.classList.remove('active');
-    if(j === i) t.classList.add('active');
+// ── STEP 1: Find the deal ────────────
+let filterPanelOpen = false;
+let bookingFilterApplied = false;
+
+function openFilterPanel() {
+  document.getElementById('filterPanel').style.display = 'block';
+  document.getElementById('advFilterLink').style.display = 'none';
+  filterPanelOpen = true;
+}
+
+function closeFilterPanel() {
+  document.getElementById('filterPanel').style.display = 'none';
+  document.getElementById('advFilterLink').style.display = 'block';
+  filterPanelOpen = false;
+}
+
+function openAddFilterModal() {
+  document.getElementById('addFilterModal').classList.add('show');
+  document.getElementById('filterSearch').value = '';
+  document.getElementById('filterResults').innerHTML = '<div style="font-size:12px;color:var(--text-light);text-align:center;padding:20px">Start typing to search Deal properties.</div>';
+  setTimeout(() => document.getElementById('filterSearch').focus(), 100);
+}
+
+function closeAddFilterModal() {
+  document.getElementById('addFilterModal').classList.remove('show');
+}
+
+const deal_properties = [
+  { cat: 'Self-Booking', name: 'Booking source', icon: 'B', key: 'booking' },
+  { cat: 'Deal information', name: 'Deal name', icon: 'D', key: null },
+  { cat: 'Deal information', name: 'Deal stage', icon: 'D', key: null },
+  { cat: 'Deal information', name: 'Deal amount', icon: 'D', key: null },
+  { cat: 'Deal activity', name: 'Call Count', icon: '#', key: null },
+  { cat: 'Deal activity', name: 'Date of last meeting', icon: 'D', key: null },
+];
+
+function filterSearch() {
+  const q = document.getElementById('filterSearch').value.toLowerCase().trim();
+  const out = document.getElementById('filterResults');
+  if (q.length < 2) {
+    out.innerHTML = '<div style="font-size:12px;color:var(--text-light);text-align:center;padding:20px">Start typing to search Deal properties.</div>';
+    return;
+  }
+  const matches = deal_properties.filter(p => p.name.toLowerCase().includes(q));
+  if (matches.length === 0) {
+    out.innerHTML = '<div style="font-size:12px;color:var(--text-light);text-align:center;padding:20px">No matching properties.</div>';
+    return;
+  }
+  const byCat = {};
+  matches.forEach(m => { (byCat[m.cat] = byCat[m.cat] || []).push(m); });
+  let html = '';
+  Object.keys(byCat).forEach(cat => {
+    html += `<div style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.06em;padding:8px 4px">${cat}</div>`;
+    byCat[cat].forEach(m => {
+      html += `<div class="search-result" onclick="selectFilterProperty('${m.key||''}')">
+        <div class="search-result-icon">${m.icon}</div>
+        <div class="search-result-text">
+          <div class="search-result-name">${m.name}</div>
+        </div>
+      </div>`;
+    });
   });
-  activeContactTab = i;
-  tabsVisited.add(i);
-  // mark tab as seen with a subtle tick
+  out.innerHTML = html;
+}
+
+function selectFilterProperty(key) {
+  closeAddFilterModal();
+  if (key === 'booking') {
+    document.getElementById('operatorModal').classList.add('show');
+  } else {
+    toast('Wrong property', 'You need to find the property called "Booking source".');
+  }
+}
+
+function closeOperatorModal() {
+  document.getElementById('operatorModal').classList.remove('show');
+}
+
+function applyBookingOperator() {
+  const v = document.getElementById('bookingOperator').value;
+  if (v === 'known') {
+    closeOperatorModal();
+    applyBookingFilter();
+  } else if (v === '') {
+    toast('Choose a condition', 'Select "is known" to find all self-booked deals.');
+  } else {
+    toast('Wrong condition', 'Use "is known" — booking source has a value when the lead self-booked.');
+  }
+}
+
+function applyBookingFilter() {
+  bookingFilterApplied = true;
+  // Update the filter panel
+  document.getElementById('filterBody').innerHTML = `
+    <div class="filter-group">
+      <div class="filter-group-title">Group 1</div>
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;font-size:13px;display:flex;align-items:center;gap:10px">
+        <strong style="color:var(--accent)">Booking source</strong>
+        <span style="color:var(--text-secondary)">is known</span>
+        <div style="flex:1"></div>
+        <span style="color:var(--text-light);font-size:16px;cursor:pointer">×</span>
+      </div>
+    </div>
+    <button class="add-filter-btn" style="margin-top:8px">+ Add filter</button>
+  `;
+  // Update the board
+  document.getElementById('bookedBody').innerHTML = `
+    <div style="position:relative">
+      <div class="deal-card needs-action" onclick="openJohnDeal()">
+        <div class="deal-card-title">John Wick Web 1st Contract</div>
+        <div class="deal-card-line">Qualifying Activity: Booked</div>
+        <div class="deal-card-line">How to contact: Email, Mobile</div>
+      </div>
+      <div class="action-arrow below">Open this deal</div>
+    </div>
+  `;
+  document.getElementById('bookedCount').textContent = '1';
+  document.getElementById('dealCount').textContent = '1';
+
+  // Hide non-booked sample deals
+  document.querySelectorAll('.board-col').forEach(col => {
+    const header = col.querySelector('.board-col-header').textContent;
+    if (!header.includes('Booked')) {
+      col.style.opacity = '0.4';
+    }
+  });
+
+  toast('Filter applied', 'Self-booked deal visible in Booked stage. Click the deal card.');
+}
+
+function openJohnDeal() {
+  doneTask(1);
+  toast('Deal opened', 'Now review John\'s contact record.');
+  setTimeout(() => goTo(2), 400);
+}
+
+// ── STEP 2: Contact tabs and signal ────
+function switchContactTab(i, el) {
+  for(let j=0;j<3;j++) document.getElementById(`ctab-${j}`).style.display = 'none';
+  document.getElementById(`ctab-${i}`).style.display = 'block';
+  document.querySelectorAll('.contact-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
   el.dataset.seen = 'true';
+  el.classList.remove('needs-action');
+  tabsVisited.add(i);
   updateSignalGate();
 }
 
 function updateSignalGate() {
-  const allSeen = [1,2,3].every(t => tabsVisited.has(t));
+  const opts = document.getElementById('signalOpts');
   const nudge = document.getElementById('signalNudge');
-  const opts  = document.getElementById('signalOpts');
-  if (allSeen) {
+  if (tabsVisited.has(1)) {
     nudge.style.display = 'none';
-    opts.style.opacity  = '1';
+    opts.style.opacity = '1';
     opts.style.pointerEvents = 'auto';
-    opts.querySelectorAll('button').forEach(b => { if(!b.disabled) b.style.opacity='1'; });
-  } else {
-    const remaining = [1,2,3]
-      .filter(t => !tabsVisited.has(t))
-      .map(t => ['Activity','Website activity','Conversations'][t-1]);
-    nudge.style.display = 'block';
-    nudge.innerHTML = `<strong>Check these tabs first:</strong> ${remaining.join(', ')} — the answer is in there.`;
-    opts.style.opacity = '0.35';
-    opts.style.pointerEvents = 'none';
+    // Highlight the signal options now that they're active
+    opts.querySelectorAll('button:not([disabled])').forEach(b => b.classList.add('needs-action'));
   }
 }
 
-// ── Signal question ────────────────────────
+function onSectionClick(e, id, kind) {
+  // toggle but also count
+  toggleSection(id);
+}
+
+function toggleSection(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('collapsed');
+}
+
 function pickSignal(btn, correct) {
+  if (btn.disabled) return;
   const btns = document.querySelectorAll('#signalOpts button');
-  btns.forEach(b => { b.disabled = true; b.classList.add('dim'); });
+  btns.forEach(b => { b.disabled = true; b.classList.add('dim'); b.classList.remove('needs-action'); });
   btn.classList.remove('dim');
   const fb = document.getElementById('signalFeedback');
   fb.style.display = 'block';
   if (correct) {
     btn.classList.add('correct');
     fb.className = 'feedback-box correct';
-    fb.textContent = '✓ Exactly right. The website behaviour tells you precisely what Carlos wants. Open with "I can see you\'ve been looking at our Business English programme" — he immediately feels understood.';
+    fb.textContent = '✓ Exactly right. Referencing John\'s quiz result shows you prepared and gives him an easy way to open up about his English struggles.';
     signalDone = true;
-    document.getElementById('btnContinueContact').disabled = false;
-    toast('Correct', 'Use what HubSpot tells you — that\'s what it\'s for.');
+    document.getElementById('btn-contact-continue').disabled = false;
+    document.getElementById('btn-contact-continue').classList.add('needs-action');
+    toast('Spot on', 'Use what HubSpot tells you.');
   } else {
     btn.classList.add('incorrect');
     btns.forEach(b => { b.disabled = false; b.classList.remove('dim'); });
     btn.disabled = true; btn.classList.remove('incorrect'); btn.classList.add('dim');
+    // Re-highlight remaining options
+    btns.forEach(b => { if (!b.disabled) b.classList.add('needs-action'); });
     fb.className = 'feedback-box incorrect';
-    fb.textContent = 'Not the strongest signal here. His website behaviour — 3 visits to the Business English page and a brochure download — is the most actionable insight for your opener.';
+    fb.textContent = 'Not the strongest opener. Generic questions don\'t show you prepared. The quiz result and form submission give you something specific to reference.';
   }
 }
 
-// ── Step 1 complete ────────────────────────
-function completeStep(n) {
-  doneTask(n);
-  const msgs = [
-    ['',''],
-    ['Review complete', 'Pre-call checklist coming up.'],
-    ['Pre-call prep done', 'Time for the call.'],
-    ['HubSpot updated', 'Carlos has a next step. Record is clean.'],
-  ];
-  if(msgs[n-1][0]) toast(msgs[n-1][0], msgs[n-1][1]);
-  setTimeout(() => goTo(n + 1), 400);
+function completeContact() {
+  doneTask(2);
+  toast('Review complete', 'Time for the post-call admin.');
+  setTimeout(() => goTo(3), 400);
 }
 
-// ── Checklist ──────────────────────────────
-function buildChecklist() {
-  const body = document.getElementById('checklistBody');
-  body.innerHTML = '';
-  checkItems.forEach((text, i) => {
-    const div = document.createElement('div');
-    div.className = 'checklist-item';
-    div.innerHTML = `<div class="cbox" id="cb-${i}"></div><div class="citem-text" id="ct-${i}">${text}</div>`;
-    div.onclick = () => toggleItem(i);
-    body.appendChild(div);
-  });
-  updateCheckProgress();
-}
-
-function toggleItem(i) {
-  checked[i] = !checked[i];
-  const cb = document.getElementById(`cb-${i}`);
-  const ct = document.getElementById(`ct-${i}`);
-  if (checked[i]) {
-    cb.classList.add('checked'); cb.textContent = '✓';
-    ct.classList.add('done');
-  } else {
-    cb.classList.remove('checked'); cb.textContent = '';
-    ct.classList.remove('done');
+// ── STEP 3: Post-call substeps ────────
+function openSubstep(i) {
+  // hide all sub-cards
+  for(let j=0;j<4;j++) {
+    document.getElementById(`ss-card-${j}`).style.display = 'none';
+    document.getElementById(`ss-${j}`).classList.remove('active');
+    if (substepDone[j]) {
+      document.getElementById(`ss-${j}`).classList.add('done');
+    }
   }
-  updateCheckProgress();
+  document.getElementById(`ss-card-${i}`).style.display = 'block';
+  if (!substepDone[i]) document.getElementById(`ss-${i}`).classList.add('active');
+  substepOpen = i;
+
+  // Clear any old needs-action highlights then apply to current substep's primary input
+  document.querySelectorAll('#panel-3 .needs-action').forEach(e => e.classList.remove('needs-action'));
+  if (i === 0 && !substepDone[0]) document.getElementById('meetingOutcome').classList.add('needs-action');
+  if (i === 1 && !substepDone[1]) document.getElementById('consultNotes').classList.add('needs-action');
+  if (i === 2 && !substepDone[2]) document.getElementById('pipelineStages').classList.add('needs-action');
+  if (i === 3 && !substepDone[3]) document.getElementById('taskName').classList.add('needs-action');
 }
 
-function updateCheckProgress() {
-  const n = checked.filter(Boolean).length;
-  document.getElementById('checkProgress').textContent = `${n} / ${checkItems.length}`;
-  const openerVal = (document.getElementById('openingLine') || {value:''}).value.trim();
-  const allChecked = checked.every(Boolean);
-  const hasOpener  = openerVal.length > 20;
-  document.getElementById('btnContinuePre').disabled = !(allChecked && hasOpener);
+function checkSubstep(i) {
+  if (i === 0) {
+    const v = document.getElementById('meetingOutcome').value;
+    const fb = document.getElementById('ss-fb-0');
+    const save = document.getElementById('ss-save-0');
+    if (v === 'completed') {
+      fb.style.display = 'none';
+      save.disabled = false;
+      document.getElementById('meetingOutcome').classList.remove('needs-action');
+      save.classList.add('needs-action');
+    } else if (v === '') {
+      fb.style.display = 'none';
+      save.disabled = true;
+      save.classList.remove('needs-action');
+    } else {
+      fb.style.display = 'block';
+      fb.className = 'feedback-box incorrect';
+      fb.textContent = 'Not quite — John showed up and you had a productive conversation, so the outcome was Completed.';
+      save.disabled = true;
+      save.classList.remove('needs-action');
+    }
+  } else if (i === 1) {
+    const v = document.getElementById('consultNotes').value.trim();
+    const save = document.getElementById('ss-save-1');
+    save.disabled = v.length < 40;
+    if (v.length >= 40) {
+      document.getElementById('consultNotes').classList.remove('needs-action');
+      save.classList.add('needs-action');
+    } else {
+      save.classList.remove('needs-action');
+    }
+  } else if (i === 3) {
+    const name = document.getElementById('taskName').value.trim();
+    const date = document.getElementById('taskDate').value;
+    const rem = document.getElementById('taskReminder').value;
+    const save = document.getElementById('ss-save-3');
+    save.disabled = !(name.length > 1 && date && rem);
+    if (name.length > 1 && date && rem) {
+      document.querySelectorAll('#ss-card-3 .needs-action').forEach(e => e.classList.remove('needs-action'));
+      save.classList.add('needs-action');
+    } else if (name.length > 1 && !date) {
+      document.getElementById('taskName').classList.remove('needs-action');
+      document.getElementById('taskDate').classList.add('needs-action');
+    } else if (name.length > 1 && date && !rem) {
+      document.getElementById('taskDate').classList.remove('needs-action');
+      document.getElementById('taskReminder').classList.add('needs-action');
+    }
+  }
 }
 
-function checkOpener() {
-  const val = document.getElementById('openingLine').value.trim();
-  const fb  = document.getElementById('openerFeedback');
-  fb.style.display = val.length > 20 ? 'block' : 'none';
-  updateCheckProgress();
-}
-
-// ── Post-call ──────────────────────────────
 function pickStage(el, val) {
   selectedStage = val;
   document.querySelectorAll('.pipe-stage').forEach((s,i) => {
-    if(i>0) s.classList.remove('active','correct','prev');
+    if (i > 2) s.classList.remove('active','correct');
   });
-  const fb = document.getElementById('stageFeedback');
+  const fb = document.getElementById('ss-fb-2');
+  const auto = document.getElementById('qualActivityAuto');
   fb.style.display = 'block';
-  if (val === 'consulted') {
+  if (val === 'opendecision') {
     el.classList.add('correct');
-    fb.className = 'feedback-box correct'; fb.style.display='block';
-    fb.textContent = '✓ Correct — the appointment completed, so the deal moves to Consulted.';
-  } else if (val === 'closed') {
+    fb.className = 'feedback-box correct';
+    fb.textContent = '✓ Correct — the call completed but John hasn\'t signed yet, so the deal moves to Open Decision.';
+    auto.style.display = 'block';
+    document.getElementById('ss-save-2').disabled = false;
+    document.getElementById('pipelineStages').classList.remove('needs-action');
+    document.getElementById('ss-save-2').classList.add('needs-action');
+  } else if (val === '2nd') {
     el.classList.add('active');
-    fb.className = 'feedback-box'; fb.style.cssText='display:block;background:var(--hs-yellow-light);border:1px solid #F8E0A8;color:#8C5E00;padding:10px 14px;border-radius:4px;margin-top:8px;font-size:13px';
-    fb.textContent = "Close — but Carlos hasn't confirmed yet. He still needs to speak with his employer. Use Consulted until he signs.";
+    fb.className = 'feedback-box incorrect';
+    fb.textContent = 'Not yet — 2nd Appointment is when a second meeting is scheduled and confirmed. John still needs to talk to his wife.';
+    auto.style.display = 'none';
+    document.getElementById('ss-save-2').disabled = true;
+  } else if (val === 'won' || val === 'signed') {
+    el.classList.add('active');
+    fb.className = 'feedback-box incorrect';
+    fb.textContent = 'Too far — John is leaning toward signing but hasn\'t actually signed yet.';
+    auto.style.display = 'none';
+    document.getElementById('ss-save-2').disabled = true;
   } else {
     el.classList.add('active');
-    fb.className = 'feedback-box incorrect'; fb.style.display='block';
-    fb.textContent = 'Not quite. The call completed — move the deal forward from Booked.';
+    fb.className = 'feedback-box incorrect';
+    fb.textContent = 'Not right. The call completed and John was engaged — move it forward, not backward or to closed lost.';
+    auto.style.display = 'none';
+    document.getElementById('ss-save-2').disabled = true;
   }
-  checkPost();
 }
 
-function checkPost() {
-  const outcome = document.getElementById('meetingOutcome').value;
-  const notes   = document.getElementById('consultNotes').value.trim();
-  const type    = document.getElementById('taskType').value;
-  const due     = document.getElementById('taskDue').value;
-  document.getElementById('btnSave').disabled =
-    !(outcome === 'completed' && selectedStage === 'consulted' && notes.length > 30 && type && due);
+function confirmSubstep(i) {
+  substepDone[i] = true;
+  document.getElementById(`ss-${i}`).classList.add('done');
+  document.getElementById(`ss-${i}`).classList.remove('active');
+  document.getElementById(`ss-num-${i}`).textContent = '✓';
+  document.getElementById(`ss-status-${i}`).textContent = 'Complete';
+  document.getElementById(`ss-card-${i}`).style.display = 'none';
+
+  // Find next undone substep and open it
+  const next = substepDone.findIndex(d => !d);
+  if (next >= 0) {
+    openSubstep(next);
+    const labels = ['Outcome saved','Note saved','Deal stage updated','Task created'];
+    toast(labels[i], 'Next step ready.');
+  } else {
+    // all done
+    toast('All admin done', 'Clean HubSpot, happy manager.');
+    document.getElementById('finishPostRow').style.display = 'flex';
+  }
 }
 
-// ── Reset ──────────────────────────────────
+function completePost() {
+  doneTask(3);
+  setTimeout(() => goTo(4), 400);
+}
+
+// ── Reset ─────────────────────────────
 function resetAll() {
   tasksDone = [false,false,false,false];
-  selectedStage = null; signalDone = false;
-  checked = Array(checkItems.length).fill(false);
-  activeContactTab = 0;
+  calOptsPicked = new Set();
+  tabsVisited = new Set([0]);
+  signalDone = false;
+  selectedStage = null;
+  substepDone = [false,false,false,false];
+  substepOpen = 0;
+  bookingFilterApplied = false;
+  filterPanelOpen = false;
 
-  clearFilter();
+  // Clear ALL needs-action highlights then restore initial ones
+  document.querySelectorAll('.needs-action').forEach(e => e.classList.remove('needs-action'));
+  // Restore initial highlights
+  document.querySelectorAll('#cal-opts button').forEach(b => b.classList.add('needs-action'));
+  // Step 1's Advanced filters button will get its highlight back via the static HTML when we rebuild
+
+  // Reset task sidebar
   document.querySelectorAll('.task-item-row').forEach(r => r.classList.remove('done-item'));
   document.querySelectorAll('.tcheck').forEach(c => { c.classList.remove('done'); c.textContent=''; });
   document.getElementById('taskCount').textContent = '0 / 4';
   document.getElementById('progressLabel').textContent = '0 of 4 complete';
   document.getElementById('progressFill').style.width = '0%';
 
-  document.querySelectorAll('#signalOpts button').forEach(b => {
-    b.disabled=false; b.className='answer-option';
+  // Reset calendar options
+  document.querySelectorAll('#cal-opts button').forEach(b => {
+    b.disabled = false;
+    b.className = 'answer-option';
   });
-  document.getElementById('signalFeedback').style.display='none';
-  document.getElementById('btnContinueContact').disabled = true;
-  document.getElementById('openingLine').value = '';
-  document.getElementById('openerFeedback').style.display = 'none';
-  document.getElementById('meetingOutcome').value = '';
-  document.getElementById('consultNotes').value = '';
-  document.getElementById('taskType').value = '';
-  document.getElementById('taskDue').value = '';
-  document.getElementById('stageFeedback').style.display='none';
-  document.querySelectorAll('.pipe-stage').forEach((s,i) => {
-    s.classList.remove('active','correct'); if(i===0) s.classList.add('prev');
-  });
-  buildChecklist();
+  document.getElementById('cal-feedback').style.display = 'none';
+  document.getElementById('btn-cal-continue').disabled = true;
 
-  tabsVisited = new Set([0]);
-  signalDone = false;
+  // Reset filter panel
+  closeFilterPanel();
+  document.getElementById('filterBody').innerHTML = `
+    <div style="font-size:13px;color:var(--text-secondary);padding:14px;text-align:center" id="noFiltersMsg">This view doesn't have any advanced filters.</div>
+    <div style="position:relative;display:inline-block;margin:0 14px 14px">
+      <button class="add-filter-btn needs-action" id="addFilterBtn" onclick="openAddFilterModal()">+ Add filter</button>
+      <div class="action-arrow right">Click here</div>
+    </div>
+  `;
+  // Restore Advanced filters button highlight
+  const advBtn = document.querySelector('#advFilterLink button');
+  if (advBtn) advBtn.classList.add('needs-action');
+  document.getElementById('bookedBody').innerHTML = `
+    <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal A</div><div class="deal-card-line">Qualifying Activity: Booked</div></div>
+    <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal B</div><div class="deal-card-line">Qualifying Activity: Booked</div></div>
+    <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal C</div><div class="deal-card-line">Qualifying Activity: Booked</div></div>
+  `;
+  document.getElementById('bookedCount').textContent = '3';
+  document.getElementById('dealCount').textContent = '9';
+  document.querySelectorAll('.board-col').forEach(col => col.style.opacity = '1');
 
-  // reset contact tabs
-  for(let j=0;j<4;j++) document.getElementById(`ctab-${j}`).style.display = j===0?'block':'none';
+  // Reset contact tabs
+  for(let j=0;j<3;j++) document.getElementById(`ctab-${j}`).style.display = j===0?'block':'none';
   document.querySelectorAll('.contact-tab').forEach((t,i) => {
     t.classList.toggle('active', i===0);
-    delete t.dataset.seen;
+    if (i!==0) delete t.dataset.seen;
   });
-  // Mark overview tab as seen (it's always open)
-  document.querySelectorAll('.contact-tab')[0].dataset.seen = 'true';
+  // Restore Activities tab highlight
+  document.getElementById('activitiesTab').classList.add('needs-action');
   document.getElementById('signalNudge').style.display = 'block';
-  document.getElementById('signalNudge').innerHTML = '<strong>Check these tabs first:</strong> Activity, Website activity, Conversations — the answer is in there.';
   const opts = document.getElementById('signalOpts');
-  opts.style.opacity = '0.35';
+  opts.style.opacity = '0.4';
   opts.style.pointerEvents = 'none';
+  opts.querySelectorAll('button').forEach(b => { b.disabled = false; b.className = 'answer-option'; });
+  document.getElementById('signalFeedback').style.display = 'none';
+  document.getElementById('btn-contact-continue').disabled = true;
+
+  // Reset post-call
+  document.getElementById('meetingOutcome').value = '';
+  document.getElementById('consultNotes').value = '';
+  document.getElementById('taskName').value = '';
+  document.getElementById('taskDate').value = '';
+  document.getElementById('taskReminder').value = '';
+  document.querySelectorAll('.pipe-stage').forEach(s => s.classList.remove('active','correct'));
+  document.getElementById('ss-fb-2').style.display = 'none';
+  document.getElementById('qualActivityAuto').style.display = 'none';
+  for(let i=0;i<4;i++){
+    const ss = document.getElementById(`ss-${i}`);
+    ss.classList.remove('done','active');
+    document.getElementById(`ss-num-${i}`).textContent = i+1;
+    document.getElementById(`ss-status-${i}`).textContent = 'Not started';
+    document.getElementById(`ss-save-${i}`).disabled = true;
+    document.getElementById(`ss-fb-${i}`).style.display = 'none';
+  }
+  document.getElementById('ss-0').classList.add('active');
+  document.getElementById('finishPostRow').style.display = 'none';
+  for(let i=0;i<4;i++) document.getElementById(`ss-card-${i}`).style.display = i===0?'block':'none';
 
   goTo(0);
 }
 
-// ── Init ───────────────────────────────────
-buildChecklist();
+// ── Init ──────────────────────────
 goTo(0);
 </script>
 </body>
