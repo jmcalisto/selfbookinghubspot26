@@ -452,6 +452,24 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   display: inline-flex;
   padding: 4px 8px;
 }
+/* Per-note "Reviewed" tick */
+.note-tick-row {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  padding: 4px 8px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  user-select: none;
+}
+.note-tick-row input {
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  accent-color: var(--accent);
+}
 /* Floating "Click here" arrow indicator */
 .action-arrow {
   position: absolute;
@@ -1081,7 +1099,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
                 </div>
                 <div class="feedback-box" id="cal-feedback"></div>
                 <div class="btn-row">
-                  <button class="btn btn-primary" id="btn-cal-continue" onclick="completeCal()" disabled>Continue to HubSpot</button>
+                  <button class="btn btn-primary" id="btn-cal-continue" onclick="completeCal()" disabled>Continue to Hugspot</button>
                 </div>
               </div>
             </div>
@@ -1451,38 +1469,45 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
           <div class="hs-card" id="ss-card-1" style="display:none">
             <div class="hs-card-header"><span class="hs-card-title">2 — Consult notes</span></div>
             <div class="hs-card-body">
-              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">Go to the deal → <strong>Notes</strong> tab → click <strong>Create a note</strong>. Fill in each section below. <em style="color:var(--text-light)">Tip: if you used an AI note-taker during the appointment, you can copy & paste the relevant text into each field.</em></div>
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">Go to the deal → <strong>Notes</strong> tab → click <strong>Create a note</strong>. Read each section below, edit it to match your real conversation, then tick it off. <em style="color:var(--text-light)">The fields are pre-filled with an example consult note for John Wick so you can see what good notes look like. Tip: if you took notes during the appointment, you can copy &amp; paste the relevant text into each field.</em></div>
               <div id="noteFields">
                 <div class="form-group">
                   <label class="hs-label">Past</label>
-                  <textarea class="hs-textarea note-field" data-key="past" rows="2" placeholder="What's their English history? School, apps, courses they've tried…" oninput="checkNotes()"></textarea>
+                  <textarea class="hs-textarea note-field" data-key="past" rows="2" placeholder="What's their English history? School, apps, courses they've tried…" oninput="checkNotes()">Studied English at school years ago, then stopped. Tried Duolingo and a few YouTube videos but nothing stuck. Scored 45% on our A1–A2 quiz — the basics are there but grammar is shaky.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="past" onchange="checkNotes()"> Reviewed this section</label>
                 </div>
                 <div class="form-group">
                   <label class="hs-label">Present</label>
-                  <textarea class="hs-textarea note-field" data-key="present" rows="2" placeholder="Where are they now? Current role, current English use…" oninput="checkNotes()"></textarea>
+                  <textarea class="hs-textarea note-field" data-key="present" rows="2" placeholder="Where are they now? Current role, current English use…" oninput="checkNotes()">Works in logistics in Spain. Uses English for the odd supplier email but avoids speaking on calls. Currently sitting around A2.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="present" onchange="checkNotes()"> Reviewed this section</label>
                 </div>
                 <div class="form-group">
                   <label class="hs-label">Future</label>
-                  <textarea class="hs-textarea note-field" data-key="future" rows="2" placeholder="Where do they want to be? Job, life, ambitions…" oninput="checkNotes()"></textarea>
+                  <textarea class="hs-textarea note-field" data-key="future" rows="2" placeholder="Where do they want to be? Job, life, ambitions…" oninput="checkNotes()">Wants to move into a regional role that needs confident spoken English within the next year, and to travel without relying on translation apps.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="future" onchange="checkNotes()"> Reviewed this section</label>
                 </div>
                 <div class="form-group">
                   <label class="hs-label">Why now</label>
-                  <textarea class="hs-textarea note-field" data-key="whynow" rows="2" placeholder="What's prompting them to take action now?" oninput="checkNotes()"></textarea>
+                  <textarea class="hs-textarea note-field" data-key="whynow" rows="2" placeholder="What's prompting them to take action now?" oninput="checkNotes()">A regional role is opening up soon and his manager hinted he's a candidate — he feels his English is the only thing holding him back.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="whynow" onchange="checkNotes()"> Reviewed this section</label>
                 </div>
                 <div class="form-group">
                   <label class="hs-label">Goal</label>
-                  <textarea class="hs-textarea note-field" data-key="goal" rows="2" placeholder="What does success look like for them?" oninput="checkNotes()"></textarea>
+                  <textarea class="hs-textarea note-field" data-key="goal" rows="2" placeholder="What does success look like for them?" oninput="checkNotes()">Lead a supplier call in English and hold a 10-minute conversation without freezing, ready in time for the promotion.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="goal" onchange="checkNotes()"> Reviewed this section</label>
                 </div>
                 <div class="form-group">
                   <label class="hs-label">Hot button</label>
-                  <textarea class="hs-textarea note-field" data-key="hotbutton" rows="2" placeholder="What's their emotional driver? Pain point, fear, urgency?" oninput="checkNotes()"></textarea>
+                  <textarea class="hs-textarea note-field" data-key="hotbutton" rows="2" placeholder="What's their emotional driver? Pain point, fear, urgency?" oninput="checkNotes()">Froze on a recent supplier call and the team noticed — scared of being passed over for the promotion because of his English.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="hotbutton" onchange="checkNotes()"> Reviewed this section</label>
                 </div>
                 <div class="form-group">
                   <label class="hs-label">Next steps</label>
-                  <textarea class="hs-textarea note-field" data-key="nextsteps" rows="2" placeholder="What was agreed? Follow-up date, decisions pending?" oninput="checkNotes()"></textarea>
+                  <textarea class="hs-textarea note-field" data-key="nextsteps" rows="2" placeholder="What was agreed? Follow-up date, decisions pending?" oninput="checkNotes()">Walk through starter course options, send pricing and a level plan, and book a follow-up call next week to confirm enrolment.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="nextsteps" onchange="checkNotes()"> Reviewed this section</label>
                 </div>
               </div>
-              <div style="font-size:12px;color:var(--text-light);margin-top:6px"><span id="notesProgress">0</span> / 7 sections filled</div>
+              <div style="font-size:12px;color:var(--text-light);margin-top:6px"><span id="notesProgress">0</span> / 7 sections reviewed</div>
               <div class="feedback-box" id="ss-fb-1"></div>
               <div class="btn-row">
                 <button class="btn btn-primary" id="ss-save-1" onclick="confirmSubstep(1)" disabled>Save note</button>
@@ -2030,15 +2055,9 @@ function openSubstep(i) {
   document.querySelectorAll('#panel-3 .needs-action').forEach(e => e.classList.remove('needs-action'));
   if (i === 0 && !substepDone[0]) document.getElementById('meetingOutcome').classList.add('needs-action');
   if (i === 1 && !substepDone[1]) {
-    // Highlight the first unfilled note field
-    const fields = document.querySelectorAll('.note-field');
-    let highlighted = false;
-    fields.forEach(f => {
-      if (!highlighted && f.value.trim().length < 3) {
-        f.classList.add('needs-action');
-        highlighted = true;
-      }
-    });
+    // Reflect the current (pre-filled) note state: updates progress, enables Save
+    // when all 7 are filled, and otherwise highlights the first unfilled field.
+    checkNotes();
   }
   if (i === 2 && !substepDone[2]) {
     document.getElementById('dragDeal').classList.add('needs-action');
@@ -2093,23 +2112,23 @@ function checkSubstep(i) {
 }
 
 function checkNotes() {
-  const fields = document.querySelectorAll('.note-field');
-  let filled = 0;
-  fields.forEach(f => { if (f.value.trim().length >= 3) filled++; });
-  document.getElementById('notesProgress').textContent = filled;
+  const ticks = document.querySelectorAll('.note-tick');
+  let checked = 0;
+  ticks.forEach(t => { if (t.checked) checked++; });
+  document.getElementById('notesProgress').textContent = checked;
   const save = document.getElementById('ss-save-1');
-  save.disabled = filled < 7;
-  if (filled >= 7) {
-    fields.forEach(f => f.classList.remove('needs-action'));
+  save.disabled = checked < ticks.length;
+  // Clear all tick-row highlights first
+  document.querySelectorAll('.note-tick-row').forEach(r => r.classList.remove('needs-action'));
+  if (checked >= ticks.length) {
     save.classList.add('needs-action');
   } else {
     save.classList.remove('needs-action');
-    // Highlight the first unfilled
+    // Highlight the first section not yet ticked
     let highlighted = false;
-    fields.forEach(f => {
-      f.classList.remove('needs-action');
-      if (!highlighted && f.value.trim().length < 3) {
-        f.classList.add('needs-action');
+    ticks.forEach(t => {
+      if (!highlighted && !t.checked) {
+        t.closest('.note-tick-row').classList.add('needs-action');
         highlighted = true;
       }
     });
@@ -2286,7 +2305,14 @@ function resetAll() {
 
   // Reset post-appointment
   document.getElementById('meetingOutcome').value = '';
-  document.querySelectorAll('.note-field').forEach(f => f.value = '');
+  // Restore the pre-filled example notes (captured at init) rather than blanking them
+  document.querySelectorAll('.note-field').forEach(f => {
+    f.value = NOTE_DEFAULTS[f.dataset.key] || '';
+    f.classList.remove('needs-action');
+  });
+  // Un-tick every section and clear their highlights
+  document.querySelectorAll('.note-tick').forEach(t => t.checked = false);
+  document.querySelectorAll('.note-tick-row').forEach(r => r.classList.remove('needs-action'));
   document.getElementById('notesProgress').textContent = '0';
   document.getElementById('taskName').value = '';
   document.getElementById('taskDate').value = '';
@@ -2320,6 +2346,9 @@ function resetAll() {
 }
 
 // ── Init ──────────────────────────
+// Capture the pre-filled example consult notes so they can be restored on reset.
+const NOTE_DEFAULTS = {};
+document.querySelectorAll('.note-field').forEach(f => { NOTE_DEFAULTS[f.dataset.key] = f.value; });
 goTo(0);
 </script>
 </body>
