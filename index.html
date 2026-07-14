@@ -953,6 +953,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 .result-item:last-child { border: none; }
 .result-tick { color: var(--green); font-size: 15px; flex-shrink: 0; }
 .closer-quote { background: var(--accent-light); border: 1px solid var(--accent-mid); border-radius: var(--r-lg); padding: 16px 20px; font-size: 13px; line-height: 1.7; margin-bottom: 24px; text-align: left; color: var(--text-primary); }
+/* The two words learners type into the fill-in-the-blank Knowledge Check */
+.code-word { background: var(--yellow-light); color: #8C5E00; padding: 0 5px; border-radius: 4px; border-bottom: 2px solid var(--yellow); }
 
 /* ── Language switcher ────────────── */
 /* Lives inside the top nav so it can never overlap or block content below
@@ -1667,12 +1669,10 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
             <!-- Completion code -->
             <div style="background:var(--white);border:2px dashed var(--accent);border-radius:var(--r-lg);padding:20px;margin-bottom:20px;text-align:left">
               <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px" data-i18n="code_label">🔑 Your completion code</div>
-              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5" data-i18n="code_instr">Copy this code and paste it into the Knowledge Check on the next page to mark this lesson complete.</div>
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5" data-i18n="code_instr">In the Knowledge Check on the next page, type the two highlighted words to mark this lesson complete.</div>
               <div style="display:flex;align-items:center;gap:10px;background:var(--accent-light);border:1px solid var(--accent-mid);border-radius:var(--r-md);padding:12px 16px">
-                <code id="completionCode" style="flex:1;font-family:'Lexend',monospace;font-size:18px;font-weight:700;color:var(--accent-dark);letter-spacing:0.04em;user-select:all">WSE-SB-OPEN-DECISION-2026</code>
-                <button class="btn btn-primary" id="copyCodeBtn" onclick="copyCode()" data-i18n="btn_copy">📋 Copy</button>
+                <code id="completionCode" style="flex:1;font-family:'Lexend',monospace;font-size:18px;font-weight:700;color:var(--accent-dark);letter-spacing:0.04em;user-select:all">WSE-SB-<span class="code-word">OPEN</span>-<span class="code-word">DECISION</span>-2026</code>
               </div>
-              <div id="copyConfirm" style="font-size:12px;color:var(--green);margin-top:8px;opacity:0;transition:opacity .2s" data-i18n="copy_confirm">✓ Copied to clipboard</div>
             </div>
 
             <button class="btn btn-secondary" onclick="resetAll()" data-i18n="btn_startagain">↺ Start again</button>
@@ -1882,8 +1882,8 @@ const I18N = {
     result_6: "Created a follow-up task with a reminder",
     closer_quote: "<strong>Remember:</strong> Good prep takes 5 minutes. Clean admin takes 5 minutes. That's 10 minutes that turns a warm lead into a student.",
     code_label: "🔑 Your completion code",
-    code_instr: "Copy this code and paste it into the Knowledge Check on the next page to mark this lesson complete.",
-    btn_copy: "📋 Copy", btn_copied: "✓ Copied", copy_confirm: "✓ Copied to clipboard", copy_selected: "✓ Code selected — press Ctrl/Cmd+C to copy", btn_startagain: "↺ Start again"
+    code_instr: "In the Knowledge Check on the next page, type the two highlighted words to mark this lesson complete.",
+    btn_startagain: "↺ Start again"
   },
   es: {
     title: "HubSpot Sandbox — Práctica de auto-reserva",
@@ -2024,8 +2024,8 @@ const I18N = {
     result_6: "Creaste una tarea de seguimiento con recordatorio",
     closer_quote: "<strong>Recuerda:</strong> Una buena preparación lleva 5 minutos. Una gestión limpia lleva 5 minutos. Son 10 minutos que convierten un lead cálido en un alumno.",
     code_label: "🔑 Tu código de finalización",
-    code_instr: "Copia este código y pégalo en el Knowledge Check de la página siguiente para marcar esta lección como completada.",
-    btn_copy: "📋 Copiar", btn_copied: "✓ Copiado", copy_confirm: "✓ Copiado al portapapeles", copy_selected: "✓ Código seleccionado — pulsa Ctrl/Cmd+C para copiar", btn_startagain: "↺ Empezar de nuevo"
+    code_instr: "En el Knowledge Check de la página siguiente, escribe las dos palabras resaltadas para marcar esta lección como completada.",
+    btn_startagain: "↺ Empezar de nuevo"
   },
   fr: {
     title: "HubSpot Sandbox — Entraînement à l'auto-réservation",
@@ -2166,8 +2166,8 @@ const I18N = {
     result_6: "Créé une tâche de suivi avec rappel",
     closer_quote: "<strong>Souvenez-vous :</strong> Une bonne préparation prend 5 minutes. Une administration propre prend 5 minutes. Ce sont 10 minutes qui transforment un lead chaud en élève.",
     code_label: "🔑 Votre code de validation",
-    code_instr: "Copiez ce code et collez-le dans le Knowledge Check de la page suivante pour marquer cette leçon comme terminée.",
-    btn_copy: "📋 Copier", btn_copied: "✓ Copié", copy_confirm: "✓ Copié dans le presse-papiers", copy_selected: "✓ Code sélectionné — appuyez sur Ctrl/Cmd+C pour copier", btn_startagain: "↺ Recommencer"
+    code_instr: "Dans le Knowledge Check de la page suivante, saisissez les deux mots surlignés pour marquer cette leçon comme terminée.",
+    btn_startagain: "↺ Recommencer"
   },
   de: {
     title: "HubSpot Sandbox — Übung zur Selbstbuchung",
@@ -2308,8 +2308,8 @@ const I18N = {
     result_6: "Eine Folgeaufgabe mit Erinnerung erstellt",
     closer_quote: "<strong>Denk daran:</strong> Gute Vorbereitung dauert 5 Minuten. Saubere Pflege dauert 5 Minuten. Das sind 10 Minuten, die aus einem warmen Lead einen Lernenden machen.",
     code_label: "🔑 Dein Abschlusscode",
-    code_instr: "Kopiere diesen Code und füge ihn in den Knowledge Check auf der nächsten Seite ein, um diese Lektion als abgeschlossen zu markieren.",
-    btn_copy: "📋 Kopieren", btn_copied: "✓ Kopiert", copy_confirm: "✓ In die Zwischenablage kopiert", copy_selected: "✓ Code ausgewählt — Strg/Cmd+C zum Kopieren", btn_startagain: "↺ Neu starten"
+    code_instr: "Gib im Knowledge Check auf der nächsten Seite die zwei hervorgehobenen Wörter ein, um diese Lektion als abgeschlossen zu markieren.",
+    btn_startagain: "↺ Neu starten"
   },
   it: {
     title: "HubSpot Sandbox — Esercitazione sull'auto-prenotazione",
@@ -2450,8 +2450,8 @@ const I18N = {
     result_6: "Creato un'attività di follow-up con promemoria",
     closer_quote: "<strong>Ricorda:</strong> Una buona preparazione richiede 5 minuti. Una gestione pulita richiede 5 minuti. Sono 10 minuti che trasformano un lead caldo in uno studente.",
     code_label: "🔑 Il tuo codice di completamento",
-    code_instr: "Copia questo codice e incollalo nel Knowledge Check della pagina successiva per segnare questa lezione come completata.",
-    btn_copy: "📋 Copia", btn_copied: "✓ Copiato", copy_confirm: "✓ Copiato negli appunti", copy_selected: "✓ Codice selezionato — premi Ctrl/Cmd+C per copiare", btn_startagain: "↺ Ricomincia"
+    code_instr: "Nel Knowledge Check della pagina successiva, scrivi le due parole evidenziate per segnare questa lezione come completata.",
+    btn_startagain: "↺ Ricomincia"
   },
   pt: {
     title: "HubSpot Sandbox — Prática de auto-agendamento",
@@ -2592,8 +2592,8 @@ const I18N = {
     result_6: "Criaste uma tarefa de seguimento com lembrete",
     closer_quote: "<strong>Lembra-te:</strong> Uma boa preparação leva 5 minutos. Uma gestão limpa leva 5 minutos. São 10 minutos que transformam um lead quente num aluno.",
     code_label: "🔑 O teu código de conclusão",
-    code_instr: "Copia este código e cola-o no Knowledge Check da página seguinte para marcar esta lição como concluída.",
-    btn_copy: "📋 Copiar", btn_copied: "✓ Copiado", copy_confirm: "✓ Copiado para a área de transferência", copy_selected: "✓ Código selecionado — prime Ctrl/Cmd+C para copiar", btn_startagain: "↺ Começar de novo"
+    code_instr: "No Knowledge Check da página seguinte, escreve as duas palavras destacadas para marcar esta lição como concluída.",
+    btn_startagain: "↺ Começar de novo"
   },
   ru: {
     title: "HubSpot Sandbox — Практика самостоятельной записи",
@@ -2734,8 +2734,8 @@ const I18N = {
     result_6: "Создали задачу для follow-up с напоминанием",
     closer_quote: "<strong>Помните:</strong> Хорошая подготовка занимает 5 минут. Чистое ведение — 5 минут. Это 10 минут, которые превращают тёплого лида в студента.",
     code_label: "🔑 Ваш код завершения",
-    code_instr: "Скопируйте этот код и вставьте его в Knowledge Check на следующей странице, чтобы отметить этот урок как завершённый.",
-    btn_copy: "📋 Копировать", btn_copied: "✓ Скопировано", copy_confirm: "✓ Скопировано в буфер обмена", copy_selected: "✓ Код выделен — нажмите Ctrl/Cmd+C, чтобы скопировать", btn_startagain: "↺ Начать заново"
+    code_instr: "В Knowledge Check на следующей странице введите два выделенных слова, чтобы отметить этот урок как завершённый.",
+    btn_startagain: "↺ Начать заново"
   },
   tr: {
     title: "HubSpot Sandbox — Kendi Kendine Randevu Alıştırması",
@@ -2876,8 +2876,8 @@ const I18N = {
     result_6: "Hatırlatmalı bir takip görevi oluşturdunuz",
     closer_quote: "<strong>Unutmayın:</strong> İyi hazırlık 5 dakika sürer. Temiz yönetim 5 dakika sürer. Bu, sıcak bir müşteri adayını öğrenciye dönüştüren 10 dakikadır.",
     code_label: "🔑 Tamamlama kodunuz",
-    code_instr: "Bu kodu kopyalayın ve bu dersi tamamlanmış olarak işaretlemek için sonraki sayfadaki Knowledge Check'e yapıştırın.",
-    btn_copy: "📋 Kopyala", btn_copied: "✓ Kopyalandı", copy_confirm: "✓ Panoya kopyalandı", copy_selected: "✓ Kod seçildi — kopyalamak için Ctrl/Cmd+C'ye basın", btn_startagain: "↺ Yeniden başla"
+    code_instr: "Bu dersi tamamlanmış olarak işaretlemek için sonraki sayfadaki Knowledge Check'e vurgulanan iki kelimeyi yazın.",
+    btn_startagain: "↺ Yeniden başla"
   },
   cs: {
     title: "HubSpot Sandbox — Nácvik samostatné rezervace",
@@ -3018,8 +3018,8 @@ const I18N = {
     result_6: "Vytvořili jste navazující úkol s připomenutím",
     closer_quote: "<strong>Pamatujte:</strong> Dobrá příprava zabere 5 minut. Čistá administrativa zabere 5 minut. To je 10 minut, které promění vlažný lead ve studenta.",
     code_label: "🔑 Váš kód dokončení",
-    code_instr: "Zkopírujte tento kód a vložte ho do Knowledge Check na další stránce, abyste tuto lekci označili jako dokončenou.",
-    btn_copy: "📋 Kopírovat", btn_copied: "✓ Zkopírováno", copy_confirm: "✓ Zkopírováno do schránky", copy_selected: "✓ Kód vybrán — stiskněte Ctrl/Cmd+C pro zkopírování", btn_startagain: "↺ Začít znovu"
+    code_instr: "V Knowledge Check na další stránce napište dvě zvýrazněná slova, abyste tuto lekci označili jako dokončenou.",
+    btn_startagain: "↺ Začít znovu"
   },
   id: {
     title: "HubSpot Sandbox — Latihan Pemesanan Mandiri",
@@ -3160,8 +3160,8 @@ const I18N = {
     result_6: "Membuat tugas tindak lanjut dengan pengingat",
     closer_quote: "<strong>Ingat:</strong> Persiapan yang baik memakan 5 menit. Administrasi yang rapi memakan 5 menit. Itu 10 menit yang mengubah lead hangat menjadi siswa.",
     code_label: "🔑 Kode penyelesaian Anda",
-    code_instr: "Salin kode ini dan tempel ke Knowledge Check di halaman berikutnya untuk menandai pelajaran ini selesai.",
-    btn_copy: "📋 Salin", btn_copied: "✓ Disalin", copy_confirm: "✓ Disalin ke papan klip", copy_selected: "✓ Kode dipilih — tekan Ctrl/Cmd+C untuk menyalin", btn_startagain: "↺ Mulai lagi"
+    code_instr: "Di Knowledge Check pada halaman berikutnya, ketik dua kata yang disorot untuk menandai pelajaran ini selesai.",
+    btn_startagain: "↺ Mulai lagi"
   },
   vi: {
     title: "HubSpot Sandbox — Luyện tập tự đặt lịch",
@@ -3302,8 +3302,8 @@ const I18N = {
     result_6: "Tạo nhiệm vụ theo dõi kèm nhắc nhở",
     closer_quote: "<strong>Hãy nhớ:</strong> Chuẩn bị tốt mất 5 phút. Quản trị gọn gàng mất 5 phút. Đó là 10 phút biến một lead ấm thành một học viên.",
     code_label: "🔑 Mã hoàn thành của bạn",
-    code_instr: "Sao chép mã này và dán vào Knowledge Check ở trang tiếp theo để đánh dấu bài học này là đã hoàn thành.",
-    btn_copy: "📋 Sao chép", btn_copied: "✓ Đã sao chép", copy_confirm: "✓ Đã sao chép vào bộ nhớ tạm", copy_selected: "✓ Đã chọn mã — nhấn Ctrl/Cmd+C để sao chép", btn_startagain: "↺ Bắt đầu lại"
+    code_instr: "Trong Knowledge Check ở trang tiếp theo, hãy gõ hai từ được tô sáng để đánh dấu bài học này là đã hoàn thành.",
+    btn_startagain: "↺ Bắt đầu lại"
   },
   th: {
     title: "HubSpot Sandbox — ฝึกการจองด้วยตนเอง",
@@ -3444,8 +3444,8 @@ const I18N = {
     result_6: "สร้างงานติดตามผลพร้อมการแจ้งเตือน",
     closer_quote: "<strong>จำไว้ว่า:</strong> การเตรียมตัวที่ดีใช้เวลา 5 นาที การจัดการที่สะอาดใช้เวลา 5 นาที นั่นคือ 10 นาทีที่เปลี่ยนลูกค้าเป้าหมายที่อุ่นให้เป็นนักเรียน",
     code_label: "🔑 รหัสการทำเสร็จของคุณ",
-    code_instr: "คัดลอกรหัสนี้แล้ววางลงใน Knowledge Check ในหน้าถัดไปเพื่อทำเครื่องหมายว่าบทเรียนนี้เสร็จสิ้น",
-    btn_copy: "📋 คัดลอก", btn_copied: "✓ คัดลอกแล้ว", copy_confirm: "✓ คัดลอกไปยังคลิปบอร์ดแล้ว", copy_selected: "✓ เลือกรหัสแล้ว — กด Ctrl/Cmd+C เพื่อคัดลอก", btn_startagain: "↺ เริ่มใหม่"
+    code_instr: "ใน Knowledge Check ในหน้าถัดไป ให้พิมพ์สองคำที่ไฮไลต์ไว้เพื่อทำเครื่องหมายว่าบทเรียนนี้เสร็จสิ้น",
+    btn_startagain: "↺ เริ่มใหม่"
   },
   ko: {
     title: "HubSpot Sandbox — 셀프 예약 연습",
@@ -3586,8 +3586,8 @@ const I18N = {
     result_6: "리마인더가 있는 후속 작업을 만듦",
     closer_quote: "<strong>기억하세요:</strong> 좋은 준비는 5분이 걸립니다. 깔끔한 관리는 5분이 걸립니다. 그 10분이 따뜻한 리드를 학생으로 바꿉니다.",
     code_label: "🔑 완료 코드",
-    code_instr: "이 코드를 복사해 다음 페이지의 Knowledge Check에 붙여넣어 이 레슨을 완료로 표시하세요.",
-    btn_copy: "📋 복사", btn_copied: "✓ 복사됨", copy_confirm: "✓ 클립보드에 복사됨", copy_selected: "✓ 코드 선택됨 — Ctrl/Cmd+C를 눌러 복사하세요", btn_startagain: "↺ 다시 시작"
+    code_instr: "다음 페이지의 Knowledge Check에서 강조된 두 단어를 입력해 이 레슨을 완료로 표시하세요.",
+    btn_startagain: "↺ 다시 시작"
   },
   zh: {
     title: "HubSpot Sandbox — 自助預約練習",
@@ -3728,8 +3728,8 @@ const I18N = {
     result_6: "建立帶提醒的後續任務",
     closer_quote: "<strong>記住：</strong>好的準備花 5 分鐘。乾淨的管理花 5 分鐘。這 10 分鐘就能把一個熱情的潛在客戶變成學生。",
     code_label: "🔑 你的完成代碼",
-    code_instr: "複製此代碼並貼到下一頁的 Knowledge Check，以將本課標記為完成。",
-    btn_copy: "📋 複製", btn_copied: "✓ 已複製", copy_confirm: "✓ 已複製到剪貼簿", copy_selected: "✓ 已選取代碼 — 按 Ctrl/Cmd+C 複製", btn_startagain: "↺ 重新開始"
+    code_instr: "在下一頁的 Knowledge Check 中，輸入兩個標示的單字，以將本課標記為完成。",
+    btn_startagain: "↺ 重新開始"
   },
   ar: {
     title: "HubSpot Sandbox — تدريب الحجز الذاتي",
@@ -3870,8 +3870,8 @@ const I18N = {
     result_6: "أنشأت مهمة متابعة مع تذكير",
     closer_quote: "<strong>تذكّر:</strong> الإعداد الجيد يستغرق 5 دقائق. الإدارة النظيفة تستغرق 5 دقائق. هذه 10 دقائق تحوّل عميلًا محتملًا دافئًا إلى طالب.",
     code_label: "🔑 رمز الإكمال الخاص بك",
-    code_instr: "انسخ هذا الرمز والصقه في Knowledge Check في الصفحة التالية لوضع علامة على هذا الدرس كمكتمل.",
-    btn_copy: "📋 نسخ", btn_copied: "✓ تم النسخ", copy_confirm: "✓ تم النسخ إلى الحافظة", copy_selected: "✓ تم تحديد الرمز — اضغط Ctrl/Cmd+C للنسخ", btn_startagain: "↺ ابدأ من جديد"
+    code_instr: "في Knowledge Check في الصفحة التالية، اكتب الكلمتين المميزتين لوضع علامة على هذا الدرس كمكتمل.",
+    btn_startagain: "↺ ابدأ من جديد"
   },
   he: {
     title: "HubSpot Sandbox — תרגול קביעת פגישה עצמית",
@@ -4012,8 +4012,8 @@ const I18N = {
     result_6: "יצרת משימת מעקב עם תזכורת",
     closer_quote: "<strong>זכור:</strong> הכנה טובה לוקחת 5 דקות. ניהול נקי לוקח 5 דקות. אלה 10 דקות שהופכות ליד חמים לתלמיד.",
     code_label: "🔑 קוד הסיום שלך",
-    code_instr: "העתק קוד זה והדבק אותו ב-Knowledge Check בעמוד הבא כדי לסמן שיעור זה כהושלם.",
-    btn_copy: "📋 העתק", btn_copied: "✓ הועתק", copy_confirm: "✓ הועתק ללוח", copy_selected: "✓ הקוד נבחר — הקש Ctrl/Cmd+C להעתקה", btn_startagain: "↺ התחל מחדש"
+    code_instr: "ב-Knowledge Check בעמוד הבא, הקלד את שתי המילים המודגשות כדי לסמן שיעור זה כהושלם.",
+    btn_startagain: "↺ התחל מחדש"
   }
 };
 
@@ -4113,28 +4113,6 @@ function toast(title, msg) {
 function reveal(id) {
   const el = document.getElementById(id);
   if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' }), 80);
-}
-
-// ── Copy completion code ──────────────
-function copyCode() {
-  const code = document.getElementById('completionCode').textContent;
-  const confirm = document.getElementById('copyConfirm');
-  navigator.clipboard.writeText(code).then(() => {
-    confirm.style.opacity = '1';
-    document.getElementById('copyCodeBtn').textContent = t('btn_copied');
-    setTimeout(() => {
-      confirm.style.opacity = '0';
-      document.getElementById('copyCodeBtn').textContent = t('btn_copy');
-    }, 2500);
-  }).catch(() => {
-    // Fallback: select the text so user can manually copy
-    const range = document.createRange();
-    range.selectNode(document.getElementById('completionCode'));
-    window.getSelection().removeAllRanges();
-    window.getSelection().addRange(range);
-    confirm.textContent = t('copy_selected');
-    confirm.style.opacity = '1';
-  });
 }
 
 // ── Instruction map ─────────────────────
