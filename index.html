@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hugspot Sandbox — Self-Booking Practice</title>
+<title>HubSpot Sandbox — Self-Booking Practice</title>
 <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -955,14 +955,16 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 .closer-quote { background: var(--accent-light); border: 1px solid var(--accent-mid); border-radius: var(--r-lg); padding: 16px 20px; font-size: 13px; line-height: 1.7; margin-bottom: 24px; text-align: left; color: var(--text-primary); }
 
 /* ── Language switcher ────────────── */
-.langbar { position: fixed; bottom: 12px; left: 66px; z-index: 150; }
+/* Lives inside the top nav so it can never overlap or block content below
+   (a fixed bottom-left switcher used to sit on top of the step-3 continue
+   button in short embed iframes and intercept clicks). */
+.langbar { display: flex; align-items: center; }
 .langbar select {
-  font-family: var(--font); font-size: 12px; color: var(--text-primary);
-  background: var(--white); border: 1px solid var(--border);
-  border-radius: 6px; padding: 4px 24px 4px 8px; cursor: pointer;
-  box-shadow: 0 1px 4px rgba(45,62,80,.12);
+  font-family: var(--font); font-size: 12px; color: rgba(255,255,255,.85);
+  background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.2);
+  border-radius: 6px; padding: 3px 22px 3px 8px; cursor: pointer;
 }
-[dir="rtl"] .langbar { left: auto; right: 66px; }
+.langbar select option { color: var(--text-primary); background: var(--white); }
 
 /* ── Scrollbar ────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
@@ -972,8 +974,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 </style>
 </head>
 <body>
-
-<div class="langbar"><select id="langsel" aria-label="Language"></select></div>
 
 <div class="app-shell">
 
@@ -1001,8 +1001,9 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
       <div class="top-nav-item" data-i18n="nav_companies">Companies</div>
       <div class="top-nav-item" data-i18n="nav_tasks">Tasks</div>
       <div class="top-nav-sep"></div>
+      <div class="langbar"><select id="langsel" aria-label="Language"></select></div>
       <div class="account-pill"><span class="account-dot"></span> Wall Street English</div>
-      <div class="sandbox-badge">🧪 Hugspot Sandbox</div>
+      <div class="sandbox-badge">🧪 HubSpot Sandbox</div>
     </div>
 
     <!-- ── Instruction bar ── -->
@@ -1111,7 +1112,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
                 </div>
                 <div class="feedback-box" id="cal-feedback"></div>
                 <div class="btn-row">
-                  <button class="btn btn-primary" id="btn-cal-continue" onclick="completeCal()" disabled data-i18n="btn_continue_hugspot">Continue to Hugspot</button>
+                  <button class="btn btn-primary" id="btn-cal-continue" onclick="completeCal()" disabled data-i18n="btn_continue_hubspot">Continue to HubSpot</button>
                 </div>
               </div>
             </div>
@@ -1235,7 +1236,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
           </div>
         </div>
 
-        <div style="flex:1;overflow:hidden;display:flex;flex-direction:column;min-height:0">
+        <div id="contactScroll" style="flex:1;overflow-y:auto;min-height:0">
 
           <!-- Contact Tab: OVERVIEW -->
           <div class="pane-content" id="ctab-0">
@@ -1417,9 +1418,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
             </div>
           </div>
 
-        </div>
-
-        <!-- Signal question (always visible, gated by tab visits) -->
+        <!-- Signal question (scrolls with the content, gated by tab visits) -->
         <div style="background:var(--accent-light);border-top:1px solid var(--accent-mid);padding:16px 24px">
           <div style="display:flex;align-items:flex-start;gap:14px;max-width:900px;margin:0 auto">
             <div style="flex:1">
@@ -1438,8 +1437,10 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
               </div>
             </div>
           </div>
-        </div>
-      </div>
+
+        </div><!-- /signal box -->
+        </div><!-- /contactScroll -->
+      </div><!-- /panel-2 -->
 
       <!-- ════════════════════════════════════════════════════════ -->
       <!-- PANEL 3 — Post-appointment update                              -->
@@ -1743,7 +1744,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
    ───────────────────────────────────────────────────────────────────────── */
 const I18N = {
   en: {
-    title: "Hugspot Sandbox — Self-Booking Practice",
+    title: "HubSpot Sandbox — Self-Booking Practice",
     nav_contacts: "Contacts", nav_deals: "Deals", nav_companies: "Companies", nav_tasks: "Tasks",
     instr_label_0: "Step 1 — Calendar", instr_label_1: "Step 2 — Find the deal", instr_label_2: "Step 3 — Review the contact", instr_label_3: "Step 4 — Post-appointment update", instr_label_4: "Complete",
     instr_text_0: "Self-booked appointments appear in your <strong>Outlook calendar</strong>. Identify what you should do when you see one.",
@@ -1763,7 +1764,7 @@ const I18N = {
     opt_b: "Build a buffer slot before/after the appointment so I don't run out of time.",
     opt_c: "Move the appointment to a more convenient time without telling the lead.",
     opt_d: "Block out any time in my calendar I don't want self-booked leads to land on.",
-    btn_continue_hugspot: "Continue to Hugspot",
+    btn_continue_hubspot: "Continue to HubSpot",
     cal_fb_both: "✓ Both correct. Build buffer time around the appointment, and block out any time you don't want self-booked leads to land on.",
     cal_fb_one: "One correct answer found — one more to go.",
     toast_calset_t: "Calendar set", toast_calset_m: "Now find the deal in HubSpot.",
@@ -1885,7 +1886,7 @@ const I18N = {
     btn_copy: "📋 Copy", btn_copied: "✓ Copied", copy_confirm: "✓ Copied to clipboard", copy_selected: "✓ Code selected — press Ctrl/Cmd+C to copy", btn_startagain: "↺ Start again"
   },
   es: {
-    title: "Hugspot Sandbox — Práctica de auto-reserva",
+    title: "HubSpot Sandbox — Práctica de auto-reserva",
     nav_contacts: "Contactos", nav_deals: "Negocios", nav_companies: "Empresas", nav_tasks: "Tareas",
     instr_label_0: "Paso 1 — Calendario", instr_label_1: "Paso 2 — Encuentra el negocio", instr_label_2: "Paso 3 — Revisa el contacto", instr_label_3: "Paso 4 — Actualización tras la cita", instr_label_4: "Completado",
     instr_text_0: "Las citas auto-reservadas aparecen en tu <strong>calendario de Outlook</strong>. Identifica qué debes hacer cuando veas una.",
@@ -1905,7 +1906,7 @@ const I18N = {
     opt_b: "Crear un margen antes/después de la cita para no quedarme sin tiempo.",
     opt_c: "Mover la cita a una hora más cómoda sin avisar al lead.",
     opt_d: "Bloquear en mi calendario cualquier hora en la que no quiero que caigan leads auto-reservados.",
-    btn_continue_hugspot: "Continuar a Hugspot",
+    btn_continue_hubspot: "Continuar a HubSpot",
     cal_fb_both: "✓ Las dos correctas. Crea un margen alrededor de la cita y bloquea cualquier hora en la que no quieras que caigan leads auto-reservados.",
     cal_fb_one: "Una respuesta correcta encontrada — falta una más.",
     toast_calset_t: "Calendario listo", toast_calset_m: "Ahora encuentra el negocio en HubSpot.",
@@ -2027,7 +2028,7 @@ const I18N = {
     btn_copy: "📋 Copiar", btn_copied: "✓ Copiado", copy_confirm: "✓ Copiado al portapapeles", copy_selected: "✓ Código seleccionado — pulsa Ctrl/Cmd+C para copiar", btn_startagain: "↺ Empezar de nuevo"
   },
   fr: {
-    title: "Hugspot Sandbox — Entraînement à l'auto-réservation",
+    title: "HubSpot Sandbox — Entraînement à l'auto-réservation",
     nav_contacts: "Contacts", nav_deals: "Transactions", nav_companies: "Entreprises", nav_tasks: "Tâches",
     instr_label_0: "Étape 1 — Calendrier", instr_label_1: "Étape 2 — Trouver la transaction", instr_label_2: "Étape 3 — Examiner le contact", instr_label_3: "Étape 4 — Mise à jour après le rendez-vous", instr_label_4: "Terminé",
     instr_text_0: "Les rendez-vous auto-réservés apparaissent dans votre <strong>calendrier Outlook</strong>. Identifiez ce que vous devez faire quand vous en voyez un.",
@@ -2047,7 +2048,7 @@ const I18N = {
     opt_b: "Créer une marge avant/après le rendez-vous pour ne pas manquer de temps.",
     opt_c: "Déplacer le rendez-vous à une heure plus pratique sans prévenir le lead.",
     opt_d: "Bloquer dans mon calendrier toute plage où je ne veux pas que des leads s'auto-réservent.",
-    btn_continue_hugspot: "Continuer vers Hugspot",
+    btn_continue_hubspot: "Continuer vers HubSpot",
     cal_fb_both: "✓ Les deux sont correctes. Créez une marge autour du rendez-vous et bloquez toute plage où vous ne voulez pas que des leads s'auto-réservent.",
     cal_fb_one: "Une bonne réponse trouvée — encore une.",
     toast_calset_t: "Calendrier prêt", toast_calset_m: "Trouvez maintenant la transaction dans HubSpot.",
@@ -2169,7 +2170,7 @@ const I18N = {
     btn_copy: "📋 Copier", btn_copied: "✓ Copié", copy_confirm: "✓ Copié dans le presse-papiers", copy_selected: "✓ Code sélectionné — appuyez sur Ctrl/Cmd+C pour copier", btn_startagain: "↺ Recommencer"
   },
   de: {
-    title: "Hugspot Sandbox — Übung zur Selbstbuchung",
+    title: "HubSpot Sandbox — Übung zur Selbstbuchung",
     nav_contacts: "Kontakte", nav_deals: "Deals", nav_companies: "Unternehmen", nav_tasks: "Aufgaben",
     instr_label_0: "Schritt 1 — Kalender", instr_label_1: "Schritt 2 — Deal finden", instr_label_2: "Schritt 3 — Kontakt prüfen", instr_label_3: "Schritt 4 — Update nach dem Termin", instr_label_4: "Fertig",
     instr_text_0: "Selbstgebuchte Termine erscheinen in deinem <strong>Outlook-Kalender</strong>. Erkenne, was du tun solltest, wenn du einen siehst.",
@@ -2189,7 +2190,7 @@ const I18N = {
     opt_b: "Einen Puffer vor/nach dem Termin einbauen, damit mir die Zeit nicht ausgeht.",
     opt_c: "Den Termin ohne Rücksprache mit dem Lead auf eine passendere Zeit verschieben.",
     opt_d: "In meinem Kalender jede Zeit blockieren, in der keine selbstgebuchten Leads landen sollen.",
-    btn_continue_hugspot: "Weiter zu Hugspot",
+    btn_continue_hubspot: "Weiter zu HubSpot",
     cal_fb_both: "✓ Beide richtig. Baue Pufferzeit um den Termin ein und blockiere jede Zeit, in der keine selbstgebuchten Leads landen sollen.",
     cal_fb_one: "Eine richtige Antwort gefunden — noch eine.",
     toast_calset_t: "Kalender bereit", toast_calset_m: "Finde jetzt den Deal in HubSpot.",
@@ -2311,7 +2312,7 @@ const I18N = {
     btn_copy: "📋 Kopieren", btn_copied: "✓ Kopiert", copy_confirm: "✓ In die Zwischenablage kopiert", copy_selected: "✓ Code ausgewählt — Strg/Cmd+C zum Kopieren", btn_startagain: "↺ Neu starten"
   },
   it: {
-    title: "Hugspot Sandbox — Esercitazione sull'auto-prenotazione",
+    title: "HubSpot Sandbox — Esercitazione sull'auto-prenotazione",
     nav_contacts: "Contatti", nav_deals: "Trattative", nav_companies: "Aziende", nav_tasks: "Attività",
     instr_label_0: "Passo 1 — Calendario", instr_label_1: "Passo 2 — Trova la trattativa", instr_label_2: "Passo 3 — Esamina il contatto", instr_label_3: "Passo 4 — Aggiornamento dopo l'appuntamento", instr_label_4: "Completato",
     instr_text_0: "Gli appuntamenti auto-prenotati compaiono nel tuo <strong>calendario Outlook</strong>. Individua cosa fare quando ne vedi uno.",
@@ -2331,7 +2332,7 @@ const I18N = {
     opt_b: "Creare un margine prima/dopo l'appuntamento per non restare senza tempo.",
     opt_c: "Spostare l'appuntamento a un orario più comodo senza avvisare il lead.",
     opt_d: "Bloccare nel mio calendario qualsiasi orario in cui non voglio che atterrino lead auto-prenotati.",
-    btn_continue_hugspot: "Continua su Hugspot",
+    btn_continue_hubspot: "Continua su HubSpot",
     cal_fb_both: "✓ Entrambe corrette. Crea un margine attorno all'appuntamento e blocca qualsiasi orario in cui non vuoi che atterrino lead auto-prenotati.",
     cal_fb_one: "Trovata una risposta corretta — ne manca un'altra.",
     toast_calset_t: "Calendario pronto", toast_calset_m: "Ora trova la trattativa in HubSpot.",
@@ -2453,7 +2454,7 @@ const I18N = {
     btn_copy: "📋 Copia", btn_copied: "✓ Copiato", copy_confirm: "✓ Copiato negli appunti", copy_selected: "✓ Codice selezionato — premi Ctrl/Cmd+C per copiare", btn_startagain: "↺ Ricomincia"
   },
   pt: {
-    title: "Hugspot Sandbox — Prática de auto-agendamento",
+    title: "HubSpot Sandbox — Prática de auto-agendamento",
     nav_contacts: "Contactos", nav_deals: "Negócios", nav_companies: "Empresas", nav_tasks: "Tarefas",
     instr_label_0: "Passo 1 — Calendário", instr_label_1: "Passo 2 — Encontrar o negócio", instr_label_2: "Passo 3 — Rever o contacto", instr_label_3: "Passo 4 — Atualização após a reunião", instr_label_4: "Concluído",
     instr_text_0: "As reuniões auto-agendadas aparecem no teu <strong>calendário do Outlook</strong>. Identifica o que deves fazer quando vês uma.",
@@ -2473,7 +2474,7 @@ const I18N = {
     opt_b: "Criar uma margem antes/depois da reunião para não ficar sem tempo.",
     opt_c: "Mover a reunião para uma hora mais conveniente sem avisar o lead.",
     opt_d: "Bloquear no meu calendário qualquer hora em que não quero que caiam leads auto-agendados.",
-    btn_continue_hugspot: "Continuar para o Hugspot",
+    btn_continue_hubspot: "Continuar para o HubSpot",
     cal_fb_both: "✓ Ambas corretas. Cria uma margem à volta da reunião e bloqueia qualquer hora em que não queiras que caiam leads auto-agendados.",
     cal_fb_one: "Uma resposta correta encontrada — falta mais uma.",
     toast_calset_t: "Calendário pronto", toast_calset_m: "Agora encontra o negócio no HubSpot.",
@@ -2595,7 +2596,7 @@ const I18N = {
     btn_copy: "📋 Copiar", btn_copied: "✓ Copiado", copy_confirm: "✓ Copiado para a área de transferência", copy_selected: "✓ Código selecionado — prime Ctrl/Cmd+C para copiar", btn_startagain: "↺ Começar de novo"
   },
   ru: {
-    title: "Hugspot Sandbox — Практика самостоятельной записи",
+    title: "HubSpot Sandbox — Практика самостоятельной записи",
     nav_contacts: "Контакты", nav_deals: "Сделки", nav_companies: "Компании", nav_tasks: "Задачи",
     instr_label_0: "Шаг 1 — Календарь", instr_label_1: "Шаг 2 — Найти сделку", instr_label_2: "Шаг 3 — Проверить контакт", instr_label_3: "Шаг 4 — Обновление после встречи", instr_label_4: "Готово",
     instr_text_0: "Самостоятельно забронированные встречи появляются в вашем <strong>календаре Outlook</strong>. Определите, что нужно сделать, когда вы видите такую.",
@@ -2615,7 +2616,7 @@ const I18N = {
     opt_b: "Создать буфер до/после встречи, чтобы не остаться без времени.",
     opt_c: "Перенести встречу на более удобное время, не сообщая лиду.",
     opt_d: "Заблокировать в календаре любое время, на которое я не хочу, чтобы попадали самостоятельно записавшиеся лиды.",
-    btn_continue_hugspot: "Продолжить в Hugspot",
+    btn_continue_hubspot: "Продолжить в HubSpot",
     cal_fb_both: "✓ Оба верны. Создайте буфер вокруг встречи и заблокируйте любое время, на которое вы не хотите, чтобы попадали самостоятельно записавшиеся лиды.",
     cal_fb_one: "Найден один правильный ответ — остался ещё один.",
     toast_calset_t: "Календарь готов", toast_calset_m: "Теперь найдите сделку в HubSpot.",
@@ -2737,7 +2738,7 @@ const I18N = {
     btn_copy: "📋 Копировать", btn_copied: "✓ Скопировано", copy_confirm: "✓ Скопировано в буфер обмена", copy_selected: "✓ Код выделен — нажмите Ctrl/Cmd+C, чтобы скопировать", btn_startagain: "↺ Начать заново"
   },
   tr: {
-    title: "Hugspot Sandbox — Kendi Kendine Randevu Alıştırması",
+    title: "HubSpot Sandbox — Kendi Kendine Randevu Alıştırması",
     nav_contacts: "Kişiler", nav_deals: "Anlaşmalar", nav_companies: "Şirketler", nav_tasks: "Görevler",
     instr_label_0: "Adım 1 — Takvim", instr_label_1: "Adım 2 — Anlaşmayı bul", instr_label_2: "Adım 3 — Kişiyi incele", instr_label_3: "Adım 4 — Randevu sonrası güncelleme", instr_label_4: "Tamamlandı",
     instr_text_0: "Kendi kendine alınan randevular <strong>Outlook takviminizde</strong> görünür. Birini gördüğünüzde ne yapmanız gerektiğini belirleyin.",
@@ -2757,7 +2758,7 @@ const I18N = {
     opt_b: "Zamanım tükenmesin diye randevudan önce/sonra bir tampon oluşturmak.",
     opt_c: "Müşteri adayına haber vermeden randevuyu daha uygun bir saate taşımak.",
     opt_d: "Kendi kendine randevu alanların düşmesini istemediğim her saati takvimimde bloklamak.",
-    btn_continue_hugspot: "Hugspot'a devam et",
+    btn_continue_hubspot: "HubSpot'a devam et",
     cal_fb_both: "✓ İkisi de doğru. Randevunun etrafına tampon zaman ekleyin ve kendi kendine randevu alanların düşmesini istemediğiniz her saati bloklayın.",
     cal_fb_one: "Bir doğru cevap bulundu — bir tane daha var.",
     toast_calset_t: "Takvim hazır", toast_calset_m: "Şimdi HubSpot'ta anlaşmayı bulun.",
@@ -2879,7 +2880,7 @@ const I18N = {
     btn_copy: "📋 Kopyala", btn_copied: "✓ Kopyalandı", copy_confirm: "✓ Panoya kopyalandı", copy_selected: "✓ Kod seçildi — kopyalamak için Ctrl/Cmd+C'ye basın", btn_startagain: "↺ Yeniden başla"
   },
   cs: {
-    title: "Hugspot Sandbox — Nácvik samostatné rezervace",
+    title: "HubSpot Sandbox — Nácvik samostatné rezervace",
     nav_contacts: "Kontakty", nav_deals: "Obchody", nav_companies: "Společnosti", nav_tasks: "Úkoly",
     instr_label_0: "Krok 1 — Kalendář", instr_label_1: "Krok 2 — Najít obchod", instr_label_2: "Krok 3 — Zkontrolovat kontakt", instr_label_3: "Krok 4 — Aktualizace po schůzce", instr_label_4: "Hotovo",
     instr_text_0: "Samostatně rezervované schůzky se objeví ve vašem <strong>kalendáři Outlook</strong>. Určete, co máte udělat, když nějakou uvidíte.",
@@ -2899,7 +2900,7 @@ const I18N = {
     opt_b: "Vytvořit rezervu před/po schůzce, abych nezůstal bez času.",
     opt_c: "Přesunout schůzku na vhodnější čas, aniž bych to leadu řekl.",
     opt_d: "Zablokovat v kalendáři jakýkoli čas, na který nechci, aby padali samostatně rezervující leadi.",
-    btn_continue_hugspot: "Pokračovat do Hugspot",
+    btn_continue_hubspot: "Pokračovat do HubSpot",
     cal_fb_both: "✓ Obě správně. Vytvořte rezervu kolem schůzky a zablokujte jakýkoli čas, na který nechcete, aby padali samostatně rezervující leadi.",
     cal_fb_one: "Nalezena jedna správná odpověď — ještě jedna.",
     toast_calset_t: "Kalendář připraven", toast_calset_m: "Nyní najděte obchod v HubSpot.",
@@ -3021,7 +3022,7 @@ const I18N = {
     btn_copy: "📋 Kopírovat", btn_copied: "✓ Zkopírováno", copy_confirm: "✓ Zkopírováno do schránky", copy_selected: "✓ Kód vybrán — stiskněte Ctrl/Cmd+C pro zkopírování", btn_startagain: "↺ Začít znovu"
   },
   id: {
-    title: "Hugspot Sandbox — Latihan Pemesanan Mandiri",
+    title: "HubSpot Sandbox — Latihan Pemesanan Mandiri",
     nav_contacts: "Kontak", nav_deals: "Kesepakatan", nav_companies: "Perusahaan", nav_tasks: "Tugas",
     instr_label_0: "Langkah 1 — Kalender", instr_label_1: "Langkah 2 — Temukan kesepakatan", instr_label_2: "Langkah 3 — Tinjau kontak", instr_label_3: "Langkah 4 — Pembaruan setelah janji temu", instr_label_4: "Selesai",
     instr_text_0: "Janji temu yang dipesan sendiri muncul di <strong>kalender Outlook</strong> Anda. Kenali apa yang harus Anda lakukan saat melihatnya.",
@@ -3041,7 +3042,7 @@ const I18N = {
     opt_b: "Membuat jeda sebelum/sesudah janji temu agar waktu saya tidak habis.",
     opt_c: "Memindahkan janji temu ke waktu yang lebih nyaman tanpa memberi tahu lead.",
     opt_d: "Memblokir waktu mana pun di kalender saya yang tidak ingin dijatuhi lead pemesan mandiri.",
-    btn_continue_hugspot: "Lanjutkan ke Hugspot",
+    btn_continue_hubspot: "Lanjutkan ke HubSpot",
     cal_fb_both: "✓ Keduanya benar. Buat jeda di sekitar janji temu, dan blokir waktu mana pun yang tidak ingin dijatuhi lead pemesan mandiri.",
     cal_fb_one: "Satu jawaban benar ditemukan — tinggal satu lagi.",
     toast_calset_t: "Kalender siap", toast_calset_m: "Sekarang temukan kesepakatan di HubSpot.",
@@ -3163,7 +3164,7 @@ const I18N = {
     btn_copy: "📋 Salin", btn_copied: "✓ Disalin", copy_confirm: "✓ Disalin ke papan klip", copy_selected: "✓ Kode dipilih — tekan Ctrl/Cmd+C untuk menyalin", btn_startagain: "↺ Mulai lagi"
   },
   vi: {
-    title: "Hugspot Sandbox — Luyện tập tự đặt lịch",
+    title: "HubSpot Sandbox — Luyện tập tự đặt lịch",
     nav_contacts: "Liên hệ", nav_deals: "Giao dịch", nav_companies: "Công ty", nav_tasks: "Nhiệm vụ",
     instr_label_0: "Bước 1 — Lịch", instr_label_1: "Bước 2 — Tìm giao dịch", instr_label_2: "Bước 3 — Xem lại liên hệ", instr_label_3: "Bước 4 — Cập nhật sau cuộc hẹn", instr_label_4: "Hoàn tất",
     instr_text_0: "Các cuộc hẹn tự đặt xuất hiện trong <strong>lịch Outlook</strong> của bạn. Hãy xác định bạn nên làm gì khi thấy một cuộc hẹn.",
@@ -3183,7 +3184,7 @@ const I18N = {
     opt_b: "Tạo khung đệm trước/sau cuộc hẹn để không bị hết thời gian.",
     opt_c: "Dời cuộc hẹn sang giờ thuận tiện hơn mà không báo cho lead.",
     opt_d: "Chặn trong lịch của tôi mọi khung giờ mà tôi không muốn lead tự đặt rơi vào.",
-    btn_continue_hugspot: "Tiếp tục đến Hugspot",
+    btn_continue_hubspot: "Tiếp tục đến HubSpot",
     cal_fb_both: "✓ Cả hai đều đúng. Tạo thời gian đệm quanh cuộc hẹn, và chặn mọi khung giờ mà bạn không muốn lead tự đặt rơi vào.",
     cal_fb_one: "Đã tìm thấy một đáp án đúng — còn một đáp án nữa.",
     toast_calset_t: "Lịch đã sẵn sàng", toast_calset_m: "Bây giờ hãy tìm giao dịch trong HubSpot.",
@@ -3305,7 +3306,7 @@ const I18N = {
     btn_copy: "📋 Sao chép", btn_copied: "✓ Đã sao chép", copy_confirm: "✓ Đã sao chép vào bộ nhớ tạm", copy_selected: "✓ Đã chọn mã — nhấn Ctrl/Cmd+C để sao chép", btn_startagain: "↺ Bắt đầu lại"
   },
   th: {
-    title: "Hugspot Sandbox — ฝึกการจองด้วยตนเอง",
+    title: "HubSpot Sandbox — ฝึกการจองด้วยตนเอง",
     nav_contacts: "ผู้ติดต่อ", nav_deals: "ดีล", nav_companies: "บริษัท", nav_tasks: "งาน",
     instr_label_0: "ขั้นที่ 1 — ปฏิทิน", instr_label_1: "ขั้นที่ 2 — ค้นหาดีล", instr_label_2: "ขั้นที่ 3 — ตรวจสอบผู้ติดต่อ", instr_label_3: "ขั้นที่ 4 — อัปเดตหลังนัดหมาย", instr_label_4: "เสร็จสิ้น",
     instr_text_0: "นัดหมายที่จองด้วยตนเองจะปรากฏใน<strong>ปฏิทิน Outlook</strong>ของคุณ ระบุว่าคุณควรทำอะไรเมื่อเห็นนัดหมายนั้น",
@@ -3325,7 +3326,7 @@ const I18N = {
     opt_b: "สร้างเวลากันชนก่อน/หลังนัดหมายเพื่อไม่ให้เวลาไม่พอ",
     opt_c: "ย้ายนัดหมายไปเวลาที่สะดวกกว่าโดยไม่บอกลูกค้าเป้าหมาย",
     opt_d: "บล็อกเวลาใด ๆ ในปฏิทินของฉันที่ไม่ต้องการให้ลูกค้าเป้าหมายจองด้วยตนเองเข้ามา",
-    btn_continue_hugspot: "ไปยัง Hugspot ต่อ",
+    btn_continue_hubspot: "ไปยัง HubSpot ต่อ",
     cal_fb_both: "✓ ถูกต้องทั้งสองข้อ สร้างเวลากันชนรอบนัดหมาย และบล็อกเวลาใด ๆ ที่คุณไม่ต้องการให้ลูกค้าเป้าหมายจองด้วยตนเองเข้ามา",
     cal_fb_one: "พบคำตอบที่ถูกต้องหนึ่งข้อ — เหลืออีกหนึ่งข้อ",
     toast_calset_t: "ตั้งค่าปฏิทินแล้ว", toast_calset_m: "ตอนนี้ค้นหาดีลใน HubSpot",
@@ -3447,7 +3448,7 @@ const I18N = {
     btn_copy: "📋 คัดลอก", btn_copied: "✓ คัดลอกแล้ว", copy_confirm: "✓ คัดลอกไปยังคลิปบอร์ดแล้ว", copy_selected: "✓ เลือกรหัสแล้ว — กด Ctrl/Cmd+C เพื่อคัดลอก", btn_startagain: "↺ เริ่มใหม่"
   },
   ko: {
-    title: "Hugspot Sandbox — 셀프 예약 연습",
+    title: "HubSpot Sandbox — 셀프 예약 연습",
     nav_contacts: "연락처", nav_deals: "거래", nav_companies: "회사", nav_tasks: "작업",
     instr_label_0: "1단계 — 캘린더", instr_label_1: "2단계 — 거래 찾기", instr_label_2: "3단계 — 연락처 검토", instr_label_3: "4단계 — 약속 후 업데이트", instr_label_4: "완료",
     instr_text_0: "셀프 예약된 약속은 <strong>Outlook 캘린더</strong>에 표시됩니다. 그것을 봤을 때 무엇을 해야 하는지 파악하세요.",
@@ -3467,7 +3468,7 @@ const I18N = {
     opt_b: "시간이 부족하지 않도록 약속 전후에 버퍼 슬롯을 만든다.",
     opt_c: "리드에게 알리지 않고 약속을 더 편한 시간으로 옮긴다.",
     opt_d: "셀프 예약 리드가 잡히지 않기를 원하는 시간을 캘린더에서 차단한다.",
-    btn_continue_hugspot: "Hugspot으로 계속",
+    btn_continue_hubspot: "HubSpot으로 계속",
     cal_fb_both: "✓ 둘 다 정답. 약속 주변에 버퍼 시간을 만들고, 셀프 예약 리드가 잡히지 않기를 원하는 시간을 모두 차단하세요.",
     cal_fb_one: "정답 하나 찾음 — 하나 더 남음.",
     toast_calset_t: "캘린더 설정됨", toast_calset_m: "이제 HubSpot에서 거래를 찾으세요.",
@@ -3589,7 +3590,7 @@ const I18N = {
     btn_copy: "📋 복사", btn_copied: "✓ 복사됨", copy_confirm: "✓ 클립보드에 복사됨", copy_selected: "✓ 코드 선택됨 — Ctrl/Cmd+C를 눌러 복사하세요", btn_startagain: "↺ 다시 시작"
   },
   zh: {
-    title: "Hugspot Sandbox — 自助預約練習",
+    title: "HubSpot Sandbox — 自助預約練習",
     nav_contacts: "聯絡人", nav_deals: "交易", nav_companies: "公司", nav_tasks: "任務",
     instr_label_0: "步驟 1 — 行事曆", instr_label_1: "步驟 2 — 找到交易", instr_label_2: "步驟 3 — 檢視聯絡人", instr_label_3: "步驟 4 — 約會後更新", instr_label_4: "完成",
     instr_text_0: "自助預約的約會會出現在你的<strong>Outlook 行事曆</strong>中。判斷看到時你該怎麼做。",
@@ -3609,7 +3610,7 @@ const I18N = {
     opt_b: "在約會前後建立緩衝時段，以免時間不夠。",
     opt_c: "在不通知潛在客戶的情況下，把約會改到更方便的時間。",
     opt_d: "在行事曆中封鎖任何我不想讓自助預約潛在客戶落入的時間。",
-    btn_continue_hugspot: "繼續前往 Hugspot",
+    btn_continue_hubspot: "繼續前往 HubSpot",
     cal_fb_both: "✓ 兩個都正確。在約會周圍建立緩衝時間，並封鎖任何你不想讓自助預約潛在客戶落入的時間。",
     cal_fb_one: "找到一個正確答案 — 還差一個。",
     toast_calset_t: "行事曆已設定", toast_calset_m: "現在到 HubSpot 找到交易。",
@@ -3731,7 +3732,7 @@ const I18N = {
     btn_copy: "📋 複製", btn_copied: "✓ 已複製", copy_confirm: "✓ 已複製到剪貼簿", copy_selected: "✓ 已選取代碼 — 按 Ctrl/Cmd+C 複製", btn_startagain: "↺ 重新開始"
   },
   ar: {
-    title: "Hugspot Sandbox — تدريب الحجز الذاتي",
+    title: "HubSpot Sandbox — تدريب الحجز الذاتي",
     nav_contacts: "جهات الاتصال", nav_deals: "الصفقات", nav_companies: "الشركات", nav_tasks: "المهام",
     instr_label_0: "الخطوة 1 — التقويم", instr_label_1: "الخطوة 2 — العثور على الصفقة", instr_label_2: "الخطوة 3 — مراجعة جهة الاتصال", instr_label_3: "الخطوة 4 — التحديث بعد الموعد", instr_label_4: "اكتمل",
     instr_text_0: "تظهر المواعيد المحجوزة ذاتيًا في <strong>تقويم Outlook</strong> الخاص بك. حدّد ما يجب فعله عندما ترى واحدًا.",
@@ -3751,7 +3752,7 @@ const I18N = {
     opt_b: "إنشاء فترة فاصلة قبل/بعد الموعد حتى لا ينفد وقتي.",
     opt_c: "نقل الموعد إلى وقت أكثر ملاءمة دون إخبار العميل المحتمل.",
     opt_d: "حظر أي وقت في تقويمي لا أريد أن يقع فيه العملاء المحتملون الذين يحجزون بأنفسهم.",
-    btn_continue_hugspot: "المتابعة إلى Hugspot",
+    btn_continue_hubspot: "المتابعة إلى HubSpot",
     cal_fb_both: "✓ كلاهما صحيح. أنشئ وقتًا فاصلًا حول الموعد، واحظر أي وقت لا تريد أن يقع فيه العملاء المحتملون الذين يحجزون بأنفسهم.",
     cal_fb_one: "تم العثور على إجابة صحيحة واحدة — بقيت واحدة.",
     toast_calset_t: "تم ضبط التقويم", toast_calset_m: "الآن ابحث عن الصفقة في HubSpot.",
@@ -3873,7 +3874,7 @@ const I18N = {
     btn_copy: "📋 نسخ", btn_copied: "✓ تم النسخ", copy_confirm: "✓ تم النسخ إلى الحافظة", copy_selected: "✓ تم تحديد الرمز — اضغط Ctrl/Cmd+C للنسخ", btn_startagain: "↺ ابدأ من جديد"
   },
   he: {
-    title: "Hugspot Sandbox — תרגול קביעת פגישה עצמית",
+    title: "HubSpot Sandbox — תרגול קביעת פגישה עצמית",
     nav_contacts: "אנשי קשר", nav_deals: "עסקאות", nav_companies: "חברות", nav_tasks: "משימות",
     instr_label_0: "שלב 1 — יומן", instr_label_1: "שלב 2 — מציאת העסקה", instr_label_2: "שלב 3 — סקירת איש הקשר", instr_label_3: "שלב 4 — עדכון לאחר הפגישה", instr_label_4: "הושלם",
     instr_text_0: "פגישות שנקבעו עצמאית מופיעות ב<strong>יומן Outlook</strong> שלך. זהה מה עליך לעשות כשאתה רואה כזו.",
@@ -3893,7 +3894,7 @@ const I18N = {
     opt_b: "ליצור משבצת מרווח לפני/אחרי הפגישה כדי שלא ייגמר לי הזמן.",
     opt_c: "להעביר את הפגישה לשעה נוחה יותר בלי לומר לליד.",
     opt_d: "לחסום ביומן שלי כל שעה שאני לא רוצה שלידים שקובעים עצמאית ינחתו בה.",
-    btn_continue_hugspot: "המשך ל-Hugspot",
+    btn_continue_hubspot: "המשך ל-HubSpot",
     cal_fb_both: "✓ שניהם נכונים. צור זמן מרווח סביב הפגישה, וחסום כל שעה שאינך רוצה שלידים שקובעים עצמאית ינחתו בה.",
     cal_fb_one: "נמצאה תשובה נכונה אחת — נותרה עוד אחת.",
     toast_calset_t: "היומן הוגדר", toast_calset_m: "עכשיו מצא את העסקה ב-HubSpot.",
@@ -4105,6 +4106,15 @@ function toast(title, msg) {
   setTimeout(() => t.classList.remove('show'), 3000);
 }
 
+// ── Reveal ────────────────────────────
+// Scroll a just-unlocked control into view so learners never get stuck
+// looking for the next action (esp. in short embed iframes). block:'nearest'
+// keeps it minimal — no jump if the element is already visible.
+function reveal(id) {
+  const el = document.getElementById(id);
+  if (el) setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' }), 80);
+}
+
 // ── Copy completion code ──────────────
 function copyCode() {
   const code = document.getElementById('completionCode').textContent;
@@ -4155,6 +4165,9 @@ function goTo(n) {
   document.getElementById('instrIcon').textContent = instr.icon;
   document.getElementById('instrLabel').textContent = t(instr.labelKey);
   document.getElementById('instrText').innerHTML = t(instr.textKey);
+  // Start each step scrolled to the top so nothing begins half-hidden
+  document.querySelectorAll(`#panel-${n} .pane-content`).forEach(p => p.scrollTop = 0);
+  if (n === 2) { const cs = document.getElementById('contactScroll'); if (cs) cs.scrollTop = 0; }
   step = n;
 }
 
@@ -4192,6 +4205,7 @@ function pickCalOpt(btn) {
     fb.textContent = t('cal_fb_both');
     document.getElementById('btn-cal-continue').disabled = false;
     document.getElementById('btn-cal-continue').classList.add('needs-action');
+    reveal('btn-cal-continue');
   } else {
     fb.className = 'feedback-box info';
     fb.style.display = 'block';
@@ -4335,6 +4349,7 @@ function applyBookingFilter() {
   });
 
   toast(t('toast_filterapplied_t'), t('toast_filterapplied_m'));
+  reveal('bookedCol');
 }
 
 function openJohnDeal() {
@@ -4347,6 +4362,9 @@ function openJohnDeal() {
 function switchContactTab(i, el) {
   for(let j=0;j<3;j++) document.getElementById(`ctab-${j}`).style.display = 'none';
   document.getElementById(`ctab-${i}`).style.display = 'block';
+  // Each tab starts at the top; reading down leads naturally into the signal question below.
+  const cs = document.getElementById('contactScroll');
+  if (cs) cs.scrollTop = 0;
   document.querySelectorAll('.contact-tab').forEach(t => t.classList.remove('active'));
   el.classList.add('active');
   el.dataset.seen = 'true';
@@ -4391,6 +4409,7 @@ function pickSignal(btn, correct) {
     signalDone = true;
     document.getElementById('btn-contact-continue').disabled = false;
     document.getElementById('btn-contact-continue').classList.add('needs-action');
+    reveal('btn-contact-continue');
     toast(t('toast_spoton_t'), t('toast_spoton_m'));
   } else {
     btn.classList.add('incorrect');
@@ -4559,6 +4578,7 @@ function handleDealDrop(stage) {
     auto.style.display = 'block';
     document.getElementById('ss-save-2').disabled = false;
     document.getElementById('ss-save-2').classList.add('needs-action');
+    reveal('ss-save-2');
   } else if (target === 'booked') {
     // No-op — already there
     fb.className = 'feedback-box info';
@@ -4597,6 +4617,7 @@ function confirmSubstep(i) {
     // all done
     toast(t('toast_alldone_t'), t('toast_alldone_m'));
     document.getElementById('finishPostRow').style.display = 'flex';
+    reveal('finishPostRow');
   }
 }
 

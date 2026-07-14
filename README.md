@@ -7,7 +7,7 @@ from spotting the appointment in the calendar to updating the deal after the con
 ## Purpose
 
 This is a hands-on, click-through trainer. Instead of reading the SOP, staff practise the
-exact workflow in a safe, simulated "Hugspot Sandbox" environment. Each step must be
+exact workflow in a safe, simulated "HubSpot Sandbox" environment. Each step must be
 completed correctly before the next one unlocks, so trainees finish having performed every
 action in order.
 
