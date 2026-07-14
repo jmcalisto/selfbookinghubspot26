@@ -954,6 +954,16 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 .result-tick { color: var(--green); font-size: 15px; flex-shrink: 0; }
 .closer-quote { background: var(--accent-light); border: 1px solid var(--accent-mid); border-radius: var(--r-lg); padding: 16px 20px; font-size: 13px; line-height: 1.7; margin-bottom: 24px; text-align: left; color: var(--text-primary); }
 
+/* ── Language switcher ────────────── */
+.langbar { position: fixed; bottom: 12px; left: 66px; z-index: 150; }
+.langbar select {
+  font-family: var(--font); font-size: 12px; color: var(--text-primary);
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: 6px; padding: 4px 24px 4px 8px; cursor: pointer;
+  box-shadow: 0 1px 4px rgba(45,62,80,.12);
+}
+[dir="rtl"] .langbar { left: auto; right: 66px; }
+
 /* ── Scrollbar ────────────────────── */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: transparent; }
@@ -962,6 +972,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 </style>
 </head>
 <body>
+
+<div class="langbar"><select id="langsel" aria-label="Language"></select></div>
 
 <div class="app-shell">
 
@@ -984,10 +996,10 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 
     <!-- ── Top nav ── -->
     <div class="top-nav">
-      <div class="top-nav-item">Contacts</div>
-      <div class="top-nav-item active">Deals</div>
-      <div class="top-nav-item">Companies</div>
-      <div class="top-nav-item">Tasks</div>
+      <div class="top-nav-item" data-i18n="nav_contacts">Contacts</div>
+      <div class="top-nav-item active" data-i18n="nav_deals">Deals</div>
+      <div class="top-nav-item" data-i18n="nav_companies">Companies</div>
+      <div class="top-nav-item" data-i18n="nav_tasks">Tasks</div>
       <div class="top-nav-sep"></div>
       <div class="account-pill"><span class="account-dot"></span> Wall Street English</div>
       <div class="sandbox-badge">🧪 Hugspot Sandbox</div>
@@ -997,18 +1009,18 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
     <div class="instruction-bar">
       <div class="instruction-icon" id="instrIcon">①</div>
       <div>
-        <div class="instruction-label" id="instrLabel">Step 1</div>
-        <div class="instruction-text" id="instrText">Self-booked appointments appear in your <strong>Outlook calendar</strong>. Identify what you should do when you see one.</div>
+        <div class="instruction-label" id="instrLabel" data-i18n="instr_label_0">Step 1</div>
+        <div class="instruction-text" id="instrText" data-i18n-html="instr_text_0">Self-booked appointments appear in your <strong>Outlook calendar</strong>. Identify what you should do when you see one.</div>
       </div>
     </div>
 
     <!-- ── Steps bar ── -->
     <div class="steps-bar">
-      <div class="step-tab active" id="stab-0"><div class="step-num" id="snum-0">1</div> Calendar check</div>
-      <div class="step-tab"        id="stab-1"><div class="step-num" id="snum-1">2</div> Find the deal</div>
-      <div class="step-tab"        id="stab-2"><div class="step-num" id="snum-2">3</div> Review contact</div>
-      <div class="step-tab"        id="stab-3"><div class="step-num" id="snum-3">4</div> Post-appointment update</div>
-      <div class="step-tab"        id="stab-4"><div class="step-num" id="snum-4">5</div> Complete</div>
+      <div class="step-tab active" id="stab-0"><div class="step-num" id="snum-0">1</div> <span data-i18n="steptab_0">Calendar check</span></div>
+      <div class="step-tab"        id="stab-1"><div class="step-num" id="snum-1">2</div> <span data-i18n="steptab_1">Find the deal</span></div>
+      <div class="step-tab"        id="stab-2"><div class="step-num" id="snum-2">3</div> <span data-i18n="steptab_2">Review contact</span></div>
+      <div class="step-tab"        id="stab-3"><div class="step-num" id="snum-3">4</div> <span data-i18n="steptab_3">Post-appointment update</span></div>
+      <div class="step-tab"        id="stab-4"><div class="step-num" id="snum-4">5</div> <span data-i18n="steptab_4">Complete</span></div>
     </div>
 
     <div class="panels">
@@ -1019,21 +1031,21 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
       <div class="panel active" id="panel-0">
         <div class="pane-wrap">
           <div class="task-sidebar">
-            <div class="tsidebar-header"><span>Workflow steps</span><span id="taskCount" style="font-size:12px;font-weight:400">0 / 4</span></div>
+            <div class="tsidebar-header"><span data-i18n="task_header">Workflow steps</span><span id="taskCount" style="font-size:12px;font-weight:400">0 / 4</span></div>
             <div class="task-items">
-              <div class="task-item-row active-task" id="trow-0"><div class="tcheck" id="tc-0"></div><div><div class="titem-name">Calendar — identify slot</div></div></div>
-              <div class="task-item-row" id="trow-1"><div class="tcheck" id="tc-1"></div><div><div class="titem-name">Find self-booked deal</div></div></div>
-              <div class="task-item-row" id="trow-2"><div class="tcheck" id="tc-2"></div><div><div class="titem-name">Review the contact</div></div></div>
-              <div class="task-item-row" id="trow-3"><div class="tcheck" id="tc-3"></div><div><div class="titem-name">Post-appointment HubSpot update</div></div></div>
+              <div class="task-item-row active-task" id="trow-0"><div class="tcheck" id="tc-0"></div><div><div class="titem-name" data-i18n="task_0">Calendar — identify slot</div></div></div>
+              <div class="task-item-row" id="trow-1"><div class="tcheck" id="tc-1"></div><div><div class="titem-name" data-i18n="task_1">Find self-booked deal</div></div></div>
+              <div class="task-item-row" id="trow-2"><div class="tcheck" id="tc-2"></div><div><div class="titem-name" data-i18n="task_2">Review the contact</div></div></div>
+              <div class="task-item-row" id="trow-3"><div class="tcheck" id="tc-3"></div><div><div class="titem-name" data-i18n="task_3">Post-appointment HubSpot update</div></div></div>
             </div>
-            <div class="tsidebar-footer"><span id="progressLabel">0 of 4 complete</span><div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div></div>
+            <div class="tsidebar-footer"><span id="progressLabel" data-i18n="progress_0">0 of 4 complete</span><div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div></div>
           </div>
           <div class="pane-content" style="padding:20px 24px">
-            <div class="page-title" style="margin-bottom:6px;padding:0">Your Outlook calendar</div>
-            <div style="font-size:13px;color:var(--text-secondary);margin-bottom:16px">A self-booked lead has just appeared on your calendar.</div>
+            <div class="page-title" style="margin-bottom:6px;padding:0" data-i18n="p0_title">Your Outlook calendar</div>
+            <div style="font-size:13px;color:var(--text-secondary);margin-bottom:16px" data-i18n="p0_sub">A self-booked lead has just appeared on your calendar.</div>
 
             <div class="cal-mock">
-              <div class="cal-header"><div class="cal-outlook-icon">O</div> Outlook · Week of May 04, 2026</div>
+              <div class="cal-header"><div class="cal-outlook-icon">O</div> <span data-i18n="cal_header">Outlook · Week of May 04, 2026</span></div>
               <div class="cal-grid">
                 <div class="cal-time-col">
                   <div class="cal-time">8 am</div>
@@ -1048,7 +1060,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
                 <div>
                   <div class="cal-day-header">Tue 05</div>
                   <div class="cal-day">
-                    <div class="cal-event cal-event-block" style="top:0;height:50px">Block</div>
+                    <div class="cal-event cal-event-block" style="top:0;height:50px" data-i18n="cal_block">Block</div>
                   </div>
                 </div>
                 <div>
@@ -1060,7 +1072,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
                 <div>
                   <div class="cal-day-header">Thu 07</div>
                   <div class="cal-day">
-                    <div class="cal-event cal-event-block" style="top:0;height:50px">Block</div>
+                    <div class="cal-event cal-event-block" style="top:0;height:50px" data-i18n="cal_block">Block</div>
                   </div>
                 </div>
                 <div>
@@ -1076,30 +1088,30 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
                 <div>
                   <div class="cal-day-header">Sun 10</div>
                   <div class="cal-day">
-                    <div class="cal-event cal-event-block" style="top:0;bottom:0">Blocked</div>
+                    <div class="cal-event cal-event-block" style="top:0;bottom:0" data-i18n="cal_blocked">Blocked</div>
                   </div>
                 </div>
               </div>
             </div>
 
             <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text-secondary);margin-bottom:20px">
-              <span style="display:inline-block;width:10px;height:10px;background:var(--accent-light);border-left:3px solid var(--accent);border-radius:2px"></span> Wall Street English consultation
-              <span style="display:inline-block;width:10px;height:10px;background:#E8F4F8;border-left:3px solid #67A6BD;border-radius:2px;margin-left:14px"></span> Buffer / blocker
+              <span style="display:inline-block;width:10px;height:10px;background:var(--accent-light);border-left:3px solid var(--accent);border-radius:2px"></span> <span data-i18n="legend_consult">Wall Street English consultation</span>
+              <span style="display:inline-block;width:10px;height:10px;background:#E8F4F8;border-left:3px solid #67A6BD;border-radius:2px;margin-left:14px"></span> <span data-i18n="legend_buffer">Buffer / blocker</span>
             </div>
 
             <div class="hs-card">
-              <div class="hs-card-header"><span class="hs-card-title">Quick check</span></div>
+              <div class="hs-card-header"><span class="hs-card-title" data-i18n="p0_quickcheck">Quick check</span></div>
               <div class="hs-card-body">
-                <div style="font-size:13px;color:var(--text-primary);margin-bottom:14px;line-height:1.5">You see a 30-minute Wall Street English slot on Wednesday at 10:00. What should you do? <strong style="color:var(--text-secondary)">Pick the two correct actions.</strong></div>
+                <div style="font-size:13px;color:var(--text-primary);margin-bottom:14px;line-height:1.5" data-i18n-html="p0_question">You see a 30-minute Wall Street English slot on Wednesday at 10:00. What should you do? <strong style="color:var(--text-secondary)">Pick the two correct actions.</strong></div>
                 <div id="cal-opts">
-                  <button class="answer-option needs-action" data-correct="false" onclick="pickCalOpt(this)"><div class="opt-letter">A</div>Wait for someone else to follow up, the system will handle it.</button>
-                  <button class="answer-option needs-action" data-correct="true" onclick="pickCalOpt(this)"><div class="opt-letter">B</div>Build a buffer slot before/after the appointment so I don't run out of time.</button>
-                  <button class="answer-option needs-action" data-correct="false" onclick="pickCalOpt(this)"><div class="opt-letter">C</div>Move the appointment to a more convenient time without telling the lead.</button>
-                  <button class="answer-option needs-action" data-correct="true" onclick="pickCalOpt(this)"><div class="opt-letter">D</div>Block out any time in my calendar I don't want self-booked leads to land on.</button>
+                  <button class="answer-option needs-action" data-correct="false" onclick="pickCalOpt(this)"><div class="opt-letter">A</div><span data-i18n="opt_a">Wait for someone else to follow up, the system will handle it.</span></button>
+                  <button class="answer-option needs-action" data-correct="true" onclick="pickCalOpt(this)"><div class="opt-letter">B</div><span data-i18n="opt_b">Build a buffer slot before/after the appointment so I don't run out of time.</span></button>
+                  <button class="answer-option needs-action" data-correct="false" onclick="pickCalOpt(this)"><div class="opt-letter">C</div><span data-i18n="opt_c">Move the appointment to a more convenient time without telling the lead.</span></button>
+                  <button class="answer-option needs-action" data-correct="true" onclick="pickCalOpt(this)"><div class="opt-letter">D</div><span data-i18n="opt_d">Block out any time in my calendar I don't want self-booked leads to land on.</span></button>
                 </div>
                 <div class="feedback-box" id="cal-feedback"></div>
                 <div class="btn-row">
-                  <button class="btn btn-primary" id="btn-cal-continue" onclick="completeCal()" disabled>Continue to Hugspot</button>
+                  <button class="btn btn-primary" id="btn-cal-continue" onclick="completeCal()" disabled data-i18n="btn_continue_hugspot">Continue to Hugspot</button>
                 </div>
               </div>
             </div>
@@ -1113,86 +1125,86 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
       <!-- ════════════════════════════════════════════════════════ -->
       <div class="panel" id="panel-1">
         <div class="page-header">
-          <div class="page-title">All deals</div>
+          <div class="page-title" data-i18n="p1_title">All deals</div>
           <span class="pill pill-grey" id="dealCount">9</span>
           <div style="flex:1"></div>
-          <button class="btn btn-secondary">Board view ▾</button>
-          <button class="btn btn-secondary">Sales Pipeline ▾</button>
+          <button class="btn btn-secondary" data-i18n="btn_boardview">Board view ▾</button>
+          <button class="btn btn-secondary" data-i18n="btn_salespipeline">Sales Pipeline ▾</button>
         </div>
 
         <div class="pane-content" style="padding:16px 24px">
 
           <div id="advFilterLink" style="margin-bottom:14px;position:relative;display:inline-block">
-            <button class="btn-text needs-action" onclick="openFilterPanel()" style="color:var(--text-link);font-size:13px;font-weight:600;background:none;border:1px solid transparent;cursor:pointer;padding:4px 10px">≡ Advanced filters</button>
-            <div class="action-arrow right">Start here</div>
+            <button class="btn-text needs-action" onclick="openFilterPanel()" style="color:var(--text-link);font-size:13px;font-weight:600;background:none;border:1px solid transparent;cursor:pointer;padding:4px 10px" data-i18n="adv_filters">≡ Advanced filters</button>
+            <div class="action-arrow right" data-i18n="arrow_starthere">Start here</div>
           </div>
 
           <div class="filter-panel" id="filterPanel" style="display:none">
             <div class="filter-header">
-              <div class="filter-title">All filters</div>
+              <div class="filter-title" data-i18n="filter_all">All filters</div>
               <div class="filter-close" onclick="closeFilterPanel()">×</div>
             </div>
             <div class="filter-body" id="filterBody">
-              <div style="font-size:13px;color:var(--text-secondary);padding:14px;text-align:center" id="noFiltersMsg">This view doesn't have any advanced filters.</div>
+              <div style="font-size:13px;color:var(--text-secondary);padding:14px;text-align:center" id="noFiltersMsg" data-i18n="no_filters">This view doesn't have any advanced filters.</div>
               <div style="position:relative;display:inline-block;margin:0 14px 14px">
-                <button class="add-filter-btn needs-action" id="addFilterBtn" onclick="openAddFilterModal()">+ Add filter</button>
-                <div class="action-arrow right">Click here</div>
+                <button class="add-filter-btn needs-action" id="addFilterBtn" onclick="openAddFilterModal()" data-i18n="add_filter">+ Add filter</button>
+                <div class="action-arrow right" data-i18n="arrow_clickhere">Click here</div>
               </div>
             </div>
           </div>
 
-          <div style="font-size:13px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 10px;font-weight:600">Pipeline</div>
+          <div style="font-size:13px;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.06em;margin:14px 0 10px;font-weight:600" data-i18n="pipeline_label">Pipeline</div>
           <div class="board-cols" id="boardCols">
-            <div class="board-col">
-              <div class="board-col-header">Lead <span class="pill pill-grey">3</span></div>
+            <div class="board-col" data-stage="lead">
+              <div class="board-col-header"><span data-i18n="stage_lead">Lead</span> <span class="pill pill-grey">3</span></div>
               <div class="board-col-body">
-                <div class="deal-card" style="opacity:.5"><div class="deal-card-title">Anna Test 1st Contract</div><div class="deal-card-line">Qualifying Activity: Call Back</div></div>
+                <div class="deal-card" style="opacity:.5"><div class="deal-card-title">Anna Test 1st Contract</div><div class="deal-card-line"><span data-i18n="qa_label">Qualifying Activity:</span> <span data-i18n="qa_callback">Call Back</span></div></div>
               </div>
               <div class="board-col-footer">€0 · 10%</div>
             </div>
-            <div class="board-col">
-              <div class="board-col-header">Contacted <span class="pill pill-grey">2</span></div>
+            <div class="board-col" data-stage="contacted">
+              <div class="board-col-header"><span data-i18n="stage_contacted">Contacted</span> <span class="pill pill-grey">2</span></div>
               <div class="board-col-body">
-                <div class="deal-card" style="opacity:.5"><div class="deal-card-title">Test User Web Contract</div><div class="deal-card-line">Qualifying Activity: Email</div></div>
+                <div class="deal-card" style="opacity:.5"><div class="deal-card-title">Test User Web Contract</div><div class="deal-card-line"><span data-i18n="qa_label">Qualifying Activity:</span> <span data-i18n="qa_email">Email</span></div></div>
               </div>
               <div class="board-col-footer">€0 · 20%</div>
             </div>
-            <div class="board-col" id="bookedCol">
-              <div class="board-col-header">Booked <span class="pill pill-grey" id="bookedCount">3</span></div>
+            <div class="board-col" id="bookedCol" data-stage="booked">
+              <div class="board-col-header"><span data-i18n="stage_booked">Booked</span> <span class="pill pill-grey" id="bookedCount">3</span></div>
               <div class="board-col-body" id="bookedBody">
-                <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal A</div><div class="deal-card-line">Qualifying Activity: Booked</div></div>
-                <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal B</div><div class="deal-card-line">Qualifying Activity: Booked</div></div>
-                <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal C</div><div class="deal-card-line">Qualifying Activity: Booked</div></div>
+                <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal A</div><div class="deal-card-line"><span data-i18n="qa_label">Qualifying Activity:</span> <span data-i18n="qa_booked">Booked</span></div></div>
+                <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal B</div><div class="deal-card-line"><span data-i18n="qa_label">Qualifying Activity:</span> <span data-i18n="qa_booked">Booked</span></div></div>
+                <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal C</div><div class="deal-card-line"><span data-i18n="qa_label">Qualifying Activity:</span> <span data-i18n="qa_booked">Booked</span></div></div>
               </div>
               <div class="board-col-footer">€0 · 30%</div>
             </div>
-            <div class="board-col">
-              <div class="board-col-header">Open Decision <span class="pill pill-grey">1</span></div>
+            <div class="board-col" data-stage="opendecision">
+              <div class="board-col-header"><span data-i18n="stage_opendecision">Open Decision</span> <span class="pill pill-grey">1</span></div>
               <div class="board-col-body"></div>
               <div class="board-col-footer">€0 · 50%</div>
             </div>
-            <div class="board-col">
-              <div class="board-col-header">2nd Appointment <span class="pill pill-grey">0</span></div>
+            <div class="board-col" data-stage="2nd">
+              <div class="board-col-header"><span data-i18n="stage_2nd">2nd Appointment</span> <span class="pill pill-grey">0</span></div>
               <div class="board-col-body"></div>
               <div class="board-col-footer">€0 · 60%</div>
             </div>
-            <div class="board-col">
-              <div class="board-col-header">Trial <span class="pill pill-grey">0</span></div>
+            <div class="board-col" data-stage="trial">
+              <div class="board-col-header"><span data-i18n="stage_trial">Trial</span> <span class="pill pill-grey">0</span></div>
               <div class="board-col-body"></div>
               <div class="board-col-footer">€0 · 70%</div>
             </div>
-            <div class="board-col">
-              <div class="board-col-header">Signed <span class="pill pill-grey">0</span></div>
+            <div class="board-col" data-stage="signed">
+              <div class="board-col-header"><span data-i18n="stage_signed">Signed</span> <span class="pill pill-grey">0</span></div>
               <div class="board-col-body"></div>
               <div class="board-col-footer">€0 · 90%</div>
             </div>
-            <div class="board-col">
-              <div class="board-col-header">Closed won <span class="pill pill-grey">0</span></div>
+            <div class="board-col" data-stage="won">
+              <div class="board-col-header"><span data-i18n="stage_won">Closed won</span> <span class="pill pill-grey">0</span></div>
               <div class="board-col-body"></div>
               <div class="board-col-footer">€0 · 100%</div>
             </div>
-            <div class="board-col">
-              <div class="board-col-header">Closed lost <span class="pill pill-grey">0</span></div>
+            <div class="board-col" data-stage="lost">
+              <div class="board-col-header"><span data-i18n="stage_lost">Closed lost</span> <span class="pill pill-grey">0</span></div>
               <div class="board-col-body"></div>
               <div class="board-col-footer">€0 · 0%</div>
             </div>
@@ -1209,17 +1221,17 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
             <div class="contact-avatar">JW</div>
             <div>
               <div class="contact-name">John Wick</div>
-              <div class="contact-sub">Self-booked via website · Appointment Wed at 10:00</div>
+              <div class="contact-sub" data-i18n="contact_sub">Self-booked via website · Appointment Wed at 10:00</div>
             </div>
             <div class="contact-pills">
-              <span class="pill pill-blue">Self-booked</span>
+              <span class="pill pill-blue" data-i18n="pill_selfbooked">Self-booked</span>
               <span class="pill pill-yellow">A1–A2</span>
             </div>
           </div>
           <div class="contact-tabs">
-            <div class="contact-tab active" data-seen="true" onclick="switchContactTab(0, this)">Overview</div>
-            <div class="contact-tab needs-action" id="activitiesTab" onclick="switchContactTab(1, this)">Activities</div>
-            <div class="contact-tab" onclick="switchContactTab(2, this)">Intelligence</div>
+            <div class="contact-tab active" data-seen="true" onclick="switchContactTab(0, this)" data-i18n="tab_overview">Overview</div>
+            <div class="contact-tab needs-action" id="activitiesTab" onclick="switchContactTab(1, this)" data-i18n="tab_activities">Activities</div>
+            <div class="contact-tab" onclick="switchContactTab(2, this)" data-i18n="tab_intelligence">Intelligence</div>
           </div>
         </div>
 
@@ -1234,44 +1246,44 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
                   <div class="contact-mini-name"><div class="contact-mini-avatar">JW</div>John Wick</div>
                   <div class="contact-mini-email">john.wick+demo@email.com</div>
                   <div class="contact-action-icons">
-                    <div class="action-icon" title="Note">✎</div>
-                    <div class="action-icon" title="Email">✉</div>
-                    <div class="action-icon" title="Call">☏</div>
-                    <div class="action-icon" title="Task">✓</div>
-                    <div class="action-icon" title="Meeting">📅</div>
-                    <div class="action-icon" title="More">⋯</div>
+                    <div class="action-icon" title="Note" data-i18n-title="ai_note">✎</div>
+                    <div class="action-icon" title="Email" data-i18n-title="ai_email">✉</div>
+                    <div class="action-icon" title="Call" data-i18n-title="ai_call">☏</div>
+                    <div class="action-icon" title="Task" data-i18n-title="ai_task">✓</div>
+                    <div class="action-icon" title="Meeting" data-i18n-title="ai_meeting">📅</div>
+                    <div class="action-icon" title="More" data-i18n-title="ai_more">⋯</div>
                   </div>
                 </div>
                 <div class="lp-section" id="lp-about" onclick="toggleSection('lp-about')">
-                  <div class="lp-header">▾ About this contact</div>
+                  <div class="lp-header">▾ <span data-i18n="lp_about">About this contact</span></div>
                   <div class="lp-body">
-                    <div style="padding:4px 0;font-size:11px;color:var(--text-light);font-weight:600">EMAIL</div>
+                    <div style="padding:4px 0;font-size:11px;color:var(--text-light);font-weight:600" data-i18n="lbl_email">EMAIL</div>
                     <div style="padding-bottom:8px;color:var(--text-link)">john.wick+demo@email.com</div>
-                    <div style="padding:4px 0;font-size:11px;color:var(--text-light);font-weight:600">PHONE NUMBER</div>
+                    <div style="padding:4px 0;font-size:11px;color:var(--text-light);font-weight:600" data-i18n="lbl_phone">PHONE NUMBER</div>
                     <div style="padding-bottom:8px">+34 689 12 34 56</div>
-                    <div style="padding:4px 0;font-size:11px;color:var(--text-light);font-weight:600">CONTACT OWNER</div>
+                    <div style="padding:4px 0;font-size:11px;color:var(--text-light);font-weight:600" data-i18n="lbl_owner">CONTACT OWNER</div>
                     <div>Jamina Camp</div>
                   </div>
                 </div>
                 <div class="lp-section" id="lp-web" onclick="onSectionClick(event,'lp-web','website')">
-                  <div class="lp-header">▾ Website activity</div>
+                  <div class="lp-header">▾ <span data-i18n="lp_web">Website activity</span></div>
                   <div class="lp-body">
                     <div class="web-activity-stats">
                       <div class="web-stat">
                         <div class="web-stat-num">4</div>
-                        <div class="web-stat-label">Site visits</div>
+                        <div class="web-stat-label" data-i18n="web_sitevisits">Site visits</div>
                       </div>
                       <div class="web-stat">
                         <div class="web-stat-num">6</div>
-                        <div class="web-stat-label">Pages viewed</div>
+                        <div class="web-stat-label" data-i18n="web_pagesviewed">Pages viewed</div>
                       </div>
                     </div>
                     <div class="web-visit-row">
-                      <div class="web-visit-label">Most recent visit</div>
+                      <div class="web-visit-label" data-i18n="web_recent">Most recent visit</div>
                       <div class="web-visit-time">Mon, May 18, 2026 · 12:26 PM</div>
                     </div>
                     <div class="web-visit-row">
-                      <div class="web-visit-label">First visit</div>
+                      <div class="web-visit-label" data-i18n="web_first">First visit</div>
                       <div class="web-visit-time">Mon, May 11, 2026 · 9:53 AM</div>
                     </div>
                   </div>
@@ -1280,7 +1292,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 
               <!-- CENTER -->
               <div class="center-pane">
-                <div style="font-size:13px;color:var(--text-secondary);padding:12px 4px;line-height:1.6">
+                <div style="font-size:13px;color:var(--text-secondary);padding:12px 4px;line-height:1.6" data-i18n-html="p2_overview">
                   This is John Wick's contact record. Open the <strong>Activities</strong> tab above to see his website behaviour, form submissions, and quiz results, then answer the signal question.
                 </div>
               </div>
@@ -1288,19 +1300,19 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
               <!-- RIGHT -->
               <div>
                 <div class="right-card">
-                  <div class="right-card-title">Companies (0) <span style="color:var(--text-link);font-weight:500;font-size:11px">+ Add</span></div>
-                  <div style="text-align:center;font-size:11px;color:var(--text-light);padding:12px 0">See companies associated with this record.</div>
+                  <div class="right-card-title"><span data-i18n="rc_companies">Companies (0)</span> <span style="color:var(--text-link);font-weight:500;font-size:11px" data-i18n="rc_add">+ Add</span></div>
+                  <div style="text-align:center;font-size:11px;color:var(--text-light);padding:12px 0" data-i18n="rc_companies_empty">See companies associated with this record.</div>
                 </div>
                 <div class="right-card">
-                  <div class="right-card-title">Deals (1) <span style="color:var(--text-link);font-weight:500;font-size:11px">+ Add</span></div>
+                  <div class="right-card-title"><span data-i18n="rc_deals">Deals (1)</span> <span style="color:var(--text-link);font-weight:500;font-size:11px" data-i18n="rc_add">+ Add</span></div>
                   <div class="deal-card-inner">
                     <div class="deal-card-name">John Wick Web 1st Contract</div>
-                    <div class="deal-card-meta">
+                    <div class="deal-card-meta" data-i18n-html="deal_meta">
                       Amount: €2,000<br>
                       Close Date: May 25, 2026<br>
                       Deal Stage: <strong style="color:var(--text-primary)">Booked</strong>
                     </div>
-                    <div style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--border)"><span class="pill pill-blue">CURRENT DEAL</span></div>
+                    <div style="margin-top:10px;padding-top:10px;border-top:1px dashed var(--border)"><span class="pill pill-blue" data-i18n="pill_currentdeal">CURRENT DEAL</span></div>
                   </div>
                 </div>
               </div>
@@ -1321,63 +1333,63 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
               <div class="center-pane">
                 <div class="center-card">
                   <div class="sub-tabs">
-                    <div class="sub-tab active">All activities</div>
-                    <div class="sub-tab">Notes</div>
-                    <div class="sub-tab">Emails</div>
-                    <div class="sub-tab">Calls</div>
-                    <div class="sub-tab">Tasks</div>
-                    <div class="sub-tab">Meetings</div>
+                    <div class="sub-tab active" data-i18n="st_all">All activities</div>
+                    <div class="sub-tab" data-i18n="st_notes">Notes</div>
+                    <div class="sub-tab" data-i18n="st_emails">Emails</div>
+                    <div class="sub-tab" data-i18n="st_calls">Calls</div>
+                    <div class="sub-tab" data-i18n="st_tasks">Tasks</div>
+                    <div class="sub-tab" data-i18n="st_meetings">Meetings</div>
                   </div>
                   <div style="font-size:11px;color:var(--text-light);text-transform:uppercase;letter-spacing:.06em;margin-bottom:8px;font-weight:600">May 2026</div>
 
                   <div class="activity-card">
                     <div class="activity-card-head">
-                      <div class="activity-card-type">🤝 Deal Activity</div>
+                      <div class="activity-card-type" data-i18n-html="act_dealactivity">🤝 Deal Activity</div>
                       <div class="activity-card-date">May 18, 2026 · 1:45 PM</div>
                     </div>
-                    <div class="activity-card-body"><strong>Jamina Camp</strong> moved <a>John Wick Web 1st Contract</a> to <strong>Booked</strong>.</div>
+                    <div class="activity-card-body" data-i18n-html="act1_body"><strong>Jamina Camp</strong> moved <a>John Wick Web 1st Contract</a> to <strong>Booked</strong>.</div>
                   </div>
 
                   <div class="activity-card">
                     <div class="activity-card-head">
-                      <div class="activity-card-type">📝 Form submission</div>
+                      <div class="activity-card-type" data-i18n-html="act_formsub">📝 Form submission</div>
                       <div class="activity-card-date">May 18, 2026 · 12:26 PM</div>
                     </div>
                     <div class="activity-card-body">
-                      <strong>John Wick</strong> submitted <a>WSE-Activity-Builder-Leads</a> on <a>English Levels A1–A2 — Wall Street English</a>.
+                      <span data-i18n-html="act2_body"><strong>John Wick</strong> submitted <a>WSE-Activity-Builder-Leads</a> on <a>English Levels A1–A2 — Wall Street English</a>.</span>
                       <div class="form-fields">
-                        <div class="form-field-row"><div class="form-field-label">AB Activity Type</div><div class="form-field-value">Quiz</div></div>
-                        <div class="form-field-row"><div class="form-field-label">AB Activity Name</div><div class="form-field-value">English Levels A1–A2</div></div>
-                        <div class="form-field-row"><div class="form-field-label">AB Activity Goal</div><div class="form-field-value">To practice grammar and vocabulary from A1–A2</div></div>
-                        <div class="form-field-row"><div class="form-field-label">AB Activity Submitted</div><div class="form-field-value">May 18, 2026</div></div>
-                        <div class="form-field-row"><div class="form-field-label">AB Score</div><div class="form-field-value" style="color:var(--accent);font-weight:600">0.45  (45%)</div></div>
+                        <div class="form-field-row"><div class="form-field-label" data-i18n="ff_type">AB Activity Type</div><div class="form-field-value" data-i18n="ff_type_v">Quiz</div></div>
+                        <div class="form-field-row"><div class="form-field-label" data-i18n="ff_name">AB Activity Name</div><div class="form-field-value">English Levels A1–A2</div></div>
+                        <div class="form-field-row"><div class="form-field-label" data-i18n="ff_goal">AB Activity Goal</div><div class="form-field-value" data-i18n="ff_goal_v">To practice grammar and vocabulary from A1–A2</div></div>
+                        <div class="form-field-row"><div class="form-field-label" data-i18n="ff_submitted">AB Activity Submitted</div><div class="form-field-value">May 18, 2026</div></div>
+                        <div class="form-field-row"><div class="form-field-label" data-i18n="ff_score">AB Score</div><div class="form-field-value" style="color:var(--accent);font-weight:600">0.45  (45%)</div></div>
                       </div>
                     </div>
                   </div>
 
                   <div class="activity-card">
                     <div class="activity-card-head">
-                      <div class="activity-card-type">👤 Contact Activity</div>
+                      <div class="activity-card-type" data-i18n-html="act_contactactivity">👤 Contact Activity</div>
                       <div class="activity-card-date">May 11, 2026 · 9:53 AM</div>
                     </div>
-                    <div class="activity-card-body"><strong>John Wick</strong> moved to <strong>Lead</strong>. <a>View details</a></div>
+                    <div class="activity-card-body" data-i18n-html="act3_body"><strong>John Wick</strong> moved to <strong>Lead</strong>. <a>View details</a></div>
                   </div>
 
                   <div class="activity-card">
                     <div class="activity-card-head">
-                      <div class="activity-card-type">⭐ Created</div>
+                      <div class="activity-card-type" data-i18n-html="act_created">⭐ Created</div>
                       <div class="activity-card-date">May 11, 2026 · 9:53 AM</div>
                     </div>
-                    <div class="activity-card-body">This contact was created from <strong>Organic Search</strong> from Unknown referrer.</div>
+                    <div class="activity-card-body" data-i18n-html="act4_body">This contact was created from <strong>Organic Search</strong> from Unknown referrer.</div>
                   </div>
                 </div>
               </div>
               <div>
                 <div class="right-card">
-                  <div class="right-card-title">Deals (1)</div>
+                  <div class="right-card-title" data-i18n="rc_deals">Deals (1)</div>
                   <div class="deal-card-inner">
                     <div class="deal-card-name">John Wick Web 1st Contract</div>
-                    <div class="deal-card-meta">Amount: €2,000<br>Close Date: May 25, 2026<br>Deal Stage: <strong style="color:var(--text-primary)">Booked</strong></div>
+                    <div class="deal-card-meta" data-i18n-html="deal_meta">Amount: €2,000<br>Close Date: May 25, 2026<br>Deal Stage: <strong style="color:var(--text-primary)">Booked</strong></div>
                   </div>
                 </div>
               </div>
@@ -1390,13 +1402,13 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
               <div></div>
               <div class="center-pane">
                 <div class="center-card">
-                  <div class="hs-card-title" style="padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:14px">Lead intelligence</div>
+                  <div class="hs-card-title" style="padding-bottom:14px;border-bottom:1px solid var(--border);margin-bottom:14px" data-i18n="intel_title">Lead intelligence</div>
                   <div style="font-size:13px;color:var(--text-secondary);line-height:1.7">
-                    <p><strong>Suggested openers based on what we know:</strong></p>
+                    <p><strong data-i18n="intel_sub">Suggested openers based on what we know:</strong></p>
                     <ul style="padding-left:20px;margin-top:10px">
-                      <li style="padding:4px 0">"I see you took our quick English test — how did it feel?"</li>
-                      <li style="padding:4px 0">"You first visited our site about a week ago — what made you book today?"</li>
-                      <li style="padding:4px 0">"You've looked at 6 pages on our site — what's been catching your interest?"</li>
+                      <li style="padding:4px 0" data-i18n="intel_op1">"I see you took our quick English test — how did it feel?"</li>
+                      <li style="padding:4px 0" data-i18n="intel_op2">"You first visited our site about a week ago — what made you book today?"</li>
+                      <li style="padding:4px 0" data-i18n="intel_op3">"You've looked at 6 pages on our site — what's been catching your interest?"</li>
                     </ul>
                   </div>
                 </div>
@@ -1411,18 +1423,18 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
         <div style="background:var(--accent-light);border-top:1px solid var(--accent-mid);padding:16px 24px">
           <div style="display:flex;align-items:flex-start;gap:14px;max-width:900px;margin:0 auto">
             <div style="flex:1">
-              <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em">Signal check</div>
-              <div style="font-size:13px;color:var(--text-primary);margin-bottom:12px;line-height:1.5">Based on John's contact record, what's the strongest opener you could use on the appointment?</div>
-              <div class="feedback-box info" id="signalNudge" style="display:block;margin-bottom:12px;background:var(--white);border:1px solid var(--accent-mid);color:var(--accent-dark)"><strong>Check the Activities tab first</strong> — the answer is in his form submission and quiz result.</div>
+              <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:8px;text-transform:uppercase;letter-spacing:.05em" data-i18n="signal_title">Signal check</div>
+              <div style="font-size:13px;color:var(--text-primary);margin-bottom:12px;line-height:1.5" data-i18n="signal_q">Based on John's contact record, what's the strongest opener you could use on the appointment?</div>
+              <div class="feedback-box info" id="signalNudge" style="display:block;margin-bottom:12px;background:var(--white);border:1px solid var(--accent-mid);color:var(--accent-dark)" data-i18n-html="signal_nudge"><strong>Check the Activities tab first</strong> — the answer is in his form submission and quiz result.</div>
               <div id="signalOpts" style="opacity:0.4;pointer-events:none">
-                <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">A</div>"I see you're a beginner. Don't worry — most of our students start at A1."</button>
-                <button class="answer-option" onclick="pickSignal(this,true)"><div class="opt-letter">B</div>"I see you took our quick English test and scored 45% — how did it feel? What did you find tricky?"</button>
-                <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">C</div>"What brings you to Wall Street English today?"</button>
-                <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">D</div>"Tell me about your work and what you do."</button>
+                <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">A</div><span data-i18n="sig_a">"I see you're a beginner. Don't worry — most of our students start at A1."</span></button>
+                <button class="answer-option" onclick="pickSignal(this,true)"><div class="opt-letter">B</div><span data-i18n="sig_b">"I see you took our quick English test and scored 45% — how did it feel? What did you find tricky?"</span></button>
+                <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">C</div><span data-i18n="sig_c">"What brings you to Wall Street English today?"</span></button>
+                <button class="answer-option" onclick="pickSignal(this,false)"><div class="opt-letter">D</div><span data-i18n="sig_d">"Tell me about your work and what you do."</span></button>
               </div>
               <div class="feedback-box" id="signalFeedback"></div>
               <div class="btn-row">
-                <button class="btn btn-primary" id="btn-contact-continue" onclick="completeContact()" disabled>I've reviewed everything — continue</button>
+                <button class="btn btn-primary" id="btn-contact-continue" onclick="completeContact()" disabled data-i18n="btn_contact_continue">I've reviewed everything — continue</button>
               </div>
             </div>
           </div>
@@ -1436,97 +1448,97 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
         <div class="page-header">
           <div>
             <div class="page-title">John Wick Web 1st Contract</div>
-            <div style="font-size:12px;color:var(--text-secondary);margin-top:2px">Amount €2,000 · Close date 05/25/2026 · Pipeline Sales Pipeline · Deal stage <strong>Booked</strong></div>
+            <div style="font-size:12px;color:var(--text-secondary);margin-top:2px" data-i18n-html="p3_dealmeta">Amount €2,000 · Close date 05/25/2026 · Pipeline Sales Pipeline · Deal stage <strong>Booked</strong></div>
           </div>
         </div>
         <div class="pane-content" style="padding:20px 24px">
-          <div class="alert alert-success"><strong>Appointment outcome:</strong> John showed up and was enthusiastic. He needs to discuss the offer with his wife but is leaning toward signing. You agreed to call back in 3 days.</div>
+          <div class="alert alert-success" data-i18n-html="p3_alert"><strong>Appointment outcome:</strong> John showed up and was enthusiastic. He needs to discuss the offer with his wife but is leaning toward signing. You agreed to call back in 3 days.</div>
 
           <!-- ── Sub-step 1: Meeting outcome ── -->
           <div class="hs-card" id="ss-card-0" style="display:block">
-            <div class="hs-card-header"><span class="hs-card-title">1 — Meeting outcome</span></div>
+            <div class="hs-card-header"><span class="hs-card-title" data-i18n="ss0_title">1 — Meeting outcome</span></div>
             <div class="hs-card-body">
-              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">Go to the meeting record → click <strong>Actions ▾</strong> → <strong>Edit</strong>. Scroll down to find the Meeting outcome dropdown and select the right option.</div>
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5" data-i18n-html="ss0_instr">Go to the meeting record → click <strong>Actions ▾</strong> → <strong>Edit</strong>. Scroll down to find the Meeting outcome dropdown and select the right option.</div>
               <div class="form-group" style="max-width:300px">
-                <label class="hs-label">Meeting outcome</label>
+                <label class="hs-label" data-i18n="lbl_meeting_outcome">Meeting outcome</label>
                 <select class="hs-select" id="meetingOutcome" onchange="checkSubstep(0)">
-                  <option value="">Select meeting outcome…</option>
-                  <option>Scheduled</option>
-                  <option value="completed">Completed</option>
-                  <option>Rescheduled</option>
-                  <option>No show</option>
-                  <option>Cancelled</option>
+                  <option value="" data-i18n="mo_select">Select meeting outcome…</option>
+                  <option data-i18n="mo_scheduled">Scheduled</option>
+                  <option value="completed" data-i18n="mo_completed">Completed</option>
+                  <option data-i18n="mo_rescheduled">Rescheduled</option>
+                  <option data-i18n="mo_noshow">No show</option>
+                  <option data-i18n="mo_cancelled">Cancelled</option>
                 </select>
               </div>
               <div class="feedback-box" id="ss-fb-0"></div>
               <div class="btn-row">
-                <button class="btn btn-primary" id="ss-save-0" onclick="confirmSubstep(0)" disabled>Save</button>
+                <button class="btn btn-primary" id="ss-save-0" onclick="confirmSubstep(0)" disabled data-i18n="btn_save">Save</button>
               </div>
             </div>
           </div>
 
           <!-- ── Sub-step 2: Consult notes (7 fields) ── -->
           <div class="hs-card" id="ss-card-1" style="display:none">
-            <div class="hs-card-header"><span class="hs-card-title">2 — Consult notes</span></div>
+            <div class="hs-card-header"><span class="hs-card-title" data-i18n="ss1_title">2 — Consult notes</span></div>
             <div class="hs-card-body">
-              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">Go to the deal → <strong>Notes</strong> tab → click <strong>Create a note</strong>. Read each section below, edit it to match your real conversation, then tick it off. <em style="color:var(--text-light)">The fields are pre-filled with an example consult note for John Wick so you can see what good notes look like. Tip: if you took notes during the appointment, you can copy &amp; paste the relevant text into each field.</em></div>
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5" data-i18n-html="ss1_instr">Go to the deal → <strong>Notes</strong> tab → click <strong>Create a note</strong>. Read each section below, edit it to match your real conversation, then tick it off. <em style="color:var(--text-light)">The fields are pre-filled with an example consult note for John Wick so you can see what good notes look like. Tip: if you took notes during the appointment, you can copy &amp; paste the relevant text into each field.</em></div>
               <div id="noteFields">
                 <div class="form-group">
-                  <label class="hs-label">Past</label>
-                  <textarea class="hs-textarea note-field" data-key="past" rows="2" placeholder="What's their English history? School, apps, courses they've tried…" oninput="checkNotes()">Studied English at school years ago, then stopped. Tried Duolingo and a few YouTube videos but nothing stuck. Scored 45% on our A1–A2 quiz — the basics are there but grammar is shaky.</textarea>
-                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="past" onchange="checkNotes()"> Reviewed this section</label>
+                  <label class="hs-label" data-i18n="nf_past">Past</label>
+                  <textarea class="hs-textarea note-field" data-key="past" rows="2" placeholder="What's their English history? School, apps, courses they've tried…" data-i18n-ph="ph_past" data-i18n="note_past" oninput="checkNotes()">Studied English at school years ago, then stopped. Tried Duolingo and a few YouTube videos but nothing stuck. Scored 45% on our A1–A2 quiz — the basics are there but grammar is shaky.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="past" onchange="checkNotes()"> <span data-i18n="note_reviewed">Reviewed this section</span></label>
                 </div>
                 <div class="form-group">
-                  <label class="hs-label">Present</label>
-                  <textarea class="hs-textarea note-field" data-key="present" rows="2" placeholder="Where are they now? Current role, current English use…" oninput="checkNotes()">Works in logistics in Spain. Uses English for the odd supplier email but avoids speaking on calls. Currently sitting around A2.</textarea>
-                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="present" onchange="checkNotes()"> Reviewed this section</label>
+                  <label class="hs-label" data-i18n="nf_present">Present</label>
+                  <textarea class="hs-textarea note-field" data-key="present" rows="2" placeholder="Where are they now? Current role, current English use…" data-i18n-ph="ph_present" data-i18n="note_present" oninput="checkNotes()">Works in logistics in Spain. Uses English for the odd supplier email but avoids speaking on calls. Currently sitting around A2.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="present" onchange="checkNotes()"> <span data-i18n="note_reviewed">Reviewed this section</span></label>
                 </div>
                 <div class="form-group">
-                  <label class="hs-label">Future</label>
-                  <textarea class="hs-textarea note-field" data-key="future" rows="2" placeholder="Where do they want to be? Job, life, ambitions…" oninput="checkNotes()">Wants to move into a regional role that needs confident spoken English within the next year, and to travel without relying on translation apps.</textarea>
-                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="future" onchange="checkNotes()"> Reviewed this section</label>
+                  <label class="hs-label" data-i18n="nf_future">Future</label>
+                  <textarea class="hs-textarea note-field" data-key="future" rows="2" placeholder="Where do they want to be? Job, life, ambitions…" data-i18n-ph="ph_future" data-i18n="note_future" oninput="checkNotes()">Wants to move into a regional role that needs confident spoken English within the next year, and to travel without relying on translation apps.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="future" onchange="checkNotes()"> <span data-i18n="note_reviewed">Reviewed this section</span></label>
                 </div>
                 <div class="form-group">
-                  <label class="hs-label">Why now</label>
-                  <textarea class="hs-textarea note-field" data-key="whynow" rows="2" placeholder="What's prompting them to take action now?" oninput="checkNotes()">A regional role is opening up soon and his manager hinted he's a candidate — he feels his English is the only thing holding him back.</textarea>
-                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="whynow" onchange="checkNotes()"> Reviewed this section</label>
+                  <label class="hs-label" data-i18n="nf_whynow">Why now</label>
+                  <textarea class="hs-textarea note-field" data-key="whynow" rows="2" placeholder="What's prompting them to take action now?" data-i18n-ph="ph_whynow" data-i18n="note_whynow" oninput="checkNotes()">A regional role is opening up soon and his manager hinted he's a candidate — he feels his English is the only thing holding him back.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="whynow" onchange="checkNotes()"> <span data-i18n="note_reviewed">Reviewed this section</span></label>
                 </div>
                 <div class="form-group">
-                  <label class="hs-label">Goal</label>
-                  <textarea class="hs-textarea note-field" data-key="goal" rows="2" placeholder="What does success look like for them?" oninput="checkNotes()">Lead a supplier call in English and hold a 10-minute conversation without freezing, ready in time for the promotion.</textarea>
-                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="goal" onchange="checkNotes()"> Reviewed this section</label>
+                  <label class="hs-label" data-i18n="nf_goal">Goal</label>
+                  <textarea class="hs-textarea note-field" data-key="goal" rows="2" placeholder="What does success look like for them?" data-i18n-ph="ph_goal" data-i18n="note_goal" oninput="checkNotes()">Lead a supplier call in English and hold a 10-minute conversation without freezing, ready in time for the promotion.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="goal" onchange="checkNotes()"> <span data-i18n="note_reviewed">Reviewed this section</span></label>
                 </div>
                 <div class="form-group">
-                  <label class="hs-label">Hot button</label>
-                  <textarea class="hs-textarea note-field" data-key="hotbutton" rows="2" placeholder="What's their emotional driver? Pain point, fear, urgency?" oninput="checkNotes()">Froze on a recent supplier call and the team noticed — scared of being passed over for the promotion because of his English.</textarea>
-                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="hotbutton" onchange="checkNotes()"> Reviewed this section</label>
+                  <label class="hs-label" data-i18n="nf_hotbutton">Hot button</label>
+                  <textarea class="hs-textarea note-field" data-key="hotbutton" rows="2" placeholder="What's their emotional driver? Pain point, fear, urgency?" data-i18n-ph="ph_hotbutton" data-i18n="note_hotbutton" oninput="checkNotes()">Froze on a recent supplier call and the team noticed — scared of being passed over for the promotion because of his English.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="hotbutton" onchange="checkNotes()"> <span data-i18n="note_reviewed">Reviewed this section</span></label>
                 </div>
                 <div class="form-group">
-                  <label class="hs-label">Next steps</label>
-                  <textarea class="hs-textarea note-field" data-key="nextsteps" rows="2" placeholder="What was agreed? Follow-up date, decisions pending?" oninput="checkNotes()">Walk through starter course options, send pricing and a level plan, and book a follow-up call next week to confirm enrolment.</textarea>
-                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="nextsteps" onchange="checkNotes()"> Reviewed this section</label>
+                  <label class="hs-label" data-i18n="nf_nextsteps">Next steps</label>
+                  <textarea class="hs-textarea note-field" data-key="nextsteps" rows="2" placeholder="What was agreed? Follow-up date, decisions pending?" data-i18n-ph="ph_nextsteps" data-i18n="note_nextsteps" oninput="checkNotes()">Walk through starter course options, send pricing and a level plan, and book a follow-up call next week to confirm enrolment.</textarea>
+                  <label class="note-tick-row"><input type="checkbox" class="note-tick" data-key="nextsteps" onchange="checkNotes()"> <span data-i18n="note_reviewed">Reviewed this section</span></label>
                 </div>
               </div>
-              <div style="font-size:12px;color:var(--text-light);margin-top:6px"><span id="notesProgress">0</span> / 7 sections reviewed</div>
+              <div style="font-size:12px;color:var(--text-light);margin-top:6px"><span id="notesProgress">0</span> <span data-i18n="notes_progress_suffix">/ 7 sections reviewed</span></div>
               <div class="feedback-box" id="ss-fb-1"></div>
               <div class="btn-row">
-                <button class="btn btn-primary" id="ss-save-1" onclick="confirmSubstep(1)" disabled>Save note</button>
+                <button class="btn btn-primary" id="ss-save-1" onclick="confirmSubstep(1)" disabled data-i18n="btn_savenote">Save note</button>
               </div>
             </div>
           </div>
 
           <!-- ── Sub-step 3: Deal stage (drag & drop) ── -->
           <div class="hs-card" id="ss-card-2" style="display:none">
-            <div class="hs-card-header"><span class="hs-card-title">3 — Deal stage</span></div>
+            <div class="hs-card-header"><span class="hs-card-title" data-i18n="ss2_title">3 — Deal stage</span></div>
             <div class="hs-card-body">
-              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;line-height:1.5">Drag the deal card from <strong>Booked</strong> to the correct stage based on the appointment outcome. The qualifying activity will auto-update.</div>
-              <div style="font-size:12px;color:var(--text-light);margin-bottom:14px;padding:8px 12px;background:var(--accent-light);border-radius:var(--r-md);border-left:3px solid var(--accent)">💡 <strong>Two ways to do this:</strong> drag the deal across the pipeline on the board view (try it below), OR open the deal record and change the deal stage field. Both work.</div>
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:8px;line-height:1.5" data-i18n-html="ss2_instr">Drag the deal card from <strong>Booked</strong> to the correct stage based on the appointment outcome. The qualifying activity will auto-update.</div>
+              <div style="font-size:12px;color:var(--text-light);margin-bottom:14px;padding:8px 12px;background:var(--accent-light);border-radius:var(--r-md);border-left:3px solid var(--accent)" data-i18n-html="ss2_tip">💡 <strong>Two ways to do this:</strong> drag the deal across the pipeline on the board view (try it below), OR open the deal record and change the deal stage field. Both work.</div>
               <div style="overflow-x:auto;padding-bottom:8px">
                 <div class="mini-pipeline" id="miniPipeline">
-                  <div class="mini-stage" data-stage="lead"><div class="mini-stage-name">Lead</div><div class="mini-stage-slot"></div></div>
-                  <div class="mini-stage" data-stage="contacted"><div class="mini-stage-name">Contacted</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="lead"><div class="mini-stage-name" data-i18n="stage_lead">Lead</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="contacted"><div class="mini-stage-name" data-i18n="stage_contacted">Contacted</div><div class="mini-stage-slot"></div></div>
                   <div class="mini-stage active-stage" data-stage="booked">
-                    <div class="mini-stage-name">Booked</div>
+                    <div class="mini-stage-name" data-i18n="stage_booked">Booked</div>
                     <div class="mini-stage-slot">
                       <div class="drag-deal" id="dragDeal" draggable="true">
                         <div class="drag-deal-title">John Wick Web 1st Contract</div>
@@ -1534,98 +1546,98 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
                       </div>
                     </div>
                   </div>
-                  <div class="mini-stage" data-stage="opendecision"><div class="mini-stage-name">Open Decision</div><div class="mini-stage-slot"></div></div>
-                  <div class="mini-stage" data-stage="2nd"><div class="mini-stage-name">2nd Appointment</div><div class="mini-stage-slot"></div></div>
-                  <div class="mini-stage" data-stage="trial"><div class="mini-stage-name">Trial</div><div class="mini-stage-slot"></div></div>
-                  <div class="mini-stage" data-stage="signed"><div class="mini-stage-name">Signed</div><div class="mini-stage-slot"></div></div>
-                  <div class="mini-stage" data-stage="won"><div class="mini-stage-name">Closed won</div><div class="mini-stage-slot"></div></div>
-                  <div class="mini-stage" data-stage="lost"><div class="mini-stage-name">Closed lost</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="opendecision"><div class="mini-stage-name" data-i18n="stage_opendecision">Open Decision</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="2nd"><div class="mini-stage-name" data-i18n="stage_2nd">2nd Appointment</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="trial"><div class="mini-stage-name" data-i18n="stage_trial">Trial</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="signed"><div class="mini-stage-name" data-i18n="stage_signed">Signed</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="won"><div class="mini-stage-name" data-i18n="stage_won">Closed won</div><div class="mini-stage-slot"></div></div>
+                  <div class="mini-stage" data-stage="lost"><div class="mini-stage-name" data-i18n="stage_lost">Closed lost</div><div class="mini-stage-slot"></div></div>
                 </div>
               </div>
               <div class="feedback-box" id="ss-fb-2"></div>
-              <div id="qualActivityAuto" style="display:none;background:var(--green-light);border:1px solid #B8EFE9;color:#007A6E;padding:10px 14px;border-radius:var(--r-md);font-size:12.5px;margin-top:10px">
+              <div id="qualActivityAuto" style="display:none;background:var(--green-light);border:1px solid #B8EFE9;color:#007A6E;padding:10px 14px;border-radius:var(--r-md);font-size:12.5px;margin-top:10px" data-i18n-html="qual_auto">
                 ✓ Qualifying activity auto-updated to <strong>Show</strong>.
               </div>
               <div class="btn-row">
-                <button class="btn btn-primary" id="ss-save-2" onclick="confirmSubstep(2)" disabled>Save deal stage</button>
+                <button class="btn btn-primary" id="ss-save-2" onclick="confirmSubstep(2)" disabled data-i18n="btn_savestage">Save deal stage</button>
               </div>
             </div>
           </div>
 
           <!-- ── Sub-step 4: Task ── -->
           <div class="hs-card" id="ss-card-3" style="display:none">
-            <div class="hs-card-header"><span class="hs-card-title">4 — Create a follow-up task</span></div>
+            <div class="hs-card-header"><span class="hs-card-title" data-i18n="ss3_title">4 — Create a follow-up task</span></div>
             <div class="hs-card-body">
-              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">Go to the <strong>Tasks</strong> tab → click <strong>Create a task</strong>. Fill in the details below.</div>
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5" data-i18n-html="ss3_instr">Go to the <strong>Tasks</strong> tab → click <strong>Create a task</strong>. Fill in the details below.</div>
               <div class="form-group">
-                <label class="hs-label">Task name</label>
-                <input type="text" class="hs-input" id="taskName" placeholder="e.g. Follow up" oninput="checkSubstep(3)" />
+                <label class="hs-label" data-i18n="lbl_taskname">Task name</label>
+                <input type="text" class="hs-input" id="taskName" placeholder="e.g. Follow up" data-i18n-ph="ph_taskname" oninput="checkSubstep(3)" />
               </div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
                 <div class="form-group">
-                  <label class="hs-label">Activity date</label>
+                  <label class="hs-label" data-i18n="lbl_activitydate">Activity date</label>
                   <select class="hs-select" id="taskDate" onchange="checkSubstep(3)">
-                    <option value="">Select date…</option>
-                    <option value="today">Today</option>
-                    <option value="tomorrow">Tomorrow</option>
-                    <option value="3days">In 3 business days (Tuesday)</option>
-                    <option value="1week">In 1 week</option>
+                    <option value="" data-i18n="td_select">Select date…</option>
+                    <option value="today" data-i18n="td_today">Today</option>
+                    <option value="tomorrow" data-i18n="td_tomorrow">Tomorrow</option>
+                    <option value="3days" data-i18n="td_3days">In 3 business days (Tuesday)</option>
+                    <option value="1week" data-i18n="td_1week">In 1 week</option>
                   </select>
                 </div>
                 <div class="form-group">
-                  <label class="hs-label">Send reminder</label>
+                  <label class="hs-label" data-i18n="lbl_reminder">Send reminder</label>
                   <select class="hs-select" id="taskReminder" onchange="checkSubstep(3)">
-                    <option value="">No reminder</option>
-                    <option value="due">At task due time</option>
-                    <option value="15min">15 minutes before</option>
-                    <option value="1hr">1 hour before</option>
+                    <option value="" data-i18n="rem_none">No reminder</option>
+                    <option value="due" data-i18n="rem_due">At task due time</option>
+                    <option value="15min" data-i18n="rem_15min">15 minutes before</option>
+                    <option value="1hr" data-i18n="rem_1hr">1 hour before</option>
                   </select>
                 </div>
               </div>
               <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
                 <div class="form-group">
-                  <label class="hs-label">Task type</label>
-                  <select class="hs-select"><option>To-do</option><option>Call</option><option>Email</option></select>
+                  <label class="hs-label" data-i18n="lbl_tasktype">Task type</label>
+                  <select class="hs-select"><option data-i18n="tt_todo">To-do</option><option data-i18n="tt_call">Call</option><option data-i18n="tt_email">Email</option></select>
                 </div>
                 <div class="form-group">
-                  <label class="hs-label">Activity assigned to</label>
+                  <label class="hs-label" data-i18n="lbl_assignedto">Activity assigned to</label>
                   <select class="hs-select"><option>Jamina Camp</option></select>
                 </div>
               </div>
               <div class="feedback-box" id="ss-fb-3"></div>
               <div class="btn-row">
-                <button class="btn btn-primary" id="ss-save-3" onclick="confirmSubstep(3)" disabled>Create task</button>
+                <button class="btn btn-primary" id="ss-save-3" onclick="confirmSubstep(3)" disabled data-i18n="btn_createtask">Create task</button>
               </div>
             </div>
           </div>
 
           <!-- ── Checklist (moved to bottom for consistency) ── -->
-          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-secondary);margin:24px 0 8px">Your post-appointment checklist</div>
+          <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-secondary);margin:24px 0 8px" data-i18n="checklist_title">Your post-appointment checklist</div>
           <div class="substeps">
             <div class="substep active" id="ss-0" onclick="openSubstep(0)">
               <div class="substep-num" id="ss-num-0">1</div>
-              <div class="substep-label">Update the meeting outcome</div>
-              <div class="substep-status" id="ss-status-0">Not started</div>
+              <div class="substep-label" data-i18n="cl_0">Update the meeting outcome</div>
+              <div class="substep-status" id="ss-status-0" data-i18n="status_notstarted">Not started</div>
             </div>
             <div class="substep" id="ss-1" onclick="openSubstep(1)">
               <div class="substep-num" id="ss-num-1">2</div>
-              <div class="substep-label">Add consult notes (Past / Present / Future / Why now / Goal / Hot button / Next steps)</div>
-              <div class="substep-status" id="ss-status-1">Not started</div>
+              <div class="substep-label" data-i18n="cl_1">Add consult notes (Past / Present / Future / Why now / Goal / Hot button / Next steps)</div>
+              <div class="substep-status" id="ss-status-1" data-i18n="status_notstarted">Not started</div>
             </div>
             <div class="substep" id="ss-2" onclick="openSubstep(2)">
               <div class="substep-num" id="ss-num-2">3</div>
-              <div class="substep-label">Move deal stage from Booked → Open Decision</div>
-              <div class="substep-status" id="ss-status-2">Not started</div>
+              <div class="substep-label" data-i18n="cl_2">Move deal stage from Booked → Open Decision</div>
+              <div class="substep-status" id="ss-status-2" data-i18n="status_notstarted">Not started</div>
             </div>
             <div class="substep" id="ss-3" onclick="openSubstep(3)">
               <div class="substep-num" id="ss-num-3">4</div>
-              <div class="substep-label">Create a follow-up task</div>
-              <div class="substep-status" id="ss-status-3">Not started</div>
+              <div class="substep-label" data-i18n="cl_3">Create a follow-up task</div>
+              <div class="substep-status" id="ss-status-3" data-i18n="status_notstarted">Not started</div>
             </div>
           </div>
 
           <div class="btn-row" id="finishPostRow" style="display:none">
-            <button class="btn btn-success needs-action" onclick="completePost()">All done — finish</button>
+            <button class="btn btn-success needs-action" onclick="completePost()" data-i18n="btn_alldone">All done — finish</button>
           </div>
         </div>
       </div>
@@ -1637,32 +1649,32 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
         <div class="pane-content" style="padding:20px">
           <div class="result-wrap">
             <div class="result-icon">🎉</div>
-            <div class="result-title">Workflow complete</div>
-            <div class="result-sub">You've practised the full self-booking process — from calendar slot to clean HubSpot admin.</div>
+            <div class="result-title" data-i18n="result_title">Workflow complete</div>
+            <div class="result-sub" data-i18n="result_sub">You've practised the full self-booking process — from calendar slot to clean HubSpot admin.</div>
             <div class="result-list">
-              <div class="result-item"><span class="result-tick">✓</span> Identified the self-booked slot in Outlook and added a buffer</div>
-              <div class="result-item"><span class="result-tick">✓</span> Found the deal using the Booking Source filter</div>
-              <div class="result-item"><span class="result-tick">✓</span> Reviewed John's contact, website activity and quiz result</div>
-              <div class="result-item"><span class="result-tick">✓</span> Identified the strongest opener based on his profile</div>
-              <div class="result-item"><span class="result-tick">✓</span> Updated meeting outcome, deal stage and consult notes</div>
-              <div class="result-item"><span class="result-tick">✓</span> Created a follow-up task with a reminder</div>
+              <div class="result-item"><span class="result-tick">✓</span> <span data-i18n="result_1">Identified the self-booked slot in Outlook and added a buffer</span></div>
+              <div class="result-item"><span class="result-tick">✓</span> <span data-i18n="result_2">Found the deal using the Booking Source filter</span></div>
+              <div class="result-item"><span class="result-tick">✓</span> <span data-i18n="result_3">Reviewed John's contact, website activity and quiz result</span></div>
+              <div class="result-item"><span class="result-tick">✓</span> <span data-i18n="result_4">Identified the strongest opener based on his profile</span></div>
+              <div class="result-item"><span class="result-tick">✓</span> <span data-i18n="result_5">Updated meeting outcome, deal stage and consult notes</span></div>
+              <div class="result-item"><span class="result-tick">✓</span> <span data-i18n="result_6">Created a follow-up task with a reminder</span></div>
             </div>
-            <div class="closer-quote">
+            <div class="closer-quote" data-i18n-html="closer_quote">
               <strong>Remember:</strong> Good prep takes 5 minutes. Clean admin takes 5 minutes. That's 10 minutes that turns a warm lead into a student.
             </div>
 
             <!-- Completion code -->
             <div style="background:var(--white);border:2px dashed var(--accent);border-radius:var(--r-lg);padding:20px;margin-bottom:20px;text-align:left">
-              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px">🔑 Your completion code</div>
-              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5">Copy this code and paste it into the Knowledge Check on the next page to mark this lesson complete.</div>
+              <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin-bottom:8px" data-i18n="code_label">🔑 Your completion code</div>
+              <div style="font-size:13px;color:var(--text-secondary);margin-bottom:14px;line-height:1.5" data-i18n="code_instr">Copy this code and paste it into the Knowledge Check on the next page to mark this lesson complete.</div>
               <div style="display:flex;align-items:center;gap:10px;background:var(--accent-light);border:1px solid var(--accent-mid);border-radius:var(--r-md);padding:12px 16px">
                 <code id="completionCode" style="flex:1;font-family:'Lexend',monospace;font-size:18px;font-weight:700;color:var(--accent-dark);letter-spacing:0.04em;user-select:all">WSE-SB-OPEN-DECISION-2026</code>
-                <button class="btn btn-primary" id="copyCodeBtn" onclick="copyCode()">📋 Copy</button>
+                <button class="btn btn-primary" id="copyCodeBtn" onclick="copyCode()" data-i18n="btn_copy">📋 Copy</button>
               </div>
-              <div id="copyConfirm" style="font-size:12px;color:var(--green);margin-top:8px;opacity:0;transition:opacity .2s">✓ Copied to clipboard</div>
+              <div id="copyConfirm" style="font-size:12px;color:var(--green);margin-top:8px;opacity:0;transition:opacity .2s" data-i18n="copy_confirm">✓ Copied to clipboard</div>
             </div>
 
-            <button class="btn btn-secondary" onclick="resetAll()">↺ Start again</button>
+            <button class="btn btn-secondary" onclick="resetAll()" data-i18n="btn_startagain">↺ Start again</button>
           </div>
         </div>
       </div>
@@ -1675,14 +1687,14 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 <div class="modal-backdrop" id="addFilterModal">
   <div class="modal-box">
     <div class="modal-head">
-      <div class="modal-title">Add filter</div>
+      <div class="modal-title" data-i18n="modal_addfilter">Add filter</div>
       <div class="filter-close" onclick="closeAddFilterModal()">×</div>
     </div>
     <div class="modal-body">
       <div style="position:relative">
-        <input type="text" class="hs-input needs-action" id="filterSearch" placeholder="Search in Deal properties" oninput="filterSearch()" autocomplete="off" />
+        <input type="text" class="hs-input needs-action" id="filterSearch" placeholder="Search in Deal properties" data-i18n-ph="ph_filtersearch" oninput="filterSearch()" autocomplete="off" />
       </div>
-      <div style="font-size:11px;color:var(--text-light);margin-top:8px;padding-left:2px">💡 Try typing <strong>booking source</strong></div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:8px;padding-left:2px" data-i18n-html="hint_bookingsource">💡 Try typing <strong>booking source</strong></div>
       <div id="filterResults" style="margin-top:14px"></div>
     </div>
   </div>
@@ -1692,28 +1704,249 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
 <div class="modal-backdrop" id="operatorModal">
   <div class="modal-box">
     <div class="modal-head">
-      <div class="modal-title">Booking source</div>
+      <div class="modal-title" data-i18n="modal_bookingsource">Booking source</div>
       <div class="filter-close" onclick="closeOperatorModal()">×</div>
     </div>
     <div class="modal-body">
-      <label class="hs-label">Filter type</label>
+      <label class="hs-label" data-i18n="lbl_filtertype">Filter type</label>
       <select class="hs-select needs-action" id="bookingOperator">
-        <option value="">Choose condition…</option>
-        <option value="anyof">is any of</option>
-        <option value="noneof">is none of</option>
-        <option value="known">is known</option>
-        <option value="unknown">is unknown</option>
+        <option value="" data-i18n="op_choose">Choose condition…</option>
+        <option value="anyof" data-i18n="op_anyof">is any of</option>
+        <option value="noneof" data-i18n="op_noneof">is none of</option>
+        <option value="known" data-i18n="op_known">is known</option>
+        <option value="unknown" data-i18n="op_unknown">is unknown</option>
       </select>
-      <div style="font-size:11px;color:var(--text-light);margin-top:8px;padding-left:2px">💡 Click on <strong>is known</strong> — every self-booked deal has a booking source</div>
+      <div style="font-size:11px;color:var(--text-light);margin-top:8px;padding-left:2px" data-i18n-html="hint_isknown">💡 Click on <strong>is known</strong> — every self-booked deal has a booking source</div>
     </div>
     <div class="modal-foot">
-      <button class="btn btn-secondary" onclick="closeOperatorModal()">Cancel</button>
-      <button class="btn btn-primary" onclick="applyBookingOperator()">Apply</button>
+      <button class="btn btn-secondary" onclick="closeOperatorModal()" data-i18n="btn_cancel">Cancel</button>
+      <button class="btn btn-primary" onclick="applyBookingOperator()" data-i18n="btn_apply">Apply</button>
     </div>
   </div>
 </div>
 
 <div id="toast"><div class="toast-title" id="toastTitle"></div><div id="toastMsg"></div></div>
+
+<script>
+/* ─────────────────────────────────────────────────────────────────────────
+   i18n loader — static translations baked in, no runtime service / API.
+   Keys map to: [data-i18n] (textContent), [data-i18n-html] (innerHTML),
+   [data-i18n-title] (title attr), [data-i18n-ph] (placeholder attr).
+   Language comes from ?lang=xx → browser language → English.
+   ───────────────────────────────────────────────────────────────────────── */
+const I18N = {
+  en: {
+    title: "Hugspot Sandbox — Self-Booking Practice",
+    nav_contacts: "Contacts", nav_deals: "Deals", nav_companies: "Companies", nav_tasks: "Tasks",
+    instr_label_0: "Step 1 — Calendar", instr_label_1: "Step 2 — Find the deal", instr_label_2: "Step 3 — Review the contact", instr_label_3: "Step 4 — Post-appointment update", instr_label_4: "Complete",
+    instr_text_0: "Self-booked appointments appear in your <strong>Outlook calendar</strong>. Identify what you should do when you see one.",
+    instr_text_1: "In HubSpot Deals, open <strong>Advanced filters</strong>, add a filter for <strong>Booking Source</strong> set to <strong>is known</strong>, then open John's deal.",
+    instr_text_2: "Open the <strong>Activities</strong> tab to see John's form submission and quiz result. Use what you find to answer the signal question.",
+    instr_text_3: "Complete all four sub-steps: update the meeting outcome, add consult notes, move the deal stage, and create a follow-up task.",
+    instr_text_4: "You've finished the full self-booking workflow.",
+    steptab_0: "Calendar check", steptab_1: "Find the deal", steptab_2: "Review contact", steptab_3: "Post-appointment update", steptab_4: "Complete",
+    task_header: "Workflow steps", task_0: "Calendar — identify slot", task_1: "Find self-booked deal", task_2: "Review the contact", task_3: "Post-appointment HubSpot update",
+    progress_0: "0 of 4 complete", progress_suffix: "of 4 complete",
+    p0_title: "Your Outlook calendar", p0_sub: "A self-booked lead has just appeared on your calendar.",
+    cal_header: "Outlook · Week of May 04, 2026", cal_block: "Block", cal_blocked: "Blocked",
+    legend_consult: "Wall Street English consultation", legend_buffer: "Buffer / blocker",
+    p0_quickcheck: "Quick check",
+    p0_question: "You see a 30-minute Wall Street English slot on Wednesday at 10:00. What should you do? <strong style='color:var(--text-secondary)'>Pick the two correct actions.</strong>",
+    opt_a: "Wait for someone else to follow up, the system will handle it.",
+    opt_b: "Build a buffer slot before/after the appointment so I don't run out of time.",
+    opt_c: "Move the appointment to a more convenient time without telling the lead.",
+    opt_d: "Block out any time in my calendar I don't want self-booked leads to land on.",
+    btn_continue_hugspot: "Continue to Hugspot",
+    cal_fb_both: "✓ Both correct. Build buffer time around the appointment, and block out any time you don't want self-booked leads to land on.",
+    cal_fb_one: "One correct answer found — one more to go.",
+    toast_calset_t: "Calendar set", toast_calset_m: "Now find the deal in HubSpot.",
+    p1_title: "All deals", btn_boardview: "Board view ▾", btn_salespipeline: "Sales Pipeline ▾",
+    adv_filters: "≡ Advanced filters", arrow_starthere: "Start here", filter_all: "All filters",
+    no_filters: "This view doesn't have any advanced filters.", add_filter: "+ Add filter", arrow_clickhere: "Click here",
+    pipeline_label: "Pipeline",
+    stage_lead: "Lead", stage_contacted: "Contacted", stage_booked: "Booked", stage_opendecision: "Open Decision", stage_2nd: "2nd Appointment", stage_trial: "Trial", stage_signed: "Signed", stage_won: "Closed won", stage_lost: "Closed lost",
+    qa_label: "Qualifying Activity:", qa_callback: "Call Back", qa_email: "Email", qa_booked: "Booked",
+    contact_how: "How to contact: Email, Mobile", arrow_openthisdeal: "Open this deal", filter_group1: "Group 1",
+    fr_starttyping: "Start typing to search Deal properties.", fr_nomatch: "No matching properties.",
+    dp_cat_selfbooking: "Self-Booking", dp_cat_dealinfo: "Deal information", dp_cat_dealactivity: "Deal activity",
+    dp_bookingsource: "Booking source", dp_dealname: "Deal name", dp_dealstage: "Deal stage", dp_dealamount: "Deal amount", dp_callcount: "Call Count", dp_lastmeeting: "Date of last meeting",
+    toast_wrongprop_t: "Wrong property", toast_wrongprop_m: "You need to find the property called “Booking source”.",
+    toast_choosecond_t: "Choose a condition", toast_choosecond_m: "Select “is known” to find all self-booked deals.",
+    toast_wrongcond_t: "Wrong condition", toast_wrongcond_m: "Use “is known” — booking source has a value when the lead self-booked.",
+    toast_filterapplied_t: "Filter applied", toast_filterapplied_m: "Self-booked deal visible in Booked stage. Click the deal card.",
+    toast_dealopened_t: "Deal opened", toast_dealopened_m: "Now review John's contact record.",
+    op_choose: "Choose condition…", op_anyof: "is any of", op_noneof: "is none of", op_known: "is known", op_unknown: "is unknown",
+    lbl_filtertype: "Filter type", modal_addfilter: "Add filter", modal_bookingsource: "Booking source",
+    ph_filtersearch: "Search in Deal properties",
+    hint_bookingsource: "💡 Try typing <strong>booking source</strong>",
+    hint_isknown: "💡 Click on <strong>is known</strong> — every self-booked deal has a booking source",
+    btn_cancel: "Cancel", btn_apply: "Apply",
+    contact_sub: "Self-booked via website · Appointment Wed at 10:00", pill_selfbooked: "Self-booked",
+    tab_overview: "Overview", tab_activities: "Activities", tab_intelligence: "Intelligence",
+    ai_note: "Note", ai_email: "Email", ai_call: "Call", ai_task: "Task", ai_meeting: "Meeting", ai_more: "More",
+    lp_about: "About this contact", lbl_email: "EMAIL", lbl_phone: "PHONE NUMBER", lbl_owner: "CONTACT OWNER",
+    lp_web: "Website activity", web_sitevisits: "Site visits", web_pagesviewed: "Pages viewed", web_recent: "Most recent visit", web_first: "First visit",
+    p2_overview: "This is John Wick's contact record. Open the <strong>Activities</strong> tab above to see his website behaviour, form submissions, and quiz results, then answer the signal question.",
+    rc_companies: "Companies (0)", rc_add: "+ Add", rc_companies_empty: "See companies associated with this record.", rc_deals: "Deals (1)",
+    deal_meta: "Amount: €2,000<br>Close Date: May 25, 2026<br>Deal Stage: <strong style='color:var(--text-primary)'>Booked</strong>",
+    pill_currentdeal: "CURRENT DEAL",
+    st_all: "All activities", st_notes: "Notes", st_emails: "Emails", st_calls: "Calls", st_tasks: "Tasks", st_meetings: "Meetings",
+    act_dealactivity: "🤝 Deal Activity",
+    act1_body: "<strong>Jamina Camp</strong> moved <a>John Wick Web 1st Contract</a> to <strong>Booked</strong>.",
+    act_formsub: "📝 Form submission",
+    act2_body: "<strong>John Wick</strong> submitted <a>WSE-Activity-Builder-Leads</a> on <a>English Levels A1–A2 — Wall Street English</a>.",
+    ff_type: "AB Activity Type", ff_type_v: "Quiz", ff_name: "AB Activity Name", ff_goal: "AB Activity Goal", ff_goal_v: "To practice grammar and vocabulary from A1–A2", ff_submitted: "AB Activity Submitted", ff_score: "AB Score",
+    act_contactactivity: "👤 Contact Activity",
+    act3_body: "<strong>John Wick</strong> moved to <strong>Lead</strong>. <a>View details</a>",
+    act_created: "⭐ Created",
+    act4_body: "This contact was created from <strong>Organic Search</strong> from Unknown referrer.",
+    intel_title: "Lead intelligence", intel_sub: "Suggested openers based on what we know:",
+    intel_op1: "“I see you took our quick English test — how did it feel?”",
+    intel_op2: "“You first visited our site about a week ago — what made you book today?”",
+    intel_op3: "“You've looked at 6 pages on our site — what's been catching your interest?”",
+    signal_title: "Signal check",
+    signal_q: "Based on John's contact record, what's the strongest opener you could use on the appointment?",
+    signal_nudge: "<strong>Check the Activities tab first</strong> — the answer is in his form submission and quiz result.",
+    sig_a: "“I see you're a beginner. Don't worry — most of our students start at A1.”",
+    sig_b: "“I see you took our quick English test and scored 45% — how did it feel? What did you find tricky?”",
+    sig_c: "“What brings you to Wall Street English today?”",
+    sig_d: "“Tell me about your work and what you do.”",
+    btn_contact_continue: "I've reviewed everything — continue",
+    signal_fb_correct: "✓ Exactly right. Referencing John's quiz result shows you prepared and gives him an easy way to open up about his English struggles.",
+    signal_fb_wrong: "Not the strongest opener. Generic questions don't show you prepared. The quiz result and form submission give you something specific to reference.",
+    toast_spoton_t: "Spot on", toast_spoton_m: "Use what HubSpot tells you.",
+    toast_reviewdone_t: "Review complete", toast_reviewdone_m: "Time for the post-appointment admin.",
+    p3_dealmeta: "Amount €2,000 · Close date 05/25/2026 · Pipeline Sales Pipeline · Deal stage <strong>Booked</strong>",
+    p3_alert: "<strong>Appointment outcome:</strong> John showed up and was enthusiastic. He needs to discuss the offer with his wife but is leaning toward signing. You agreed to call back in 3 days.",
+    ss0_title: "1 — Meeting outcome",
+    ss0_instr: "Go to the meeting record → click <strong>Actions ▾</strong> → <strong>Edit</strong>. Scroll down to find the Meeting outcome dropdown and select the right option.",
+    lbl_meeting_outcome: "Meeting outcome",
+    mo_select: "Select meeting outcome…", mo_scheduled: "Scheduled", mo_completed: "Completed", mo_rescheduled: "Rescheduled", mo_noshow: "No show", mo_cancelled: "Cancelled",
+    mo_fb_wrong: "Not quite — John showed up and you had a productive conversation, so the outcome was Completed.",
+    btn_save: "Save",
+    ss1_title: "2 — Consult notes",
+    ss1_instr: "Go to the deal → <strong>Notes</strong> tab → click <strong>Create a note</strong>. Read each section below, edit it to match your real conversation, then tick it off. <em style='color:var(--text-light)'>The fields are pre-filled with an example consult note for John Wick so you can see what good notes look like. Tip: if you took notes during the appointment, you can copy &amp; paste the relevant text into each field.</em>",
+    nf_past: "Past", nf_present: "Present", nf_future: "Future", nf_whynow: "Why now", nf_goal: "Goal", nf_hotbutton: "Hot button", nf_nextsteps: "Next steps",
+    ph_past: "What's their English history? School, apps, courses they've tried…",
+    ph_present: "Where are they now? Current role, current English use…",
+    ph_future: "Where do they want to be? Job, life, ambitions…",
+    ph_whynow: "What's prompting them to take action now?",
+    ph_goal: "What does success look like for them?",
+    ph_hotbutton: "What's their emotional driver? Pain point, fear, urgency?",
+    ph_nextsteps: "What was agreed? Follow-up date, decisions pending?",
+    note_past: "Studied English at school years ago, then stopped. Tried Duolingo and a few YouTube videos but nothing stuck. Scored 45% on our A1–A2 quiz — the basics are there but grammar is shaky.",
+    note_present: "Works in logistics in Spain. Uses English for the odd supplier email but avoids speaking on calls. Currently sitting around A2.",
+    note_future: "Wants to move into a regional role that needs confident spoken English within the next year, and to travel without relying on translation apps.",
+    note_whynow: "A regional role is opening up soon and his manager hinted he's a candidate — he feels his English is the only thing holding him back.",
+    note_goal: "Lead a supplier call in English and hold a 10-minute conversation without freezing, ready in time for the promotion.",
+    note_hotbutton: "Froze on a recent supplier call and the team noticed — scared of being passed over for the promotion because of his English.",
+    note_nextsteps: "Walk through starter course options, send pricing and a level plan, and book a follow-up call next week to confirm enrolment.",
+    note_reviewed: "Reviewed this section", notes_progress_suffix: "/ 7 sections reviewed", btn_savenote: "Save note",
+    ss2_title: "3 — Deal stage",
+    ss2_instr: "Drag the deal card from <strong>Booked</strong> to the correct stage based on the appointment outcome. The qualifying activity will auto-update.",
+    ss2_tip: "💡 <strong>Two ways to do this:</strong> drag the deal across the pipeline on the board view (try it below), OR open the deal record and change the deal stage field. Both work.",
+    qual_auto: "✓ Qualifying activity auto-updated to <strong>Show</strong>.",
+    btn_savestage: "Save deal stage",
+    drop_correct: "✓ Correct — the appointment completed but John hasn't signed yet, so the deal moves to Open Decision.",
+    drop_booked: "The deal is already at Booked. Drag it forward to the right stage.",
+    drop_2nd: "Not yet — 2nd Appointment is when a second meeting is scheduled and confirmed. John still needs to talk to his wife.",
+    drop_toofar: "Too far — John is leaning toward signing but hasn't actually signed yet.",
+    drop_wrong: "Not right. The appointment completed and John was engaged — move it forward, not backward or to closed lost.",
+    ss3_title: "4 — Create a follow-up task",
+    ss3_instr: "Go to the <strong>Tasks</strong> tab → click <strong>Create a task</strong>. Fill in the details below.",
+    lbl_taskname: "Task name", ph_taskname: "e.g. Follow up",
+    lbl_activitydate: "Activity date", td_select: "Select date…", td_today: "Today", td_tomorrow: "Tomorrow", td_3days: "In 3 business days (Tuesday)", td_1week: "In 1 week",
+    lbl_reminder: "Send reminder", rem_none: "No reminder", rem_due: "At task due time", rem_15min: "15 minutes before", rem_1hr: "1 hour before",
+    lbl_tasktype: "Task type", tt_todo: "To-do", tt_call: "Call", tt_email: "Email", lbl_assignedto: "Activity assigned to",
+    btn_createtask: "Create task",
+    checklist_title: "Your post-appointment checklist",
+    cl_0: "Update the meeting outcome", cl_1: "Add consult notes (Past / Present / Future / Why now / Goal / Hot button / Next steps)", cl_2: "Move deal stage from Booked → Open Decision", cl_3: "Create a follow-up task",
+    status_notstarted: "Not started", status_complete: "Complete", btn_alldone: "All done — finish",
+    toast_outcomesaved: "Outcome saved", toast_notesaved: "Note saved", toast_stageupdated: "Deal stage updated", toast_taskcreated: "Task created", toast_nextstep: "Next step ready.",
+    toast_alldone_t: "All admin done", toast_alldone_m: "Clean HubSpot, happy manager.",
+    result_title: "Workflow complete",
+    result_sub: "You've practised the full self-booking process — from calendar slot to clean HubSpot admin.",
+    result_1: "Identified the self-booked slot in Outlook and added a buffer",
+    result_2: "Found the deal using the Booking Source filter",
+    result_3: "Reviewed John's contact, website activity and quiz result",
+    result_4: "Identified the strongest opener based on his profile",
+    result_5: "Updated meeting outcome, deal stage and consult notes",
+    result_6: "Created a follow-up task with a reminder",
+    closer_quote: "<strong>Remember:</strong> Good prep takes 5 minutes. Clean admin takes 5 minutes. That's 10 minutes that turns a warm lead into a student.",
+    code_label: "🔑 Your completion code",
+    code_instr: "Copy this code and paste it into the Knowledge Check on the next page to mark this lesson complete.",
+    btn_copy: "📋 Copy", btn_copied: "✓ Copied", copy_confirm: "✓ Copied to clipboard", copy_selected: "✓ Code selected — press Ctrl/Cmd+C to copy", btn_startagain: "↺ Start again"
+  }
+};
+
+const LANG_NAMES = {
+  en: "English", es: "Español", fr: "Français", de: "Deutsch", it: "Italiano",
+  pt: "Português", ru: "Русский", tr: "Türkçe", cs: "Čeština", id: "Bahasa Indonesia",
+  vi: "Tiếng Việt", th: "ไทย", ko: "한국어", zh: "繁體中文", ar: "العربية",
+  he: "עברית", my: "မြန်မာ", kk: "Қазақ", mn: "Монгол", lo: "ລາວ"
+};
+const RTL = ["ar", "he"];
+
+let CUR = I18N.en;
+
+function normalizeLang(l) {
+  if (!l) return "en";
+  l = l.toLowerCase();
+  if (I18N[l]) return l;
+  const base = l.split("-")[0];
+  return I18N[base] ? base : "en";
+}
+
+function t(k) {
+  if (CUR && CUR[k] != null) return CUR[k];
+  if (I18N.en[k] != null) return I18N.en[k];
+  return k;
+}
+
+function applyLang(l) {
+  CUR = Object.assign({}, I18N.en, I18N[l] || {});
+  document.documentElement.lang = l;
+  document.documentElement.dir = RTL.includes(l) ? "rtl" : "ltr";
+  document.querySelectorAll("[data-i18n]").forEach(function (el) {
+    const k = el.getAttribute("data-i18n");
+    if (k in CUR) el.textContent = CUR[k];
+  });
+  document.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+    const k = el.getAttribute("data-i18n-html");
+    if (k in CUR) el.innerHTML = CUR[k];
+  });
+  document.querySelectorAll("[data-i18n-title]").forEach(function (el) {
+    const k = el.getAttribute("data-i18n-title");
+    if (k in CUR) el.title = CUR[k];
+  });
+  document.querySelectorAll("[data-i18n-ph]").forEach(function (el) {
+    const k = el.getAttribute("data-i18n-ph");
+    if (k in CUR) el.setAttribute("placeholder", CUR[k]);
+  });
+  if (CUR.title) document.title = CUR.title;
+}
+
+(function initI18n() {
+  const params = new URLSearchParams(location.search);
+  const lang = normalizeLang(params.get("lang") || navigator.language);
+  applyLang(lang);
+  const sel = document.getElementById("langsel");
+  if (sel) {
+    Object.keys(I18N).forEach(function (code) {
+      const opt = document.createElement("option");
+      opt.value = code;
+      opt.textContent = LANG_NAMES[code] || code;
+      sel.appendChild(opt);
+    });
+    sel.value = lang;
+    sel.addEventListener("change", function () {
+      const p = new URLSearchParams(location.search);
+      p.set("lang", this.value);
+      location.search = p.toString();
+    });
+  }
+})();
+</script>
 
 <script>
 // ── State ─────────────────────────────
@@ -1741,10 +1974,10 @@ function copyCode() {
   const confirm = document.getElementById('copyConfirm');
   navigator.clipboard.writeText(code).then(() => {
     confirm.style.opacity = '1';
-    document.getElementById('copyCodeBtn').textContent = '✓ Copied';
+    document.getElementById('copyCodeBtn').textContent = t('btn_copied');
     setTimeout(() => {
       confirm.style.opacity = '0';
-      document.getElementById('copyCodeBtn').textContent = '📋 Copy';
+      document.getElementById('copyCodeBtn').textContent = t('btn_copy');
     }, 2500);
   }).catch(() => {
     // Fallback: select the text so user can manually copy
@@ -1752,18 +1985,18 @@ function copyCode() {
     range.selectNode(document.getElementById('completionCode'));
     window.getSelection().removeAllRanges();
     window.getSelection().addRange(range);
-    confirm.textContent = '✓ Code selected — press Ctrl/Cmd+C to copy';
+    confirm.textContent = t('copy_selected');
     confirm.style.opacity = '1';
   });
 }
 
 // ── Instruction map ─────────────────────
 const instrs = [
-  { icon:'①', label:'Step 1 — Calendar', text:'Self-booked appointments appear in your <strong>Outlook calendar</strong>. Identify what you should do when you see one.' },
-  { icon:'②', label:'Step 2 — Find the deal', text:'In HubSpot Deals, open <strong>Advanced filters</strong>, add a filter for <strong>Booking Source</strong> set to <strong>is known</strong>, then open John\'s deal.' },
-  { icon:'③', label:'Step 3 — Review the contact', text:'Open the <strong>Activities</strong> tab to see John\'s form submission and quiz result. Use what you find to answer the signal question.' },
-  { icon:'④', label:'Step 4 — Post-appointment update', text:'Complete all four sub-steps: update the meeting outcome, add consult notes, move the deal stage, and create a follow-up task.' },
-  { icon:'✓', label:'Complete', text:'You\'ve finished the full self-booking workflow.' },
+  { icon:'①', labelKey:'instr_label_0', textKey:'instr_text_0' },
+  { icon:'②', labelKey:'instr_label_1', textKey:'instr_text_1' },
+  { icon:'③', labelKey:'instr_label_2', textKey:'instr_text_2' },
+  { icon:'④', labelKey:'instr_label_3', textKey:'instr_text_3' },
+  { icon:'✓', labelKey:'instr_label_4', textKey:'instr_text_4' },
 ];
 
 // ── Navigation ──────────────────────────
@@ -1783,8 +2016,8 @@ function goTo(n) {
   });
   const instr = instrs[n];
   document.getElementById('instrIcon').textContent = instr.icon;
-  document.getElementById('instrLabel').textContent = instr.label;
-  document.getElementById('instrText').innerHTML = instr.text;
+  document.getElementById('instrLabel').textContent = t(instr.labelKey);
+  document.getElementById('instrText').innerHTML = t(instr.textKey);
   step = n;
 }
 
@@ -1795,7 +2028,7 @@ function doneTask(i) {
   document.getElementById(`trow-${i}`).classList.add('done-item');
   const count = tasksDone.filter(Boolean).length;
   document.getElementById('taskCount').textContent = `${count} / 4`;
-  document.getElementById('progressLabel').textContent = `${count} of 4 complete`;
+  document.getElementById('progressLabel').textContent = `${count} ${t('progress_suffix')}`;
   document.getElementById('progressFill').style.width = `${count/4*100}%`;
 }
 
@@ -1819,19 +2052,19 @@ function pickCalOpt(btn) {
   if (calOptsPicked.size >= 2) {
     fb.className = 'feedback-box correct';
     fb.style.display = 'block';
-    fb.textContent = '✓ Both correct. Build buffer time around the appointment, and block out any time you don\'t want self-booked leads to land on.';
+    fb.textContent = t('cal_fb_both');
     document.getElementById('btn-cal-continue').disabled = false;
     document.getElementById('btn-cal-continue').classList.add('needs-action');
   } else {
     fb.className = 'feedback-box info';
     fb.style.display = 'block';
-    fb.textContent = 'One correct answer found — one more to go.';
+    fb.textContent = t('cal_fb_one');
   }
 }
 
 function completeCal() {
   doneTask(0);
-  toast('Calendar set', 'Now find the deal in HubSpot.');
+  toast(t('toast_calset_t'), t('toast_calset_m'));
   setTimeout(() => goTo(1), 400);
 }
 
@@ -1854,7 +2087,7 @@ function closeFilterPanel() {
 function openAddFilterModal() {
   document.getElementById('addFilterModal').classList.add('show');
   document.getElementById('filterSearch').value = '';
-  document.getElementById('filterResults').innerHTML = '<div style="font-size:12px;color:var(--text-light);text-align:center;padding:20px">Start typing to search Deal properties.</div>';
+  document.getElementById('filterResults').innerHTML = `<div style="font-size:12px;color:var(--text-light);text-align:center;padding:20px">${t('fr_starttyping')}</div>`;
   setTimeout(() => document.getElementById('filterSearch').focus(), 100);
 }
 
@@ -1863,36 +2096,39 @@ function closeAddFilterModal() {
 }
 
 const deal_properties = [
-  { cat: 'Self-Booking', name: 'Booking source', icon: 'B', key: 'booking' },
-  { cat: 'Deal information', name: 'Deal name', icon: 'D', key: null },
-  { cat: 'Deal information', name: 'Deal stage', icon: 'D', key: null },
-  { cat: 'Deal information', name: 'Deal amount', icon: 'D', key: null },
-  { cat: 'Deal activity', name: 'Call Count', icon: '#', key: null },
-  { cat: 'Deal activity', name: 'Date of last meeting', icon: 'D', key: null },
+  { catKey: 'dp_cat_selfbooking', nameKey: 'dp_bookingsource', name: 'Booking source', icon: 'B', key: 'booking' },
+  { catKey: 'dp_cat_dealinfo', nameKey: 'dp_dealname', name: 'Deal name', icon: 'D', key: null },
+  { catKey: 'dp_cat_dealinfo', nameKey: 'dp_dealstage', name: 'Deal stage', icon: 'D', key: null },
+  { catKey: 'dp_cat_dealinfo', nameKey: 'dp_dealamount', name: 'Deal amount', icon: 'D', key: null },
+  { catKey: 'dp_cat_dealactivity', nameKey: 'dp_callcount', name: 'Call Count', icon: '#', key: null },
+  { catKey: 'dp_cat_dealactivity', nameKey: 'dp_lastmeeting', name: 'Date of last meeting', icon: 'D', key: null },
 ];
 
 function filterSearch() {
   const q = document.getElementById('filterSearch').value.toLowerCase().trim();
   const out = document.getElementById('filterResults');
   if (q.length < 2) {
-    out.innerHTML = '<div style="font-size:12px;color:var(--text-light);text-align:center;padding:20px">Start typing to search Deal properties.</div>';
+    out.innerHTML = `<div style="font-size:12px;color:var(--text-light);text-align:center;padding:20px">${t('fr_starttyping')}</div>`;
     return;
   }
-  const matches = deal_properties.filter(p => p.name.toLowerCase().includes(q));
+  // Match against both the English name and the translated name so learners can
+  // type the property in either language.
+  const matches = deal_properties.filter(p =>
+    p.name.toLowerCase().includes(q) || t(p.nameKey).toLowerCase().includes(q));
   if (matches.length === 0) {
-    out.innerHTML = '<div style="font-size:12px;color:var(--text-light);text-align:center;padding:20px">No matching properties.</div>';
+    out.innerHTML = `<div style="font-size:12px;color:var(--text-light);text-align:center;padding:20px">${t('fr_nomatch')}</div>`;
     return;
   }
   const byCat = {};
-  matches.forEach(m => { (byCat[m.cat] = byCat[m.cat] || []).push(m); });
+  matches.forEach(m => { (byCat[m.catKey] = byCat[m.catKey] || []).push(m); });
   let html = '';
-  Object.keys(byCat).forEach(cat => {
-    html += `<div style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.06em;padding:8px 4px">${cat}</div>`;
-    byCat[cat].forEach(m => {
+  Object.keys(byCat).forEach(catKey => {
+    html += `<div style="font-size:11px;font-weight:700;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.06em;padding:8px 4px">${t(catKey)}</div>`;
+    byCat[catKey].forEach(m => {
       html += `<div class="search-result" onclick="selectFilterProperty('${m.key||''}')">
         <div class="search-result-icon">${m.icon}</div>
         <div class="search-result-text">
-          <div class="search-result-name">${m.name}</div>
+          <div class="search-result-name">${t(m.nameKey)}</div>
         </div>
       </div>`;
     });
@@ -1905,7 +2141,7 @@ function selectFilterProperty(key) {
   if (key === 'booking') {
     document.getElementById('operatorModal').classList.add('show');
   } else {
-    toast('Wrong property', 'You need to find the property called "Booking source".');
+    toast(t('toast_wrongprop_t'), t('toast_wrongprop_m'));
   }
 }
 
@@ -1919,9 +2155,9 @@ function applyBookingOperator() {
     closeOperatorModal();
     applyBookingFilter();
   } else if (v === '') {
-    toast('Choose a condition', 'Select "is known" to find all self-booked deals.');
+    toast(t('toast_choosecond_t'), t('toast_choosecond_m'));
   } else {
-    toast('Wrong condition', 'Use "is known" — booking source has a value when the lead self-booked.');
+    toast(t('toast_wrongcond_t'), t('toast_wrongcond_m'));
   }
 }
 
@@ -1930,25 +2166,25 @@ function applyBookingFilter() {
   // Update the filter panel
   document.getElementById('filterBody').innerHTML = `
     <div class="filter-group">
-      <div class="filter-group-title">Group 1</div>
+      <div class="filter-group-title">${t('filter_group1')}</div>
       <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--r-md);padding:10px 12px;font-size:13px;display:flex;align-items:center;gap:10px">
-        <strong style="color:var(--accent)">Booking source</strong>
-        <span style="color:var(--text-secondary)">is known</span>
+        <strong style="color:var(--accent)">${t('dp_bookingsource')}</strong>
+        <span style="color:var(--text-secondary)">${t('op_known')}</span>
         <div style="flex:1"></div>
         <span style="color:var(--text-light);font-size:16px;cursor:pointer">×</span>
       </div>
     </div>
-    <button class="add-filter-btn" style="margin-top:8px">+ Add filter</button>
+    <button class="add-filter-btn" style="margin-top:8px">${t('add_filter')}</button>
   `;
   // Update the board
   document.getElementById('bookedBody').innerHTML = `
     <div style="position:relative">
       <div class="deal-card needs-action" onclick="openJohnDeal()">
         <div class="deal-card-title">John Wick Web 1st Contract</div>
-        <div class="deal-card-line">Qualifying Activity: Booked</div>
-        <div class="deal-card-line">How to contact: Email, Mobile</div>
+        <div class="deal-card-line">${t('qa_label')} ${t('qa_booked')}</div>
+        <div class="deal-card-line">${t('contact_how')}</div>
       </div>
-      <div class="action-arrow below">Open this deal</div>
+      <div class="action-arrow below">${t('arrow_openthisdeal')}</div>
     </div>
   `;
   document.getElementById('bookedCount').textContent = '1';
@@ -1956,18 +2192,17 @@ function applyBookingFilter() {
 
   // Hide non-booked sample deals
   document.querySelectorAll('.board-col').forEach(col => {
-    const header = col.querySelector('.board-col-header').textContent;
-    if (!header.includes('Booked')) {
+    if (col.dataset.stage !== 'booked') {
       col.style.opacity = '0.4';
     }
   });
 
-  toast('Filter applied', 'Self-booked deal visible in Booked stage. Click the deal card.');
+  toast(t('toast_filterapplied_t'), t('toast_filterapplied_m'));
 }
 
 function openJohnDeal() {
   doneTask(1);
-  toast('Deal opened', 'Now review John\'s contact record.');
+  toast(t('toast_dealopened_t'), t('toast_dealopened_m'));
   setTimeout(() => goTo(2), 400);
 }
 
@@ -2015,11 +2250,11 @@ function pickSignal(btn, correct) {
   if (correct) {
     btn.classList.add('correct');
     fb.className = 'feedback-box correct';
-    fb.textContent = '✓ Exactly right. Referencing John\'s quiz result shows you prepared and gives him an easy way to open up about his English struggles.';
+    fb.textContent = t('signal_fb_correct');
     signalDone = true;
     document.getElementById('btn-contact-continue').disabled = false;
     document.getElementById('btn-contact-continue').classList.add('needs-action');
-    toast('Spot on', 'Use what HubSpot tells you.');
+    toast(t('toast_spoton_t'), t('toast_spoton_m'));
   } else {
     btn.classList.add('incorrect');
     btns.forEach(b => { b.disabled = false; b.classList.remove('dim'); });
@@ -2027,13 +2262,13 @@ function pickSignal(btn, correct) {
     // Re-highlight remaining options
     btns.forEach(b => { if (!b.disabled) b.classList.add('needs-action'); });
     fb.className = 'feedback-box incorrect';
-    fb.textContent = 'Not the strongest opener. Generic questions don\'t show you prepared. The quiz result and form submission give you something specific to reference.';
+    fb.textContent = t('signal_fb_wrong');
   }
 }
 
 function completeContact() {
   doneTask(2);
-  toast('Review complete', 'Time for the post-appointment admin.');
+  toast(t('toast_reviewdone_t'), t('toast_reviewdone_m'));
   setTimeout(() => goTo(3), 400);
 }
 
@@ -2088,7 +2323,7 @@ function checkSubstep(i) {
     } else {
       fb.style.display = 'block';
       fb.className = 'feedback-box incorrect';
-      fb.textContent = 'Not quite — John showed up and you had a productive conversation, so the outcome was Completed.';
+      fb.textContent = t('mo_fb_wrong');
       save.disabled = true;
       save.classList.remove('needs-action');
     }
@@ -2183,23 +2418,23 @@ function handleDealDrop(stage) {
     document.querySelectorAll('.mini-stage').forEach(s => s.classList.remove('active-stage'));
     stage.classList.add('drop-correct');
     fb.className = 'feedback-box correct';
-    fb.textContent = '✓ Correct — the appointment completed but John hasn\'t signed yet, so the deal moves to Open Decision.';
+    fb.textContent = t('drop_correct');
     auto.style.display = 'block';
     document.getElementById('ss-save-2').disabled = false;
     document.getElementById('ss-save-2').classList.add('needs-action');
   } else if (target === 'booked') {
     // No-op — already there
     fb.className = 'feedback-box info';
-    fb.textContent = 'The deal is already at Booked. Drag it forward to the right stage.';
+    fb.textContent = t('drop_booked');
   } else {
     // Wrong target — bounce back
     fb.className = 'feedback-box incorrect';
     if (target === '2nd') {
-      fb.textContent = 'Not yet — 2nd Appointment is when a second meeting is scheduled and confirmed. John still needs to talk to his wife.';
+      fb.textContent = t('drop_2nd');
     } else if (target === 'won' || target === 'signed') {
-      fb.textContent = 'Too far — John is leaning toward signing but hasn\'t actually signed yet.';
+      fb.textContent = t('drop_toofar');
     } else {
-      fb.textContent = 'Not right. The appointment completed and John was engaged — move it forward, not backward or to closed lost.';
+      fb.textContent = t('drop_wrong');
     }
     auto.style.display = 'none';
     document.getElementById('ss-save-2').disabled = true;
@@ -2212,18 +2447,18 @@ function confirmSubstep(i) {
   document.getElementById(`ss-${i}`).classList.add('done');
   document.getElementById(`ss-${i}`).classList.remove('active');
   document.getElementById(`ss-num-${i}`).textContent = '✓';
-  document.getElementById(`ss-status-${i}`).textContent = 'Complete';
+  document.getElementById(`ss-status-${i}`).textContent = t('status_complete');
   document.getElementById(`ss-card-${i}`).style.display = 'none';
 
   // Find next undone substep and open it
   const next = substepDone.findIndex(d => !d);
   if (next >= 0) {
     openSubstep(next);
-    const labels = ['Outcome saved','Note saved','Deal stage updated','Task created'];
-    toast(labels[i], 'Next step ready.');
+    const labelKeys = ['toast_outcomesaved','toast_notesaved','toast_stageupdated','toast_taskcreated'];
+    toast(t(labelKeys[i]), t('toast_nextstep'));
   } else {
     // all done
-    toast('All admin done', 'Clean HubSpot, happy manager.');
+    toast(t('toast_alldone_t'), t('toast_alldone_m'));
     document.getElementById('finishPostRow').style.display = 'flex';
   }
 }
@@ -2255,7 +2490,7 @@ function resetAll() {
   document.querySelectorAll('.task-item-row').forEach(r => r.classList.remove('done-item'));
   document.querySelectorAll('.tcheck').forEach(c => { c.classList.remove('done'); c.textContent=''; });
   document.getElementById('taskCount').textContent = '0 / 4';
-  document.getElementById('progressLabel').textContent = '0 of 4 complete';
+  document.getElementById('progressLabel').textContent = `0 ${t('progress_suffix')}`;
   document.getElementById('progressFill').style.width = '0%';
 
   // Reset calendar options
@@ -2269,19 +2504,19 @@ function resetAll() {
   // Reset filter panel
   closeFilterPanel();
   document.getElementById('filterBody').innerHTML = `
-    <div style="font-size:13px;color:var(--text-secondary);padding:14px;text-align:center" id="noFiltersMsg">This view doesn't have any advanced filters.</div>
+    <div style="font-size:13px;color:var(--text-secondary);padding:14px;text-align:center" id="noFiltersMsg">${t('no_filters')}</div>
     <div style="position:relative;display:inline-block;margin:0 14px 14px">
-      <button class="add-filter-btn needs-action" id="addFilterBtn" onclick="openAddFilterModal()">+ Add filter</button>
-      <div class="action-arrow right">Click here</div>
+      <button class="add-filter-btn needs-action" id="addFilterBtn" onclick="openAddFilterModal()">${t('add_filter')}</button>
+      <div class="action-arrow right">${t('arrow_clickhere')}</div>
     </div>
   `;
   // Restore Advanced filters button highlight
   const advBtn = document.querySelector('#advFilterLink button');
   if (advBtn) advBtn.classList.add('needs-action');
   document.getElementById('bookedBody').innerHTML = `
-    <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal A</div><div class="deal-card-line">Qualifying Activity: Booked</div></div>
-    <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal B</div><div class="deal-card-line">Qualifying Activity: Booked</div></div>
-    <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal C</div><div class="deal-card-line">Qualifying Activity: Booked</div></div>
+    <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal A</div><div class="deal-card-line">${t('qa_label')} ${t('qa_booked')}</div></div>
+    <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal B</div><div class="deal-card-line">${t('qa_label')} ${t('qa_booked')}</div></div>
+    <div class="deal-card" style="opacity:.4"><div class="deal-card-title">Sample Deal C</div><div class="deal-card-line">${t('qa_label')} ${t('qa_booked')}</div></div>
   `;
   document.getElementById('bookedCount').textContent = '3';
   document.getElementById('dealCount').textContent = '9';
@@ -2334,7 +2569,7 @@ function resetAll() {
     const ss = document.getElementById(`ss-${i}`);
     ss.classList.remove('done','active');
     document.getElementById(`ss-num-${i}`).textContent = i+1;
-    document.getElementById(`ss-status-${i}`).textContent = 'Not started';
+    document.getElementById(`ss-status-${i}`).textContent = t('status_notstarted');
     document.getElementById(`ss-save-${i}`).disabled = true;
     document.getElementById(`ss-fb-${i}`).style.display = 'none';
   }
