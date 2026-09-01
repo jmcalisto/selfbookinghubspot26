@@ -1,0 +1,12 @@
+Thumbs.db
+.DS_Store
+.claude/
+
+# Local test scaffolding, not part of the deliverable. The widget is index.html
+# on its own — no build step, no runtime dependencies (see README). These only
+# exist because playwright-core gets installed locally to drive the widget in a
+# real browser when checking a change. If we ever commit those browser checks
+# into the repo, start tracking package.json then.
+node_modules/
+package.json
+package-lock.json
