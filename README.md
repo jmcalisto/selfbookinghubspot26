@@ -34,12 +34,19 @@ action in order.
 
 ## Tech & structure
 
-- **Single-file app:** everything lives in `index.html` (~2,300 lines).
+- **Single-file app:** everything lives in `index.html` (~5,100 lines, most of which is the
+  baked-in translation dictionaries).
 - **Vanilla stack:** plain HTML, CSS, and JavaScript — no frameworks, libraries, or build
   tools. The only external resource is the Lexend Google Font.
 - **Inside the file:** inline `<style>` (CSS, theming, animations) near the top, the five
   step panels (`panel-0` … `panel-4`) plus modals in the HTML body, and an inline `<script>`
   (navigation, validation, drag-and-drop, progress tracking) near the bottom.
+- **Next-action bar:** the panels scroll inside their own containers and the page itself
+  never scrolls, so a gate near the bottom of a step can sit off-screen with no scrollbar to
+  hint at it. A red bar pinned at the top of the work area always names the one thing that
+  unlocks the next step, and its **Show me** button scrolls that control into view and
+  flashes it. `nextAction()` derives the message from the same state the gates themselves
+  read, so the two cannot disagree; add a step or a gate and it needs a matching branch there.
 - **Client-side only:** there is no backend and no API calls. All progress is held in memory,
   so refreshing the page resets the walkthrough.
 - **Desktop-oriented:** the layout assumes a wide screen and is not designed for mobile.

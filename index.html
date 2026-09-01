@@ -452,6 +452,77 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   display: inline-flex;
   padding: 4px 8px;
 }
+
+/* ── Next-action bar ─────────────────────────
+   The app never scrolls at page level — every pane scrolls inside its own
+   container — so a gate at the bottom of a step (step 1's Quick check, say)
+   sits off-screen with no scrollbar to hint that it is there. This bar is
+   pinned at the top of the work area, outside the scrollers, so the current
+   requirement is always visible, and its button scrolls the gate into view. */
+.next-action {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 20px;
+  background: var(--red-light);
+  border-bottom: 2px solid var(--red);
+  box-shadow: 0 2px 12px rgba(242,84,91,.18);
+  z-index: 40;
+}
+.na-dot {
+  width: 10px; height: 10px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--red);
+  animation: na-pulse 1.8s ease-in-out infinite;
+}
+@keyframes na-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(242,84,91,.5); }
+  50%      { box-shadow: 0 0 0 7px rgba(242,84,91,0); }
+}
+.na-copy { flex: 1; min-width: 0; }
+.na-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  color: var(--red);
+}
+.na-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.35;
+  margin-top: 2px;
+}
+.na-btn {
+  flex-shrink: 0;
+  background: var(--red);
+  color: #fff;
+  border-color: #D63A41;
+  font-weight: 600;
+  padding: 8px 18px;
+}
+.na-btn:hover { background: #D63A41; }
+/* Final step: nothing left to unlock, so drop the urgency cues. */
+.next-action.is-done {
+  background: var(--green-light);
+  border-bottom-color: var(--green);
+  box-shadow: none;
+}
+.next-action.is-done .na-dot { background: var(--green); animation: none; }
+.next-action.is-done .na-label { color: var(--green); }
+
+/* Flash the gate after the bar has scrolled it into view. */
+@keyframes na-flash {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(242,84,91,0); }
+  15%, 65% { box-shadow: 0 0 0 6px rgba(242,84,91,.45); }
+}
+.na-flash {
+  animation: na-flash 1.5s ease-out 2;
+  border-radius: var(--r-md);
+}
 /* Per-note "Reviewed" tick */
 .note-tick-row {
   display: inline-flex;
@@ -1006,6 +1077,19 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
       <div class="langbar"><select id="langsel" aria-label="Language"></select></div>
       <div class="account-pill"><span class="account-dot"></span> Wall Street English</div>
       <div class="sandbox-badge">🧪 HubSpot Sandbox</div>
+    </div>
+
+    <!-- ── Next-action bar ──
+         Pinned at the top of the work area, outside the scrolling panes, so the
+         one thing that unlocks the next step is always on screen — however far
+         down its pane that control actually sits. -->
+    <div class="next-action" id="nextAction">
+      <span class="na-dot" id="naDot"></span>
+      <div class="na-copy">
+        <div class="na-label" data-i18n="na_label">What to do next</div>
+        <div class="na-text" id="naText"></div>
+      </div>
+      <button class="btn na-btn" id="naBtn" onclick="jumpToAction()" data-i18n="na_btn">Take me there</button>
     </div>
 
     <!-- ── Instruction bar ── -->
@@ -1883,7 +1967,23 @@ const I18N = {
     closer_quote: "<strong>Remember:</strong> Good prep takes 5 minutes. Clean admin takes 5 minutes. That's 10 minutes that turns a warm lead into a student.",
     code_label: "🔑 Your completion code",
     code_instr: "In the Knowledge Check on the next page, type the two highlighted words to mark this lesson complete.",
-    btn_startagain: "↺ Start again"
+    btn_startagain: "↺ Start again",
+    na_label: "What to do next",
+    na_btn: "Take me there",
+    na_0_quiz: "Scroll down to the Quick check and pick the two correct actions.",
+    na_0_continue: "Quick check done — select “Continue to HubSpot” below.",
+    na_1_open: "Select “≡ Advanced filters” to start filtering the deals.",
+    na_1_add: "Select “+ Add filter”, then choose Booking Source.",
+    na_1_deal: "Open John Wick's deal card in the Booked column.",
+    na_2_tab: "Open the “Activities” tab at the top, next to Overview.",
+    na_2_signal: "Scroll down to the Signal check and choose the strongest opener.",
+    na_2_continue: "Answered — select “I've reviewed everything” below to continue.",
+    na_3_outcome: "Set the meeting outcome to Completed, then save.",
+    na_3_notes: "Tick every consult note section, then save.",
+    na_3_drag: "Drag John's deal card into the Open Decision stage.",
+    na_3_task: "Fill in the task name, date and reminder, then save.",
+    na_3_finish: "All four updates done — select “All done — finish” below.",
+    na_4_done: "Workflow complete. Copy your completion code for the Knowledge Check."
   },
   es: {
     title: "HubSpot Sandbox — Práctica de auto-reserva",
@@ -2025,7 +2125,23 @@ const I18N = {
     closer_quote: "<strong>Recuerda:</strong> Una buena preparación lleva 5 minutos. Una gestión limpia lleva 5 minutos. Son 10 minutos que convierten un lead cálido en un alumno.",
     code_label: "🔑 Tu código de finalización",
     code_instr: "En el Knowledge Check de la página siguiente, escribe las dos palabras resaltadas para marcar esta lección como completada.",
-    btn_startagain: "↺ Empezar de nuevo"
+    btn_startagain: "↺ Empezar de nuevo",
+    na_label: "Qué hacer ahora",
+    na_btn: "Llévame allí",
+    na_0_quiz: "Baja hasta «Comprobación rápida» y elige las dos acciones correctas.",
+    na_0_continue: "Comprobación rápida hecha: pulsa «Continuar a HubSpot» abajo.",
+    na_1_open: "Pulsa «≡ Filtros avanzados» para empezar a filtrar los negocios.",
+    na_1_add: "Pulsa «+ Añadir filtro» y elige «Fuente de reserva».",
+    na_1_deal: "Abre la ficha de negocio de John Wick en la columna «Reservado».",
+    na_2_tab: "Abre la pestaña «Actividades», arriba, junto a «Resumen».",
+    na_2_signal: "Baja hasta «Comprobación de señales» y elige la mejor forma de empezar.",
+    na_2_continue: "Respondido: pulsa «Lo he revisado todo — continuar» abajo.",
+    na_3_outcome: "Marca el resultado de la reunión como «Completada» y guarda.",
+    na_3_notes: "Marca todas las secciones de las notas de la consulta y guarda.",
+    na_3_drag: "Arrastra la ficha de John a la etapa «Decisión abierta».",
+    na_3_task: "Rellena el nombre de la tarea, la fecha y el recordatorio, y guarda.",
+    na_3_finish: "Las cuatro actualizaciones están hechas: pulsa «Todo hecho — finalizar» abajo.",
+    na_4_done: "Flujo completado. Copia tu código de finalización para el Knowledge Check."
   },
   fr: {
     title: "HubSpot Sandbox — Entraînement à l'auto-réservation",
@@ -2167,7 +2283,23 @@ const I18N = {
     closer_quote: "<strong>Souvenez-vous :</strong> Une bonne préparation prend 5 minutes. Une administration propre prend 5 minutes. Ce sont 10 minutes qui transforment un lead chaud en élève.",
     code_label: "🔑 Votre code de validation",
     code_instr: "Dans le Knowledge Check de la page suivante, saisissez les deux mots surlignés pour marquer cette leçon comme terminée.",
-    btn_startagain: "↺ Recommencer"
+    btn_startagain: "↺ Recommencer",
+    na_label: "À faire maintenant",
+    na_btn: "Y aller",
+    na_0_quiz: "Descendez jusqu'à « Vérification rapide » et choisissez les deux bonnes actions.",
+    na_0_continue: "Vérification rapide terminée : cliquez sur « Continuer vers HubSpot » en bas.",
+    na_1_open: "Cliquez sur « ≡ Filtres avancés » pour filtrer les transactions.",
+    na_1_add: "Cliquez sur « + Ajouter un filtre », puis choisissez « Source de réservation ».",
+    na_1_deal: "Ouvrez la fiche de John Wick dans la colonne « Réservé ».",
+    na_2_tab: "Ouvrez l'onglet « Activités » en haut, à côté de « Aperçu ».",
+    na_2_signal: "Descendez jusqu'à « Vérification du signal » et choisissez la meilleure accroche.",
+    na_2_continue: "Répondu : cliquez sur « J'ai tout examiné — continuer » en bas.",
+    na_3_outcome: "Définissez le résultat de la réunion sur « Terminée », puis enregistrez.",
+    na_3_notes: "Cochez toutes les sections des notes de consultation, puis enregistrez.",
+    na_3_drag: "Faites glisser la fiche de John vers l'étape « Décision ouverte ».",
+    na_3_task: "Renseignez le nom de la tâche, la date et le rappel, puis enregistrez.",
+    na_3_finish: "Les quatre mises à jour sont faites : cliquez sur « Tout est fait — terminer » en bas.",
+    na_4_done: "Parcours terminé. Copiez votre code de validation pour le Knowledge Check."
   },
   de: {
     title: "HubSpot Sandbox — Übung zur Selbstbuchung",
@@ -2309,7 +2441,23 @@ const I18N = {
     closer_quote: "<strong>Denk daran:</strong> Gute Vorbereitung dauert 5 Minuten. Saubere Pflege dauert 5 Minuten. Das sind 10 Minuten, die aus einem warmen Lead einen Lernenden machen.",
     code_label: "🔑 Dein Abschlusscode",
     code_instr: "Gib im Knowledge Check auf der nächsten Seite die zwei hervorgehobenen Wörter ein, um diese Lektion als abgeschlossen zu markieren.",
-    btn_startagain: "↺ Neu starten"
+    btn_startagain: "↺ Neu starten",
+    na_label: "Nächster Schritt",
+    na_btn: "Dorthin springen",
+    na_0_quiz: "Scrolle nach unten zum „Kurzer Check“ und wähle die zwei richtigen Aktionen.",
+    na_0_continue: "Kurzer Check erledigt — klicke unten auf „Weiter zu HubSpot“.",
+    na_1_open: "Klicke auf „≡ Erweiterte Filter“, um die Deals zu filtern.",
+    na_1_add: "Klicke auf „+ Filter hinzufügen“ und wähle „Buchungsquelle“.",
+    na_1_deal: "Öffne die Deal-Karte von John Wick in der Spalte „Gebucht“.",
+    na_2_tab: "Öffne oben den Tab „Aktivitäten“, neben „Übersicht“.",
+    na_2_signal: "Scrolle nach unten zum „Signal-Check“ und wähle den besten Gesprächseinstieg.",
+    na_2_continue: "Beantwortet — klicke unten auf „Ich habe alles geprüft — weiter“.",
+    na_3_outcome: "Setze das Meeting-Ergebnis auf „Abgeschlossen“ und speichere.",
+    na_3_notes: "Hake jeden Abschnitt der Beratungsnotizen ab und speichere.",
+    na_3_drag: "Ziehe Johns Deal-Karte in die Phase „Offene Entscheidung“.",
+    na_3_task: "Trage Aufgabenname, Datum und Erinnerung ein und speichere.",
+    na_3_finish: "Alle vier Updates sind erledigt — klicke unten auf „Alles erledigt — abschließen“.",
+    na_4_done: "Ablauf abgeschlossen. Kopiere deinen Abschlusscode für den Knowledge Check."
   },
   it: {
     title: "HubSpot Sandbox — Esercitazione sull'auto-prenotazione",
@@ -2451,7 +2599,23 @@ const I18N = {
     closer_quote: "<strong>Ricorda:</strong> Una buona preparazione richiede 5 minuti. Una gestione pulita richiede 5 minuti. Sono 10 minuti che trasformano un lead caldo in uno studente.",
     code_label: "🔑 Il tuo codice di completamento",
     code_instr: "Nel Knowledge Check della pagina successiva, scrivi le due parole evidenziate per segnare questa lezione come completata.",
-    btn_startagain: "↺ Ricomincia"
+    btn_startagain: "↺ Ricomincia",
+    na_label: "Cosa fare adesso",
+    na_btn: "Portami lì",
+    na_0_quiz: "Scorri fino a «Verifica rapida» e scegli le due azioni corrette.",
+    na_0_continue: "Verifica rapida completata: clicca su «Continua su HubSpot» qui sotto.",
+    na_1_open: "Clicca su «≡ Filtri avanzati» per filtrare le trattative.",
+    na_1_add: "Clicca su «+ Aggiungi filtro», poi scegli «Fonte di prenotazione».",
+    na_1_deal: "Apri la scheda di John Wick nella colonna «Prenotato».",
+    na_2_tab: "Apri la scheda «Attività» in alto, accanto a «Panoramica».",
+    na_2_signal: "Scorri fino a «Verifica del segnale» e scegli l'apertura migliore.",
+    na_2_continue: "Risposto: clicca su «Ho esaminato tutto — continua» qui sotto.",
+    na_3_outcome: "Imposta l'esito della riunione su «Completata», poi salva.",
+    na_3_notes: "Spunta tutte le sezioni delle note della consulenza, poi salva.",
+    na_3_drag: "Trascina la scheda di John nella fase «Decisione aperta».",
+    na_3_task: "Inserisci nome attività, data e promemoria, poi salva.",
+    na_3_finish: "Tutti e quattro gli aggiornamenti sono fatti: clicca su «Tutto fatto — concludi» qui sotto.",
+    na_4_done: "Percorso completato. Copia il tuo codice di completamento per il Knowledge Check."
   },
   pt: {
     title: "HubSpot Sandbox — Prática de auto-agendamento",
@@ -2593,7 +2757,23 @@ const I18N = {
     closer_quote: "<strong>Lembra-te:</strong> Uma boa preparação leva 5 minutos. Uma gestão limpa leva 5 minutos. São 10 minutos que transformam um lead quente num aluno.",
     code_label: "🔑 O teu código de conclusão",
     code_instr: "No Knowledge Check da página seguinte, escreve as duas palavras destacadas para marcar esta lição como concluída.",
-    btn_startagain: "↺ Começar de novo"
+    btn_startagain: "↺ Começar de novo",
+    na_label: "O que fazer a seguir",
+    na_btn: "Leva-me lá",
+    na_0_quiz: "Desce até “Verificação rápida” e escolhe as duas ações corretas.",
+    na_0_continue: "Verificação rápida concluída — clica em “Continuar para o HubSpot” abaixo.",
+    na_1_open: "Clica em “≡ Filtros avançados” para filtrar os negócios.",
+    na_1_add: "Clica em “+ Adicionar filtro” e escolhe “Fonte de agendamento”.",
+    na_1_deal: "Abre o cartão de negócio do John Wick na coluna “Agendado”.",
+    na_2_tab: "Abre o separador “Atividades”, no topo, ao lado de “Visão geral”.",
+    na_2_signal: "Desce até “Verificação de sinal” e escolhe a melhor abordagem.",
+    na_2_continue: "Respondido — clica em “Revi tudo — continuar” abaixo.",
+    na_3_outcome: "Define o resultado da reunião como “Concluída” e guarda.",
+    na_3_notes: "Assinala todas as secções das notas da consulta e guarda.",
+    na_3_drag: "Arrasta o cartão do John para a fase “Decisão em aberto”.",
+    na_3_task: "Preenche o nome da tarefa, a data e o lembrete, e guarda.",
+    na_3_finish: "As quatro atualizações estão feitas — clica em “Tudo feito — terminar” abaixo.",
+    na_4_done: "Fluxo concluído. Copia o teu código de conclusão para o Knowledge Check."
   },
   ru: {
     title: "HubSpot Sandbox — Практика самостоятельной записи",
@@ -2735,7 +2915,23 @@ const I18N = {
     closer_quote: "<strong>Помните:</strong> Хорошая подготовка занимает 5 минут. Чистое ведение — 5 минут. Это 10 минут, которые превращают тёплого лида в студента.",
     code_label: "🔑 Ваш код завершения",
     code_instr: "В Knowledge Check на следующей странице введите два выделенных слова, чтобы отметить этот урок как завершённый.",
-    btn_startagain: "↺ Начать заново"
+    btn_startagain: "↺ Начать заново",
+    na_label: "Что делать дальше",
+    na_btn: "Перейти",
+    na_0_quiz: "Прокрутите вниз до «Быстрая проверка» и выберите два правильных действия.",
+    na_0_continue: "Быстрая проверка пройдена — нажмите «Продолжить в HubSpot» ниже.",
+    na_1_open: "Нажмите «≡ Расширенные фильтры», чтобы отфильтровать сделки.",
+    na_1_add: "Нажмите «+ Добавить фильтр» и выберите «Источник записи».",
+    na_1_deal: "Откройте карточку сделки John Wick в колонке «Забронировано».",
+    na_2_tab: "Откройте вкладку «Действия» вверху, рядом с «Обзор».",
+    na_2_signal: "Прокрутите вниз до «Проверка сигнала» и выберите лучшее начало разговора.",
+    na_2_continue: "Ответ дан — нажмите «Я всё проверил — продолжить» ниже.",
+    na_3_outcome: "Установите итог встречи «Завершено» и сохраните.",
+    na_3_notes: "Отметьте все разделы заметок консультации и сохраните.",
+    na_3_drag: "Перетащите карточку сделки John Wick в этап «Открытое решение».",
+    na_3_task: "Заполните название задачи, дату и напоминание, затем сохраните.",
+    na_3_finish: "Все четыре обновления готовы — нажмите «Всё готово — завершить» ниже.",
+    na_4_done: "Процесс завершён. Скопируйте код завершения для Knowledge Check."
   },
   tr: {
     title: "HubSpot Sandbox — Kendi Kendine Randevu Alıştırması",
@@ -2877,7 +3073,23 @@ const I18N = {
     closer_quote: "<strong>Unutmayın:</strong> İyi hazırlık 5 dakika sürer. Temiz yönetim 5 dakika sürer. Bu, sıcak bir müşteri adayını öğrenciye dönüştüren 10 dakikadır.",
     code_label: "🔑 Tamamlama kodunuz",
     code_instr: "Bu dersi tamamlanmış olarak işaretlemek için sonraki sayfadaki Knowledge Check'e vurgulanan iki kelimeyi yazın.",
-    btn_startagain: "↺ Yeniden başla"
+    btn_startagain: "↺ Yeniden başla",
+    na_label: "Sırada ne var",
+    na_btn: "Oraya git",
+    na_0_quiz: "Aşağı kaydırıp “Hızlı kontrol” bölümünde iki doğru eylemi seçin.",
+    na_0_continue: "Hızlı kontrol tamam — aşağıdaki “HubSpot'a devam et” düğmesine basın.",
+    na_1_open: "Anlaşmaları filtrelemek için “≡ Gelişmiş filtreler” seçeneğine basın.",
+    na_1_add: "“+ Filtre ekle” seçeneğine basın, sonra “Randevu kaynağı” seçin.",
+    na_1_deal: "“Randevu alındı” sütunundaki John Wick anlaşma kartını açın.",
+    na_2_tab: "Üstte, “Genel bakış” yanındaki “Etkinlikler” sekmesini açın.",
+    na_2_signal: "Aşağı kaydırıp “Sinyal kontrolü” bölümünde en iyi açılışı seçin.",
+    na_2_continue: "Yanıtlandı — aşağıdaki “Her şeyi inceledim — devam et” düğmesine basın.",
+    na_3_outcome: "Toplantı sonucunu “Tamamlandı” olarak ayarlayın ve kaydedin.",
+    na_3_notes: "Danışma notlarının her bölümünü işaretleyin ve kaydedin.",
+    na_3_drag: "John'un anlaşma kartını “Açık karar” aşamasına sürükleyin.",
+    na_3_task: "Görev adını, tarihi ve hatırlatıcıyı doldurun ve kaydedin.",
+    na_3_finish: "Dört güncelleme de tamam — aşağıdaki “Her şey tamam — bitir” düğmesine basın.",
+    na_4_done: "Akış tamamlandı. Knowledge Check için tamamlama kodunuzu kopyalayın."
   },
   cs: {
     title: "HubSpot Sandbox — Nácvik samostatné rezervace",
@@ -3019,7 +3231,23 @@ const I18N = {
     closer_quote: "<strong>Pamatujte:</strong> Dobrá příprava zabere 5 minut. Čistá administrativa zabere 5 minut. To je 10 minut, které promění vlažný lead ve studenta.",
     code_label: "🔑 Váš kód dokončení",
     code_instr: "V Knowledge Check na další stránce napište dvě zvýrazněná slova, abyste tuto lekci označili jako dokončenou.",
-    btn_startagain: "↺ Začít znovu"
+    btn_startagain: "↺ Začít znovu",
+    na_label: "Co udělat dál",
+    na_btn: "Přejít tam",
+    na_0_quiz: "Sjeďte dolů na „Rychlá kontrola“ a vyberte dvě správné akce.",
+    na_0_continue: "Rychlá kontrola hotová — klikněte dole na „Pokračovat do HubSpot“.",
+    na_1_open: "Klikněte na „≡ Pokročilé filtry“ a začněte filtrovat obchody.",
+    na_1_add: "Klikněte na „+ Přidat filtr“ a vyberte „Zdroj rezervace“.",
+    na_1_deal: "Otevřete kartu obchodu John Wick ve sloupci „Rezervováno“.",
+    na_2_tab: "Nahoře otevřete kartu „Aktivity“ vedle „Přehled“.",
+    na_2_signal: "Sjeďte dolů na „Kontrola signálu“ a vyberte nejlepší úvod.",
+    na_2_continue: "Zodpovězeno — klikněte dole na „Vše jsem zkontroloval — pokračovat“.",
+    na_3_outcome: "Nastavte výsledek schůzky na „Dokončeno“ a uložte.",
+    na_3_notes: "Zaškrtněte všechny části poznámek z konzultace a uložte.",
+    na_3_drag: "Přetáhněte Johnovu kartu obchodu do fáze „Otevřené rozhodnutí“.",
+    na_3_task: "Vyplňte název úkolu, datum a připomenutí a uložte.",
+    na_3_finish: "Všechny čtyři aktualizace jsou hotové — klikněte dole na „Vše hotovo — dokončit“.",
+    na_4_done: "Postup dokončen. Zkopírujte svůj kód dokončení pro Knowledge Check."
   },
   id: {
     title: "HubSpot Sandbox — Latihan Pemesanan Mandiri",
@@ -3161,7 +3389,23 @@ const I18N = {
     closer_quote: "<strong>Ingat:</strong> Persiapan yang baik memakan 5 menit. Administrasi yang rapi memakan 5 menit. Itu 10 menit yang mengubah lead hangat menjadi siswa.",
     code_label: "🔑 Kode penyelesaian Anda",
     code_instr: "Di Knowledge Check pada halaman berikutnya, ketik dua kata yang disorot untuk menandai pelajaran ini selesai.",
-    btn_startagain: "↺ Mulai lagi"
+    btn_startagain: "↺ Mulai lagi",
+    na_label: "Yang harus dilakukan",
+    na_btn: "Bawa saya ke sana",
+    na_0_quiz: "Gulir ke bawah ke “Pemeriksaan cepat” dan pilih dua tindakan yang benar.",
+    na_0_continue: "Pemeriksaan cepat selesai — klik “Lanjutkan ke HubSpot” di bawah.",
+    na_1_open: "Klik “≡ Filter lanjutan” untuk mulai memfilter deal.",
+    na_1_add: "Klik “+ Tambah filter”, lalu pilih “Sumber pemesanan”.",
+    na_1_deal: "Buka kartu deal John Wick di kolom “Dipesan”.",
+    na_2_tab: "Buka tab “Aktivitas” di atas, di sebelah “Ikhtisar”.",
+    na_2_signal: "Gulir ke bawah ke “Pemeriksaan sinyal” dan pilih pembuka terbaik.",
+    na_2_continue: "Sudah dijawab — klik “Saya sudah meninjau semuanya — lanjutkan” di bawah.",
+    na_3_outcome: "Setel hasil rapat ke “Selesai”, lalu simpan.",
+    na_3_notes: "Centang setiap bagian catatan konsultasi, lalu simpan.",
+    na_3_drag: "Seret kartu deal John ke tahap “Keputusan terbuka”.",
+    na_3_task: "Isi nama tugas, tanggal, dan pengingat, lalu simpan.",
+    na_3_finish: "Keempat pembaruan selesai — klik “Semua selesai — akhiri” di bawah.",
+    na_4_done: "Alur selesai. Salin kode penyelesaian Anda untuk Knowledge Check."
   },
   vi: {
     title: "HubSpot Sandbox — Luyện tập tự đặt lịch",
@@ -3303,7 +3547,23 @@ const I18N = {
     closer_quote: "<strong>Hãy nhớ:</strong> Chuẩn bị tốt mất 5 phút. Quản trị gọn gàng mất 5 phút. Đó là 10 phút biến một lead ấm thành một học viên.",
     code_label: "🔑 Mã hoàn thành của bạn",
     code_instr: "Trong Knowledge Check ở trang tiếp theo, hãy gõ hai từ được tô sáng để đánh dấu bài học này là đã hoàn thành.",
-    btn_startagain: "↺ Bắt đầu lại"
+    btn_startagain: "↺ Bắt đầu lại",
+    na_label: "Việc cần làm tiếp theo",
+    na_btn: "Đưa tôi đến đó",
+    na_0_quiz: "Cuộn xuống “Kiểm tra nhanh” và chọn hai hành động đúng.",
+    na_0_continue: "Đã xong kiểm tra nhanh — nhấn “Tiếp tục đến HubSpot” bên dưới.",
+    na_1_open: "Nhấn “≡ Bộ lọc nâng cao” để bắt đầu lọc các giao dịch.",
+    na_1_add: "Nhấn “+ Thêm bộ lọc”, rồi chọn “Nguồn đặt lịch”.",
+    na_1_deal: "Mở thẻ giao dịch của John Wick trong cột “Đã đặt lịch”.",
+    na_2_tab: "Mở tab “Hoạt động” ở trên, cạnh “Tổng quan”.",
+    na_2_signal: "Cuộn xuống “Kiểm tra tín hiệu” và chọn câu mở đầu tốt nhất.",
+    na_2_continue: "Đã trả lời — nhấn “Tôi đã xem tất cả — tiếp tục” bên dưới.",
+    na_3_outcome: "Đặt kết quả cuộc họp thành “Đã hoàn tất”, rồi lưu.",
+    na_3_notes: "Đánh dấu tất cả các mục ghi chú tư vấn, rồi lưu.",
+    na_3_drag: "Kéo thẻ giao dịch của John vào giai đoạn “Quyết định mở”.",
+    na_3_task: "Điền tên nhiệm vụ, ngày và lời nhắc, rồi lưu.",
+    na_3_finish: "Cả bốn cập nhật đã xong — nhấn “Đã xong tất cả — kết thúc” bên dưới.",
+    na_4_done: "Hoàn tất quy trình. Sao chép mã hoàn thành của bạn cho Knowledge Check."
   },
   th: {
     title: "HubSpot Sandbox — ฝึกการจองด้วยตนเอง",
@@ -3445,7 +3705,23 @@ const I18N = {
     closer_quote: "<strong>จำไว้ว่า:</strong> การเตรียมตัวที่ดีใช้เวลา 5 นาที การจัดการที่สะอาดใช้เวลา 5 นาที นั่นคือ 10 นาทีที่เปลี่ยนลูกค้าเป้าหมายที่อุ่นให้เป็นนักเรียน",
     code_label: "🔑 รหัสการทำเสร็จของคุณ",
     code_instr: "ใน Knowledge Check ในหน้าถัดไป ให้พิมพ์สองคำที่ไฮไลต์ไว้เพื่อทำเครื่องหมายว่าบทเรียนนี้เสร็จสิ้น",
-    btn_startagain: "↺ เริ่มใหม่"
+    btn_startagain: "↺ เริ่มใหม่",
+    na_label: "สิ่งที่ต้องทำต่อไป",
+    na_btn: "พาไปที่นั่น",
+    na_0_quiz: "เลื่อนลงไปที่ “ตรวจสอบอย่างรวดเร็ว” แล้วเลือกสองการกระทำที่ถูกต้อง",
+    na_0_continue: "ตรวจสอบอย่างรวดเร็วเสร็จแล้ว — กด “ไปยัง HubSpot ต่อ” ด้านล่าง",
+    na_1_open: "กด “≡ ตัวกรองขั้นสูง” เพื่อเริ่มกรองดีล",
+    na_1_add: "กด “+ เพิ่มตัวกรอง” แล้วเลือก “แหล่งที่มาการจอง”",
+    na_1_deal: "เปิดการ์ดดีลของ John Wick ในคอลัมน์ “จองแล้ว”",
+    na_2_tab: "เปิดแท็บ “กิจกรรม” ด้านบน ถัดจาก “ภาพรวม”",
+    na_2_signal: "เลื่อนลงไปที่ “ตรวจสอบสัญญาณ” แล้วเลือกประโยคเปิดที่ดีที่สุด",
+    na_2_continue: "ตอบแล้ว — กด “ผมตรวจสอบทุกอย่างแล้ว — ดำเนินการต่อ” ด้านล่าง",
+    na_3_outcome: "ตั้งผลการประชุมเป็น “เสร็จสมบูรณ์” แล้วบันทึก",
+    na_3_notes: "ทำเครื่องหมายทุกส่วนของบันทึกการปรึกษา แล้วบันทึก",
+    na_3_drag: "ลากการ์ดดีลของ John ไปยังขั้น “การตัดสินใจที่เปิดอยู่”",
+    na_3_task: "กรอกชื่องาน วันที่ และการแจ้งเตือน แล้วบันทึก",
+    na_3_finish: "อัปเดตครบทั้งสี่อย่างแล้ว — กด “เสร็จทั้งหมด — สิ้นสุด” ด้านล่าง",
+    na_4_done: "เสร็จสิ้นกระบวนการ คัดลอกรหัสการทำเสร็จของคุณสำหรับ Knowledge Check"
   },
   ko: {
     title: "HubSpot Sandbox — 셀프 예약 연습",
@@ -3587,7 +3863,23 @@ const I18N = {
     closer_quote: "<strong>기억하세요:</strong> 좋은 준비는 5분이 걸립니다. 깔끔한 관리는 5분이 걸립니다. 그 10분이 따뜻한 리드를 학생으로 바꿉니다.",
     code_label: "🔑 완료 코드",
     code_instr: "다음 페이지의 Knowledge Check에서 강조된 두 단어를 입력해 이 레슨을 완료로 표시하세요.",
-    btn_startagain: "↺ 다시 시작"
+    btn_startagain: "↺ 다시 시작",
+    na_label: "다음에 할 일",
+    na_btn: "그곳으로 이동",
+    na_0_quiz: "아래로 스크롤해 “빠른 확인”에서 올바른 두 가지 행동을 고르세요.",
+    na_0_continue: "빠른 확인 완료 — 아래 “HubSpot으로 계속”을 누르세요.",
+    na_1_open: "“≡ 고급 필터”를 눌러 거래를 필터링하세요.",
+    na_1_add: "“+ 필터 추가”를 누른 다음 “예약 소스”를 선택하세요.",
+    na_1_deal: "“예약됨” 열에서 John Wick 거래 카드를 여세요.",
+    na_2_tab: "상단 “개요” 옆의 “활동” 탭을 여세요.",
+    na_2_signal: "아래로 스크롤해 “신호 확인”에서 가장 좋은 첫 마디를 고르세요.",
+    na_2_continue: "답변 완료 — 아래 “모두 검토했습니다 — 계속”을 누르세요.",
+    na_3_outcome: "미팅 결과를 “완료됨”으로 설정하고 저장하세요.",
+    na_3_notes: "상담 노트의 모든 섹션에 체크하고 저장하세요.",
+    na_3_drag: "John의 거래 카드를 “미결정” 단계로 끌어다 놓으세요.",
+    na_3_task: "작업 이름, 날짜, 알림을 입력하고 저장하세요.",
+    na_3_finish: "네 가지 업데이트를 모두 마쳤습니다 — 아래 “모두 완료 — 끝내기”를 누르세요.",
+    na_4_done: "워크플로 완료. Knowledge Check에 사용할 완료 코드를 복사하세요."
   },
   zh: {
     title: "HubSpot Sandbox — 自助預約練習",
@@ -3729,7 +4021,23 @@ const I18N = {
     closer_quote: "<strong>記住：</strong>好的準備花 5 分鐘。乾淨的管理花 5 分鐘。這 10 分鐘就能把一個熱情的潛在客戶變成學生。",
     code_label: "🔑 你的完成代碼",
     code_instr: "在下一頁的 Knowledge Check 中，輸入兩個標示的單字，以將本課標記為完成。",
-    btn_startagain: "↺ 重新開始"
+    btn_startagain: "↺ 重新開始",
+    na_label: "接下來要做的事",
+    na_btn: "帶我前往",
+    na_0_quiz: "向下捲動到「快速檢查」，並選出兩個正確的做法。",
+    na_0_continue: "快速檢查完成 — 點選下方的「繼續前往 HubSpot」。",
+    na_1_open: "點選「≡ 進階篩選」開始篩選交易。",
+    na_1_add: "點選「+ 新增篩選條件」，然後選擇「預約來源」。",
+    na_1_deal: "在「已預約」欄開啟 John Wick 的交易卡片。",
+    na_2_tab: "開啟上方「總覽」旁邊的「活動」分頁。",
+    na_2_signal: "向下捲動到「訊號檢查」，選出最好的開場白。",
+    na_2_continue: "已作答 — 點選下方的「我已檢視全部 — 繼續」。",
+    na_3_outcome: "將會議結果設為「已完成」，然後儲存。",
+    na_3_notes: "勾選諮詢筆記的每個區塊，然後儲存。",
+    na_3_drag: "將 John 的交易卡片拖曳到「待決定」階段。",
+    na_3_task: "填寫任務名稱、日期和提醒，然後儲存。",
+    na_3_finish: "四項更新都完成了 — 點選下方的「全部完成 — 結束」。",
+    na_4_done: "流程完成。複製你的完成代碼，用於 Knowledge Check。"
   },
   ar: {
     title: "HubSpot Sandbox — تدريب الحجز الذاتي",
@@ -3871,7 +4179,23 @@ const I18N = {
     closer_quote: "<strong>تذكّر:</strong> الإعداد الجيد يستغرق 5 دقائق. الإدارة النظيفة تستغرق 5 دقائق. هذه 10 دقائق تحوّل عميلًا محتملًا دافئًا إلى طالب.",
     code_label: "🔑 رمز الإكمال الخاص بك",
     code_instr: "في Knowledge Check في الصفحة التالية، اكتب الكلمتين المميزتين لوضع علامة على هذا الدرس كمكتمل.",
-    btn_startagain: "↺ ابدأ من جديد"
+    btn_startagain: "↺ ابدأ من جديد",
+    na_label: "ما العمل التالي",
+    na_btn: "خذني إلى هناك",
+    na_0_quiz: "مرّر لأسفل إلى “فحص سريع” واختر الإجراءين الصحيحين.",
+    na_0_continue: "اكتمل الفحص السريع — اضغط “المتابعة إلى HubSpot” بالأسفل.",
+    na_1_open: "اضغط “≡ الفلاتر المتقدمة” لبدء تصفية الصفقات.",
+    na_1_add: "اضغط “+ إضافة فلتر”، ثم اختر “مصدر الحجز”.",
+    na_1_deal: "افتح بطاقة صفقة John Wick في عمود “محجوز”.",
+    na_2_tab: "افتح تبويب “الأنشطة” في الأعلى، بجانب “نظرة عامة”.",
+    na_2_signal: "مرّر لأسفل إلى “فحص الإشارة” واختر أفضل بداية للحديث.",
+    na_2_continue: "تمت الإجابة — اضغط “راجعت كل شيء — متابعة” بالأسفل.",
+    na_3_outcome: "اضبط نتيجة الاجتماع على “مكتمل”، ثم احفظ.",
+    na_3_notes: "علّم على كل قسم من ملاحظات الاستشارة، ثم احفظ.",
+    na_3_drag: "اسحب بطاقة صفقة John إلى مرحلة “قرار مفتوح”.",
+    na_3_task: "املأ اسم المهمة والتاريخ والتذكير، ثم احفظ.",
+    na_3_finish: "اكتملت التحديثات الأربعة — اضغط “تم كل شيء — إنهاء” بالأسفل.",
+    na_4_done: "اكتمل سير العمل. انسخ رمز الإكمال الخاص بك من أجل Knowledge Check."
   },
   he: {
     title: "HubSpot Sandbox — תרגול קביעת פגישה עצמית",
@@ -4013,7 +4337,23 @@ const I18N = {
     closer_quote: "<strong>זכור:</strong> הכנה טובה לוקחת 5 דקות. ניהול נקי לוקח 5 דקות. אלה 10 דקות שהופכות ליד חמים לתלמיד.",
     code_label: "🔑 קוד הסיום שלך",
     code_instr: "ב-Knowledge Check בעמוד הבא, הקלד את שתי המילים המודגשות כדי לסמן שיעור זה כהושלם.",
-    btn_startagain: "↺ התחל מחדש"
+    btn_startagain: "↺ התחל מחדש",
+    na_label: "מה לעשות עכשיו",
+    na_btn: "קח אותי לשם",
+    na_0_quiz: "גלול למטה אל “בדיקה מהירה” ובחר את שתי הפעולות הנכונות.",
+    na_0_continue: "הבדיקה המהירה הושלמה — לחץ על “המשך ל-HubSpot” למטה.",
+    na_1_open: "לחץ על “≡ מסננים מתקדמים” כדי לסנן את העסקאות.",
+    na_1_add: "לחץ על “+ הוסף מסנן”, ואז בחר “מקור הקביעה”.",
+    na_1_deal: "פתח את כרטיס העסקה של John Wick בעמודה “נקבע”.",
+    na_2_tab: "פתח את הלשונית “פעילויות” למעלה, ליד “סקירה כללית”.",
+    na_2_signal: "גלול למטה אל “בדיקת אות” ובחר את פתיח השיחה הטוב ביותר.",
+    na_2_continue: "נענה — לחץ על “סקרתי הכל — המשך” למטה.",
+    na_3_outcome: "הגדר את תוצאת הפגישה כ“הושלם”, ואז שמור.",
+    na_3_notes: "סמן כל אחד מחלקי הערות הייעוץ, ואז שמור.",
+    na_3_drag: "גרור את כרטיס העסקה של John לשלב “החלטה פתוחה”.",
+    na_3_task: "מלא את שם המשימה, התאריך והתזכורת, ואז שמור.",
+    na_3_finish: "כל ארבעת העדכונים הושלמו — לחץ על “הכל בוצע — סיים” למטה.",
+    na_4_done: "התהליך הושלם. העתק את קוד הסיום שלך עבור Knowledge Check."
   }
 };
 
@@ -4062,6 +4402,9 @@ function applyLang(l) {
     if (k in CUR) el.setAttribute("placeholder", CUR[k]);
   });
   if (CUR.title) document.title = CUR.title;
+  // The next-action text is set from JS, not a data-i18n attribute, so it has
+  // to be re-rendered here. Guarded: this runs before the app script loads.
+  if (typeof updateNextAction === 'function') updateNextAction();
 }
 
 (function initI18n() {
@@ -4147,6 +4490,7 @@ function goTo(n) {
   document.querySelectorAll(`#panel-${n} .pane-content`).forEach(p => p.scrollTop = 0);
   if (n === 2) { const cs = document.getElementById('contactScroll'); if (cs) cs.scrollTop = 0; }
   step = n;
+  updateNextAction();
 }
 
 function doneTask(i) {
@@ -4715,6 +5059,63 @@ function resetAll() {
 
   goTo(0);
 }
+
+// ── Next-action bar ───────────────────
+// Learners were getting stuck without knowing why: the gate for a step can be
+// below the fold of an internally-scrolling pane, and there is no page
+// scrollbar to suggest it. nextAction() reads the same state the gates read,
+// so the bar can never claim something different from what the app requires.
+let naTarget = null;
+
+function nextAction() {
+  if (step === 0) {
+    return document.getElementById('btn-cal-continue').disabled
+      ? { key: 'na_0_quiz',     target: 'cal-opts' }
+      : { key: 'na_0_continue', target: 'btn-cal-continue' };
+  }
+  if (step === 1) {
+    if (bookingFilterApplied) return { key: 'na_1_deal', target: 'bookedCol' };
+    if (filterPanelOpen)      return { key: 'na_1_add',  target: 'addFilterBtn' };
+    return { key: 'na_1_open', target: 'advFilterLink' };
+  }
+  if (step === 2) {
+    if (signalDone)          return { key: 'na_2_continue', target: 'btn-contact-continue' };
+    if (!tabsVisited.has(1)) return { key: 'na_2_tab',      target: 'activitiesTab' };
+    return { key: 'na_2_signal', target: 'signalOpts' };
+  }
+  if (step === 3) {
+    if (substepDone.every(Boolean)) return { key: 'na_3_finish', target: 'finishPostRow' };
+    const keys = ['na_3_outcome','na_3_notes','na_3_drag','na_3_task'];
+    return { key: keys[substepOpen], target: `ss-card-${substepOpen}` };
+  }
+  return { key: 'na_4_done', target: null };
+}
+
+function updateNextAction() {
+  const bar = document.getElementById('nextAction');
+  if (!bar) return;
+  const a = nextAction();
+  naTarget = a.target;
+  document.getElementById('naText').textContent = t(a.key);
+  bar.classList.toggle('is-done', step === 4);
+  document.getElementById('naBtn').style.display = a.target ? '' : 'none';
+}
+
+function jumpToAction() {
+  if (!naTarget) return;
+  const el = document.getElementById(naTarget);
+  if (!el) return;
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  el.classList.remove('na-flash');
+  void el.offsetWidth; // reflow, so the animation restarts on a repeat press
+  el.classList.add('na-flash');
+  setTimeout(() => el.classList.remove('na-flash'), 3200);
+}
+
+// Recompute after any interaction rather than threading a call through every
+// handler — cheap, and it cannot drift out of sync with the state machine.
+['click','change','input','drop','dragend'].forEach(ev =>
+  document.addEventListener(ev, () => setTimeout(updateNextAction, 60), true));
 
 // ── Init ──────────────────────────
 // Capture the pre-filled example consult notes so they can be restored on reset.
