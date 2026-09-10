@@ -47,6 +47,16 @@ action in order.
   unlocks the next step, and its **Show me** button scrolls that control into view and
   flashes it. `nextAction()` derives the message from the same state the gates themselves
   read, so the two cannot disagree; add a step or a gate and it needs a matching branch there.
+- **Scroll module:** the same fixed-height shell that makes the bar necessary also destroys
+  native scroll chaining — `overflow:hidden` runs from `html` down to `.panel`, and browsers
+  do not wheel-scroll an `overflow:hidden` box, so a gesture over any non-scrolling surface
+  used to be swallowed with no scrollbar to explain why. A learner hovering the "John Wick"
+  banner found the page dead. The module at the end of the script rebuilds chaining (a wheel
+  is forwarded to the active pane whenever nothing in the event path can move), and adds a
+  language-independent cue — an edge gradient plus a chevron that pages down — on any pane
+  that overflows. Panes are focusable `role="region"` elements, so PageDown/Home/End work.
+  Chrome that belongs to a scrolling surface is `position:sticky` *inside* it, never a
+  sibling above it; mark any new scroller `data-scroll`, and a sidebar `data-scroll-host`.
 - **Client-side only:** there is no backend and no API calls. All progress is held in memory,
   so refreshing the page resets the walkthrough.
 - **Desktop-oriented:** the layout assumes a wide screen and is not designed for mobile.
