@@ -19,6 +19,31 @@ action in order.
 3. Work through the five steps in order. Each step gates the next, and a progress bar and
    task checklist track how far you've got.
 
+## Embedding in the LMS
+
+Published via GitHub Pages from `main`, so a push to `main` is a deploy.
+
+```html
+<iframe src="https://jmcalisto.github.io/selfbookinghubspot26/"
+        style="width:100%; height:85vh; min-height:420px; border:0; display:block"
+        allow="fullscreen" allowfullscreen></iframe>
+```
+
+Two things to know, both learned the hard way from a learner who got stuck:
+
+- **Give it a viewport-relative height, never a fixed pixel one.** The widget sizes itself to
+  `100vh` of whatever box it is handed. A fixed `height="800"` means it lays out a full 800px
+  app regardless of how much of that the learner can actually see — so on a small or zoomed
+  screen the lower part of it sits below the fold of the LMS page, unreachable except by
+  scrolling the outer page, and nothing inside the iframe can detect that or hint at it.
+- **Keep `allowfullscreen`.** Without it the in-app fullscreen button cannot enter fullscreen
+  and silently falls back to opening a new tab, which loses the learner's progress.
+
+**The LMS may rewrite your iframe tag.** Setting `height:85vh` in one LMS changed nothing at
+all, which is why the widget no longer depends on the embed being correct — see the fullscreen
+button below. After changing the snippet, verify at 150% browser zoom on a small window rather
+than assuming it took effect.
+
 ## The five steps
 
 1. **Calendar Check** — Identify a self-booked appointment in Outlook and learn about buffer
@@ -57,6 +82,16 @@ action in order.
   that overflows. Panes are focusable `role="region"` elements, so PageDown/Home/End work.
   Chrome that belongs to a scrolling surface is `position:sticky` *inside* it, never a
   sibling above it; mark any new scroller `data-scroll`, and a sidebar `data-scroll-host`.
+- **Fullscreen button:** a green pill centred in the top nav, 30px inside the existing 48px
+  bar so it costs no vertical height. It exists because the widget cannot see or fix the box
+  the LMS gives it — a learner on a small, zoomed screen had the lower half of the sandbox
+  below the fold of the page around it, including the scroll cue that was meant to tell her to
+  keep going. Fullscreen targets `document.documentElement`, **never `.app-shell`**: the modals
+  and the toast are siblings of `.app-shell`, and `#addFilterModal` *is* the step-2 gate, so
+  putting `.app-shell` in the top layer would make the walkthrough unfinishable. Three states —
+  fullscreen, then open-in-new-tab if the embed forbids it, then a toast naming F11 if even
+  that is blocked — so the button is never a dead control. `fullscreenchange` is the source of
+  truth rather than the click handler, because Esc and F11 change state without it running.
 - **Client-side only:** there is no backend and no API calls. All progress is held in memory,
   so refreshing the page resets the walkthrough.
 - **Desktop-oriented:** the layout assumes a wide screen and is not designed for mobile.

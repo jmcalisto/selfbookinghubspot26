@@ -131,6 +131,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   padding: 0 16px;
   gap: 4px;
   flex-shrink: 0;
+  position: relative;   /* containing block for the centred .fs-btn */
 }
 .top-nav-item {
   padding: 6px 10px;
@@ -161,6 +162,67 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
   border-radius: 4px;
 }
 .account-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
+
+/* ── Fullscreen button ────────────────────────────────
+   The widget sizes itself to 100vh of whatever box the LMS gives it, and we do
+   not control that box — a learner on a small zoomed screen simply never sees
+   the bottom of the pane, and nothing in here can tell. This is the escape
+   hatch. 30px inside the 48px nav, so it costs ZERO vertical height, which
+   matters because lack of vertical room is the whole problem.
+
+   Absolutely positioned, not a flex item, for two reasons. The left group
+   (4 product tabs, ~306px) and the right group (lang select, account pill,
+   badge, ~388px) differ by ~80px, so flex spacers would centre it between the
+   groups rather than in the nav. And out of flow it can never widen the nav,
+   which matters precisely because the target viewport is a narrow one.
+
+   left:50% and NOT inset-inline-start:50% — under dir=rtl the logical property
+   resolves from the right edge, and translateX(-50%) then shifts the wrong
+   way, landing the button half its own width off centre. */
+.fs-btn {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex; align-items: center; gap: 6px;
+  height: 30px;
+  padding: 0 14px;
+  background: var(--green);
+  color: #fff;
+  border: 1px solid #00A491;
+  border-radius: 15px;
+  font-family: var(--font);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background .12s;
+}
+.fs-btn:hover { background: #009B8C; }   /* same hover as .btn-success */
+.fs-btn:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+/* In fullscreen the button is no longer the thing to do next, so it recedes. */
+.fs-btn.is-on {
+  background: rgba(255,255,255,.12);
+  border-color: rgba(255,255,255,.3);
+}
+
+/* The centred button is out of flow, so on a narrow nav it can visually
+   collide with the side groups. Those groups are decoration; the button is
+   not, so the decorations are what go.
+
+   A CENTRED element is bounded by twice the WIDER side group, not by the two
+   groups packed side by side:
+       navWidth >= 2 * (widerGroup + buttonWidth/2 + clearance) + padding
+   Getting that wrong is why the first attempt at these numbers overlapped.
+
+   Measured across all 16 locales (the button label translates, so its width
+   swings from 99px in zh to 194px in ru — ru is the worst case throughout):
+     everything visible   needs 1230px
+     .account-pill hidden needs  940px
+   Note hiding .top-nav-item alone buys nothing — the right cluster is what
+   binds, so the account pill is the one that has to go first. Re-measure if
+   you add a language or edit any nav label. */
+@media (max-width: 1280px) { .account-pill { display: none; } }
+@media (max-width: 980px)  { .top-nav-item, .sandbox-badge { display: none; } }
 
 /* ── Instruction bar ──────────────────────────────────── */
 .instruction-bar {
@@ -1160,6 +1222,19 @@ body { font-family: var(--font); background: var(--bg); color: var(--text-primar
       <div class="top-nav-item active" data-i18n="nav_deals">Deals</div>
       <div class="top-nav-item" data-i18n="nav_companies">Companies</div>
       <div class="top-nav-item" data-i18n="nav_tasks">Tasks</div>
+
+      <!-- Centred by CSS, not by DOM position — it is absolutely positioned, so
+           where it sits in the markup only affects tab order. Here it is the
+           first focusable thing in the nav, ahead of the language select. -->
+      <button class="fs-btn" id="fsBtn" type="button" onclick="toggleFullscreen()"
+              aria-pressed="false" data-i18n-title="fs_enter">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 3H3v5M16 3h5v5M8 21H3v-5M16 21h5v-5"/>
+        </svg>
+        <span class="fs-label" data-i18n="fs_enter">Fullscreen mode</span>
+      </button>
+
       <div class="top-nav-sep"></div>
       <div class="langbar"><select id="langsel" aria-label="Language"></select></div>
       <div class="account-pill"><span class="account-dot"></span> Wall Street English</div>
@@ -2077,7 +2152,11 @@ const I18N = {
     na_3_task: "Fill in the task name, date and reminder, then save.",
     na_3_finish: "All four updates done — select “All done — finish” below.",
     na_4_done: "Workflow complete. Copy your completion code for the Knowledge Check.",
-    a11y_step_content: "Step content"
+    a11y_step_content: "Step content",
+    fs_enter: "Fullscreen mode",
+    fs_exit: "Exit fullscreen",
+    fs_newtab: "Open in a new tab",
+    fs_hint: "Press F11 to fill your screen"
   },
   es: {
     title: "HubSpot Sandbox — Práctica de auto-reserva",
@@ -2236,7 +2315,11 @@ const I18N = {
     na_3_task: "Rellena el nombre de la tarea, la fecha y el recordatorio, y guarda.",
     na_3_finish: "Las cuatro actualizaciones están hechas: pulsa «Todo hecho — finalizar» abajo.",
     na_4_done: "Flujo completado. Copia tu código de finalización para el Knowledge Check.",
-    a11y_step_content: "Contenido del paso"
+    a11y_step_content: "Contenido del paso",
+    fs_enter: "Pantalla completa",
+    fs_exit: "Salir de pantalla completa",
+    fs_newtab: "Abrir en una pestaña nueva",
+    fs_hint: "Pulsa F11 para ocupar toda la pantalla"
   },
   fr: {
     title: "HubSpot Sandbox — Entraînement à l'auto-réservation",
@@ -2395,7 +2478,11 @@ const I18N = {
     na_3_task: "Renseignez le nom de la tâche, la date et le rappel, puis enregistrez.",
     na_3_finish: "Les quatre mises à jour sont faites : cliquez sur « Tout est fait — terminer » en bas.",
     na_4_done: "Parcours terminé. Copiez votre code de validation pour le Knowledge Check.",
-    a11y_step_content: "Contenu de l'étape"
+    a11y_step_content: "Contenu de l'étape",
+    fs_enter: "Plein écran",
+    fs_exit: "Quitter le plein écran",
+    fs_newtab: "Ouvrir dans un nouvel onglet",
+    fs_hint: "Appuyez sur F11 pour remplir l’écran"
   },
   de: {
     title: "HubSpot Sandbox — Übung zur Selbstbuchung",
@@ -2554,7 +2641,11 @@ const I18N = {
     na_3_task: "Trage Aufgabenname, Datum und Erinnerung ein und speichere.",
     na_3_finish: "Alle vier Updates sind erledigt — klicke unten auf „Alles erledigt — abschließen“.",
     na_4_done: "Ablauf abgeschlossen. Kopiere deinen Abschlusscode für den Knowledge Check.",
-    a11y_step_content: "Schrittinhalt"
+    a11y_step_content: "Schrittinhalt",
+    fs_enter: "Vollbildmodus",
+    fs_exit: "Vollbild beenden",
+    fs_newtab: "In neuem Tab öffnen",
+    fs_hint: "Drücken Sie F11 für den ganzen Bildschirm"
   },
   it: {
     title: "HubSpot Sandbox — Esercitazione sull'auto-prenotazione",
@@ -2713,7 +2804,11 @@ const I18N = {
     na_3_task: "Inserisci nome attività, data e promemoria, poi salva.",
     na_3_finish: "Tutti e quattro gli aggiornamenti sono fatti: clicca su «Tutto fatto — concludi» qui sotto.",
     na_4_done: "Percorso completato. Copia il tuo codice di completamento per il Knowledge Check.",
-    a11y_step_content: "Contenuto del passaggio"
+    a11y_step_content: "Contenuto del passaggio",
+    fs_enter: "Schermo intero",
+    fs_exit: "Esci da schermo intero",
+    fs_newtab: "Apri in una nuova scheda",
+    fs_hint: "Premi F11 per riempire lo schermo"
   },
   pt: {
     title: "HubSpot Sandbox — Prática de auto-agendamento",
@@ -2872,7 +2967,11 @@ const I18N = {
     na_3_task: "Preenche o nome da tarefa, a data e o lembrete, e guarda.",
     na_3_finish: "As quatro atualizações estão feitas — clica em “Tudo feito — terminar” abaixo.",
     na_4_done: "Fluxo concluído. Copia o teu código de conclusão para o Knowledge Check.",
-    a11y_step_content: "Conteúdo da etapa"
+    a11y_step_content: "Conteúdo da etapa",
+    fs_enter: "Ecrã inteiro",
+    fs_exit: "Sair do ecrã inteiro",
+    fs_newtab: "Abrir num novo separador",
+    fs_hint: "Pressione F11 para preencher o ecrã"
   },
   ru: {
     title: "HubSpot Sandbox — Практика самостоятельной записи",
@@ -3031,7 +3130,11 @@ const I18N = {
     na_3_task: "Заполните название задачи, дату и напоминание, затем сохраните.",
     na_3_finish: "Все четыре обновления готовы — нажмите «Всё готово — завершить» ниже.",
     na_4_done: "Процесс завершён. Скопируйте код завершения для Knowledge Check.",
-    a11y_step_content: "Содержание шага"
+    a11y_step_content: "Содержание шага",
+    fs_enter: "Полноэкранный режим",
+    fs_exit: "Выйти из полноэкранного режима",
+    fs_newtab: "Открыть в новой вкладке",
+    fs_hint: "Нажмите F11, чтобы развернуть на весь экран"
   },
   tr: {
     title: "HubSpot Sandbox — Kendi Kendine Randevu Alıştırması",
@@ -3190,7 +3293,11 @@ const I18N = {
     na_3_task: "Görev adını, tarihi ve hatırlatıcıyı doldurun ve kaydedin.",
     na_3_finish: "Dört güncelleme de tamam — aşağıdaki “Her şey tamam — bitir” düğmesine basın.",
     na_4_done: "Akış tamamlandı. Knowledge Check için tamamlama kodunuzu kopyalayın.",
-    a11y_step_content: "Adım içeriği"
+    a11y_step_content: "Adım içeriği",
+    fs_enter: "Tam ekran modu",
+    fs_exit: "Tam ekrandan çık",
+    fs_newtab: "Yeni sekmede aç",
+    fs_hint: "Ekranı doldurmak için F11’e basın"
   },
   cs: {
     title: "HubSpot Sandbox — Nácvik samostatné rezervace",
@@ -3349,7 +3456,11 @@ const I18N = {
     na_3_task: "Vyplňte název úkolu, datum a připomenutí a uložte.",
     na_3_finish: "Všechny čtyři aktualizace jsou hotové — klikněte dole na „Vše hotovo — dokončit“.",
     na_4_done: "Postup dokončen. Zkopírujte svůj kód dokončení pro Knowledge Check.",
-    a11y_step_content: "Obsah kroku"
+    a11y_step_content: "Obsah kroku",
+    fs_enter: "Režim celé obrazovky",
+    fs_exit: "Ukončit celou obrazovku",
+    fs_newtab: "Otevřít na nové kartě",
+    fs_hint: "Stisknutím F11 vyplníte obrazovku"
   },
   id: {
     title: "HubSpot Sandbox — Latihan Pemesanan Mandiri",
@@ -3508,7 +3619,11 @@ const I18N = {
     na_3_task: "Isi nama tugas, tanggal, dan pengingat, lalu simpan.",
     na_3_finish: "Keempat pembaruan selesai — klik “Semua selesai — akhiri” di bawah.",
     na_4_done: "Alur selesai. Salin kode penyelesaian Anda untuk Knowledge Check.",
-    a11y_step_content: "Konten langkah"
+    a11y_step_content: "Konten langkah",
+    fs_enter: "Mode layar penuh",
+    fs_exit: "Keluar dari layar penuh",
+    fs_newtab: "Buka di tab baru",
+    fs_hint: "Tekan F11 untuk memenuhi layar"
   },
   vi: {
     title: "HubSpot Sandbox — Luyện tập tự đặt lịch",
@@ -3667,7 +3782,11 @@ const I18N = {
     na_3_task: "Điền tên nhiệm vụ, ngày và lời nhắc, rồi lưu.",
     na_3_finish: "Cả bốn cập nhật đã xong — nhấn “Đã xong tất cả — kết thúc” bên dưới.",
     na_4_done: "Hoàn tất quy trình. Sao chép mã hoàn thành của bạn cho Knowledge Check.",
-    a11y_step_content: "Nội dung bước"
+    a11y_step_content: "Nội dung bước",
+    fs_enter: "Chế độ toàn màn hình",
+    fs_exit: "Thoát toàn màn hình",
+    fs_newtab: "Mở trong tab mới",
+    fs_hint: "Nhấn F11 để lấp đầy màn hình"
   },
   th: {
     title: "HubSpot Sandbox — ฝึกการจองด้วยตนเอง",
@@ -3826,7 +3945,11 @@ const I18N = {
     na_3_task: "กรอกชื่องาน วันที่ และการแจ้งเตือน แล้วบันทึก",
     na_3_finish: "อัปเดตครบทั้งสี่อย่างแล้ว — กด “เสร็จทั้งหมด — สิ้นสุด” ด้านล่าง",
     na_4_done: "เสร็จสิ้นกระบวนการ คัดลอกรหัสการทำเสร็จของคุณสำหรับ Knowledge Check",
-    a11y_step_content: "เนื้อหาขั้นตอน"
+    a11y_step_content: "เนื้อหาขั้นตอน",
+    fs_enter: "โหมดเต็มหน้าจอ",
+    fs_exit: "ออกจากโหมดเต็มหน้าจอ",
+    fs_newtab: "เปิดในแท็บใหม่",
+    fs_hint: "กด F11 เพื่อขยายเต็มหน้าจอ"
   },
   ko: {
     title: "HubSpot Sandbox — 셀프 예약 연습",
@@ -3985,7 +4108,11 @@ const I18N = {
     na_3_task: "작업 이름, 날짜, 알림을 입력하고 저장하세요.",
     na_3_finish: "네 가지 업데이트를 모두 마쳤습니다 — 아래 “모두 완료 — 끝내기”를 누르세요.",
     na_4_done: "워크플로 완료. Knowledge Check에 사용할 완료 코드를 복사하세요.",
-    a11y_step_content: "단계 내용"
+    a11y_step_content: "단계 내용",
+    fs_enter: "전체 화면 모드",
+    fs_exit: "전체 화면 종료",
+    fs_newtab: "새 탭에서 열기",
+    fs_hint: "F11을 눌러 화면을 가득 채우세요"
   },
   zh: {
     title: "HubSpot Sandbox — 自助預約練習",
@@ -4144,7 +4271,11 @@ const I18N = {
     na_3_task: "填寫任務名稱、日期和提醒，然後儲存。",
     na_3_finish: "四項更新都完成了 — 點選下方的「全部完成 — 結束」。",
     na_4_done: "流程完成。複製你的完成代碼，用於 Knowledge Check。",
-    a11y_step_content: "步骤内容"
+    a11y_step_content: "步骤内容",
+    fs_enter: "全屏模式",
+    fs_exit: "退出全屏",
+    fs_newtab: "在新标签页中打开",
+    fs_hint: "按 F11 键全屏显示"
   },
   ar: {
     title: "HubSpot Sandbox — تدريب الحجز الذاتي",
@@ -4303,7 +4434,11 @@ const I18N = {
     na_3_task: "املأ اسم المهمة والتاريخ والتذكير، ثم احفظ.",
     na_3_finish: "اكتملت التحديثات الأربعة — اضغط “تم كل شيء — إنهاء” بالأسفل.",
     na_4_done: "اكتمل سير العمل. انسخ رمز الإكمال الخاص بك من أجل Knowledge Check.",
-    a11y_step_content: "محتوى الخطوة"
+    a11y_step_content: "محتوى الخطوة",
+    fs_enter: "وضع ملء الشاشة",
+    fs_exit: "إنهاء ملء الشاشة",
+    fs_newtab: "فتح في علامة تبويب جديدة",
+    fs_hint: "اضغط F11 لملء الشاشة"
   },
   he: {
     title: "HubSpot Sandbox — תרגול קביעת פגישה עצמית",
@@ -4462,7 +4597,11 @@ const I18N = {
     na_3_task: "מלא את שם המשימה, התאריך והתזכורת, ואז שמור.",
     na_3_finish: "כל ארבעת העדכונים הושלמו — לחץ על “הכל בוצע — סיים” למטה.",
     na_4_done: "התהליך הושלם. העתק את קוד הסיום שלך עבור Knowledge Check.",
-    a11y_step_content: "תוכן השלב"
+    a11y_step_content: "תוכן השלב",
+    fs_enter: "מצב מסך מלא",
+    fs_exit: "יציאה ממסך מלא",
+    fs_newtab: "פתיחה בלשונית חדשה",
+    fs_hint: "הקישו F11 כדי למלא את המסך"
   }
 };
 
@@ -4514,6 +4653,8 @@ function applyLang(l) {
   // The next-action text is set from JS, not a data-i18n attribute, so it has
   // to be re-rendered here. Guarded: this runs before the app script loads.
   if (typeof updateNextAction === 'function') updateNextAction();
+  // Same reason: the fullscreen label is JS-owned once it can swap to "Exit".
+  if (typeof syncFsLabel === 'function') syncFsLabel();
 }
 
 (function initI18n() {
@@ -5399,6 +5540,88 @@ addEventListener('resize', refresh);
 // measurement is wrong on a cold cache and the cue never appears.
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(refresh);
 refresh();
+
+/* ══════════════════════════════════════════════════════════════════════════
+   FULLSCREEN
+   ──────────────────────────────────────────────────────────────────────────
+   The shell sizes itself to 100vh of whatever box it is embedded in, and we do
+   not control that box. A learner on a small, zoomed screen was filmed unable
+   to reach the bottom of a pane: the LMS iframe is taller than her visible
+   area, so the lower part of the widget sat below the fold of the page around
+   it — including the scroll cue that was supposed to tell her to keep going.
+   Nothing inside an iframe can detect or fix that. This is the escape hatch.
+
+   Setting the embed's height to 85vh was tried first and changed nothing, so
+   the LMS is rewriting or overriding the iframe tag. If it does that, it may
+   also have dropped allowfullscreen — hence the two fallbacks below, which are
+   insurance we should expect to need rather than theoretical politeness.
+   ══════════════════════════════════════════════════════════════════════════ */
+
+const fsBtn = document.getElementById('fsBtn');
+
+const fsElement = () =>
+  document.fullscreenElement || document.webkitFullscreenElement || null;
+
+// false when the embedding iframe carries no allow="fullscreen".
+const fsSupported = !!(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+
+// about:srcdoc, blob: and data: cannot be reopened as a top-level document.
+const fsCanPopOut = /^https?:$/.test(location.protocol);
+
+let fsMode = fsSupported ? 'fullscreen' : (fsCanPopOut ? 'popout' : 'hint');
+
+function syncFsLabel() {
+  if (!fsBtn) return;
+  const on = !!fsElement();
+  const key = fsMode === 'popout' ? 'fs_newtab' : on ? 'fs_exit' : 'fs_enter';
+  fsBtn.querySelector('.fs-label').textContent = t(key);
+  fsBtn.title = t(key);
+  fsBtn.classList.toggle('is-on', on);
+  // aria-pressed describes a toggle. In popout mode this is a one-way action,
+  // so drop the attribute rather than lie with "false".
+  if (fsMode === 'popout') fsBtn.removeAttribute('aria-pressed');
+  else fsBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+}
+
+function fsDemote() {
+  fsMode = fsCanPopOut ? 'popout' : 'hint';
+  syncFsLabel();
+  toast(t('fs_enter'), t('fs_hint'));
+}
+
+function toggleFullscreen() {
+  if (fsMode === 'hint') { toast(t('fs_enter'), t('fs_hint')); return; }
+
+  if (fsMode === 'popout') {
+    // Returns null when the iframe is sandboxed without allow-popups, and
+    // fails silently otherwise — so check rather than assume.
+    if (!window.open(location.href, '_blank', 'noopener')) { fsMode = 'hint'; fsDemote(); }
+    return;
+  }
+
+  if (fsElement()) {
+    (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+    return;
+  }
+
+  // documentElement, never .app-shell: the two modals and #toast are SIBLINGS
+  // of .app-shell, and a top-layer .app-shell would stop them painting.
+  // #addFilterModal *is* the step-2 gate, so that would make the walkthrough
+  // unfinishable.
+  const el = document.documentElement;
+  const req = el.requestFullscreen || el.webkitRequestFullscreen;
+  if (!req) { fsDemote(); return; }
+  // webkitRequestFullscreen returns undefined rather than a Promise, and a
+  // request can still be refused after fullscreenEnabled read true.
+  Promise.resolve(req.call(el)).catch(fsDemote);
+}
+
+// The listener is the source of truth, never the click handler: Esc, F11, a
+// refused request and the window manager all change state without it running.
+['fullscreenchange','webkitfullscreenchange'].forEach(ev =>
+  document.addEventListener(ev, () => { syncFsLabel(); refresh(); }));
+
+syncFsLabel();
 
 // ── Init ──────────────────────────
 // Capture the pre-filled example consult notes so they can be restored on reset.
